@@ -3,11 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -50,15 +53,25 @@ class User extends Authenticatable
         ];
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function reviews() {
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function orderStatusHistories() {
+    public function orderStatusHistories()
+    {
         return $this->hasMany(OrderStatusHistory::class, 'changed_by');
+    }
+
+    protected function name(): Attribute {
+        return Attribute::make(
+            set: fn(string $value) => Str::trim(Str::upper($value)),
+            get: fn(string $value) => Str::upper($value),
+        );
     }
 }
