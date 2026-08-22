@@ -1,0 +1,183 @@
+:root {
+    --layout-navy: #133458;
+    --layout-blue: #3b82f6;
+    --layout-ink: #1e293b;
+    --layout-muted: #64748b;
+    --layout-line: #e2e8f0;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(226, 232, 240, .9);
+    background: rgba(255, 255, 255, .94);
+    backdrop-filter: blur(14px);
+}
+
+.nav-wrap {
+    width: min(1180px, calc(100% - 40px));
+    min-height: 70px;
+    margin: auto;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
+    color: var(--layout-ink);
+    font-weight: 800;
+    letter-spacing: -.04em;
+    text-decoration: none;
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: #fff;
+    background: var(--layout-navy);
+    font-size: 12px;
+    letter-spacing: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: var(--layout-muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-links a,
+.footer-links a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links .active,
+.footer-links a:hover {
+    color: var(--layout-navy);
+}
+
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--layout-muted);
+    font-size: 13px;
+}
+
+.avatar {
+    border: 0;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--layout-navy);
+    background: #dbeafe;
+    font-weight: 800;
+}
+
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-trigger {
+    cursor: pointer;
+    font: inherit;
+}
+
+.profile-trigger:hover,
+.profile-trigger:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, .25);
+    outline-offset: 2px;
+}
+
+.profile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 150px;
+    padding: 6px;
+    border: 1px solid var(--layout-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, .14);
+}
+
+.profile-menu a,
+.profile-menu form button {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 8px;
+    color: var(--layout-ink);
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-menu a:hover,
+.profile-menu form button:hover {
+    background: #eff6ff;
+    color: var(--layout-navy);
+}
+
+.site-footer {
+    border-top: 1px solid var(--layout-line);
+    background: #fff;
+}
+
+.footer-wrap {
+    width: min(1180px, calc(100% - 40px));
+    margin: auto;
+    padding: 40px 0 24px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 32px;
+    padding-bottom: 30px;
+}
+
+.footer-brand { max-width: 260px; }
+.footer-brand p { margin: 14px 0 0; color: var(--layout-muted); font-size: 13px; line-height: 1.7; }
+.footer-column h3 { margin: 0 0 13px; color: var(--layout-ink); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.footer-column a,
+.footer-column p { display: block; margin: 0 0 9px; color: var(--layout-muted); font-size: 13px; }
+.footer-column a:hover { color: var(--layout-blue); }
+.footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid var(--layout-line); }
+.footer-copy { color: var(--layout-muted); font-size: 12px; }
+.footer-links { display: flex; gap: 20px; color: var(--layout-muted); font-size: 12px; font-weight: 600; }
+
+@media (max-width: 760px) {
+    .nav-wrap { padding: 13px 0; }
+    .nav-links { display: none; }
+    .user-menu span:first-child { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 18px; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { display: block; }
+    .footer-links { margin-top: 14px; flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+    .nav-wrap,
+    .footer-wrap { width: calc(100% - 28px); }
+}
