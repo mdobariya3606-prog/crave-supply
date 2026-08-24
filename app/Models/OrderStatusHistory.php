@@ -18,6 +18,7 @@ class OrderStatusHistory extends Model
     {
         return [
             'status' => OrderStatus::class,
+            'created_at' => 'datetime',
         ];
     }
 
