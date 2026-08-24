@@ -15,17 +15,17 @@ class ProductDashboardController extends Controller
 
         return view('product.index', [
             'categories' => $request->boolean('all') ? $allCategories : $allCategories->take(4),
-            'products' => Product::with(['category', 'productImages'])->latest()->get(),
+            'products' => Product::with(['category', 'productImages'])->latest()->paginate(15)->withQueryString(),
             'selectedCategory' => null,
             'showAllCategories' => $request->boolean('all'),
         ]);
     }
 
-    public function category(Category $category)
+    public function category(Request $request, Category $category)
     {
         return view('product.index', [
             'categories' => Category::orderBy('name')->take(4)->get(),
-            'products' => $category->products()->with(['category', 'productImages'])->latest()->get(),
+            'products' => $category->products()->with(['category', 'productImages'])->latest()->paginate(15)->withQueryString(),
             'selectedCategory' => $category,
             'showAllCategories' => false,
         ]);

@@ -54,7 +54,7 @@
 </header>
 
 <style>
-    .global-search { position:relative; flex:0 1 300px; order:2; }
+    .global-search { position:relative; flex:0 1 300px; order:1; }
     .global-search form { display:flex; align-items:center; height:38px; overflow:hidden; border:1px solid #cbd5e1; border-radius:9px; background:#fff; }
     .search-label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
     .global-search input { min-width:0; flex:1; padding:0 11px; border:0; outline:0; color:#1e293b; font:inherit; font-size:12px; }
@@ -67,7 +67,11 @@
     .search-result strong { display:block; font-size:12px; }
     .search-result span { display:block; margin-top:3px; color:#64748b; font-size:11px; }
     .search-empty { padding:14px 12px; color:#64748b; font-size:12px; }
-    @media (max-width:760px) { .global-search { flex:1; order:initial; } .global-search input { font-size:11px; } }
+    @media (max-width:760px) {
+        .global-search { flex:0 0 100%; order:4; }
+        .global-search form { height:36px; }
+        .global-search input { font-size:12px; }
+    }
 </style>
 
 <script>

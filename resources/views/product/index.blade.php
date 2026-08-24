@@ -226,6 +226,144 @@
             background: #eef4f8;
         }
 
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .product-card {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--products-line);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .04);
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+
+        .product-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, .09);
+            transform: translateY(-2px);
+        }
+
+        .product-card-image {
+            width: 100%;
+            aspect-ratio: 1 / .8;
+            object-fit: cover;
+            background: #eef4f8;
+        }
+
+        .product-card-body {
+            display: flex;
+            min-height: 205px;
+            flex: 1;
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .product-card-category {
+            margin: 0 0 7px;
+            color: var(--products-blue);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .product-card-name {
+            color: var(--products-ink);
+            font-size: 14px;
+            font-weight: 750;
+            line-height: 1.35;
+            text-decoration: none;
+        }
+
+        .product-card-description {
+            display: -webkit-box;
+            margin: 8px 0 12px;
+            overflow: hidden;
+            color: var(--products-muted);
+            font-size: 12px;
+            line-height: 1.45;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+        }
+
+        .product-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 11px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .product-card-price {
+            color: var(--products-ink);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .product-card-status {
+            padding: 4px 7px;
+            border-radius: 99px;
+            color: #166534;
+            background: #dcfce7;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .product-card-status.unavailable {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .catalogue-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 28px;
+        }
+
+        .catalogue-pagination a,
+        .catalogue-pagination span {
+            display: inline-grid;
+            min-width: 36px;
+            height: 36px;
+            place-items: center;
+            padding: 0 9px;
+            border: 1px solid var(--products-line);
+            border-radius: 9px;
+            color: var(--products-ink);
+            background: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .catalogue-pagination a:hover {
+            border-color: var(--products-blue);
+            color: var(--products-blue);
+        }
+
+        .catalogue-pagination .active {
+            border-color: var(--products-navy);
+            color: #fff;
+            background: var(--products-navy);
+        }
+
+        .catalogue-pagination .disabled {
+            color: #94a3b8;
+            background: #f8fafc;
+        }
+
         .product-meta {
             display: block;
             margin-top: 4px;
@@ -259,6 +397,54 @@
             font-size: 13px;
         }
 
+        .products-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .products-pagination nav > div:first-child {
+            display: none;
+        }
+
+        .products-pagination nav > div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .products-pagination a,
+        .products-pagination span {
+            display: inline-flex;
+            min-width: 36px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            border: 1px solid var(--products-line);
+            border-radius: 9px;
+            color: var(--products-ink);
+            background: #fff;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .products-pagination a:hover {
+            border-color: #93c5fd;
+            color: var(--products-blue);
+        }
+
+        .products-pagination span[aria-current="page"] {
+            border-color: var(--products-blue);
+            color: #fff;
+            background: var(--products-blue);
+        }
+
+        .products-pagination span[aria-disabled="true"] {
+            color: #cbd5e1;
+            background: #f8fafc;
+        }
+
         .alert-success {
             margin-bottom: 20px;
             padding: 13px 16px;
@@ -282,6 +468,10 @@
             .category-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .product-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 520px) {
@@ -292,6 +482,11 @@
 
             .category-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
             }
 
             .products-hero h1 {
@@ -374,40 +569,51 @@
                 </div>
             </div>
             @if ($products->isNotEmpty())
-                <div class="products-table-wrap">
-                    <table class="products-table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Product</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($products as $product)
-                                <tr>
-                                    <td>
-                                        <img class="product-index-image"
-                                            src="{{ $product->productImages->first() ? asset('storage/'.$product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                            alt="{{ $product->name }}">
-                                    </td>
-                                    <td><a class="product-name"
-                                            href="{{ route('products.profile', $product) }}">{{ $product->name }}</a><span
-                                            class="product-meta">{{ $product->sku ?: $product->slug }}</span></td>
-                                    <td>{{ $product->category?->name ?: 'Uncategorised' }}</td>
-                                    <td>₹{{ number_format((float) $product->price, 2) }}</td>
-                                    <td>{{ number_format($product->stock) }}</td>
-                                    <td><span
-                                            class="status-pill{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="product-grid">
+                    @foreach ($products as $product)
+                        <article class="product-card">
+                            <a href="{{ route('products.profile', $product) }}">
+                                <img class="product-card-image"
+                                    src="{{ $product->productImages->first() ? asset('storage/'.$product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                    alt="{{ $product->name }}">
+                            </a>
+                            <div class="product-card-body">
+                                <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                                <a class="product-card-name" href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                                <p class="product-card-description">{{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}</p>
+                                <div class="product-card-footer">
+                                    <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
+                                    <span class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
+                @if ($products->hasPages())
+                    @php
+                        $startPage = max(1, $products->currentPage() - 2);
+                        $endPage = min($products->lastPage(), $products->currentPage() + 2);
+                    @endphp
+                    <nav class="catalogue-pagination" aria-label="Product pages">
+                        @if ($products->onFirstPage())
+                            <span class="disabled" aria-disabled="true">←</span>
+                        @else
+                            <a href="{{ $products->previousPageUrl() }}" rel="prev" aria-label="Previous page">←</a>
+                        @endif
+                        @for ($page = $startPage; $page <= $endPage; $page++)
+                            @if ($page === $products->currentPage())
+                                <span class="active" aria-current="page">{{ $page }}</span>
+                            @else
+                                <a href="{{ $products->url($page) }}">{{ $page }}</a>
+                            @endif
+                        @endfor
+                        @if ($products->hasMorePages())
+                            <a href="{{ $products->nextPageUrl() }}" rel="next" aria-label="Next page">→</a>
+                        @else
+                            <span class="disabled" aria-disabled="true">→</span>
+                        @endif
+                    </nav>
+                @endif
             @else
                 <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
             @endif

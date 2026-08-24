@@ -286,13 +286,6 @@
             font-size: 18px;
         }
 
-        .delivery-bar {
-            height: 8px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            background: #0f8a4b;
-        }
-
         .delivery-note {
             margin: 0 0 18px;
             color: #166534;
@@ -391,12 +384,12 @@
         <div class="cart-layout">
             <section class="cart-card" aria-label="Cart items">
                 @foreach($cart as $item)
-                    <div class="cart-row" data-cart-row data-price="{{ $item['current_price'] ?? $item['price'] }}">
+                <div class="cart-row" data-cart-row data-price="{{ $item['current_price'] ?? $item['price'] }}">
                     <div class="cart-product">
                         <div class="cart-product-image">
-                                <img src="{{ !empty($item['image_path']) ? asset('storage/'.$item['image_path']) : asset('images/product-placeholder.svg') }}" alt="{{ $item['name'] }}">
-                            </div>
-                            <div><a class="cart-name" href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{ $item['name'] }}</a><span class="cart-price">₹{{ number_format($item['current_price'] ?? $item['price'], 2) }} each</span></div>
+                            <img src="{{ !empty($item['image_path']) ? asset('storage/'.$item['image_path']) : asset('images/product-placeholder.svg') }}" alt="{{ $item['name'] }}">
+                        </div>
+                        <div><a class="cart-name" href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{ $item['name'] }}</a><span class="cart-price">₹{{ number_format($item['current_price'] ?? $item['price'], 2) }} each</span></div>
                     </div>
                     <form class="cart-quantity" action="{{ route('cart.update', $item['slug'] ?? $item['product_id']) }}" method="POST">
                         @csrf @method('PUT')
@@ -410,13 +403,12 @@
                         @error('quantity', 'cart')<span class="cart-error" role="alert">{{ $message }}</span>@enderror
                     </form>
                     <form action="{{ route('cart.remove', $item['slug'] ?? $item['product_id']) }}" method="POST"><input type="hidden" name="_token" value="{{ csrf_token() }}"> @method('DELETE')<button class="cart-remove" type="submit">Remove</button></form>
-                        <strong data-line-total>₹{{ number_format(($item['current_price'] ?? $item['price']) * $item['quantity'], 2) }}</strong>
+                    <strong data-line-total>₹{{ number_format(($item['current_price'] ?? $item['price']) * $item['quantity'], 2) }}</strong>
                 </div>
                 @endforeach
             </section>
             <aside class="cart-summary" aria-label="Order summary">
                 <h2>Order summary</h2>
-                <div class="delivery-bar"></div>
                 <p class="delivery-note" data-delivery-note>
                     {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 - $total, 2) . ' more for free delivery.' }}
                 </p>

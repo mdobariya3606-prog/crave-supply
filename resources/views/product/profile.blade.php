@@ -15,10 +15,17 @@
             --profile-navy: #133458;
         }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         .product-profile {
             width: min(1180px, calc(100% - 40px));
             margin: auto;
             padding: 44px 0 72px;
+            overflow-x: clip;
         }
 
         .breadcrumb {
@@ -39,11 +46,16 @@
             align-items: start;
         }
 
+        .product-main > * {
+            min-width: 0;
+        }
+
         .gallery {
             position: sticky;
             top: 102px;
             width: min(100%, 430px);
             margin-inline: auto;
+            min-width: 0;
         }
 
         .gallery-main {
@@ -101,12 +113,17 @@
 
         .gallery-thumbs {
             display: flex;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
             gap: 10px;
             margin-top: 12px;
             padding: 2px 1px 5px;
             overflow-x: auto;
+            overflow-y: hidden;
             overscroll-behavior-inline: contain;
             scrollbar-width: thin;
+            touch-action: pan-x;
         }
 
         .gallery-thumb {
@@ -231,6 +248,38 @@
             color: var(--profile-ink);
             font-weight: 600;
             text-align: right;
+        }
+
+        .order-form {
+            display: flex;
+            align-items: end;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .order-form label {
+            flex: 0 0 100%;
+            color: var(--profile-ink);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .order-form input {
+            width: 78px;
+            height: 40px;
+            padding: 7px;
+            border: 1px solid var(--profile-line);
+            border-radius: 9px;
+            color: var(--profile-ink);
+            background: #fff;
+            font: inherit;
+            text-align: center;
+        }
+
+        .order-form input:focus {
+            outline: 3px solid rgba(59, 130, 246, .16);
+            border-color: var(--profile-blue);
         }
 
         .service-highlights {
@@ -472,6 +521,13 @@
             font-weight: 700;
         }
 
+        @media (max-width: 1000px) {
+            .product-main {
+                grid-template-columns: minmax(0, .9fr) minmax(320px, 1fr);
+                gap: 34px;
+            }
+        }
+
         @media (max-width: 800px) {
 
             .product-main,
@@ -482,23 +538,152 @@
 
             .gallery {
                 position: static;
+                width: min(100%, 540px);
+                margin-left: 0;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 640px) {
+            .product-profile {
+                width: min(100% - 28px, 560px);
+                padding: 28px 0 54px;
+            }
+
+            .breadcrumb {
+                margin-bottom: 16px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .gallery-main {
+                border-radius: 14px;
+            }
+
+            .gallery-arrow {
+                width: 34px;
+                height: 34px;
+            }
+
+            .gallery-arrow.previous {
+                left: 10px;
+            }
+
+            .gallery-arrow.next {
+                right: 10px;
+            }
+
+            .gallery-thumb {
+                flex-basis: 68px;
+            }
+
+            .product-info {
+                padding-top: 0;
+            }
+
+            .product-info h1 {
+                font-size: clamp(28px, 9vw, 38px);
+            }
+
+            .product-subtitle {
+                margin-top: 12px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .rating-summary {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 6px;
+                margin: 18px 0;
+                padding-bottom: 18px;
+            }
+
+            .price-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 18px;
+            }
+
+            .detail-list {
+                padding: 18px 0;
+            }
+
             .service-highlights {
                 grid-template-columns: 1fr;
+            }
+
+            .service-highlight {
+                grid-template-columns: 42px 1fr;
+                justify-items: start;
+                column-gap: 13px;
+                padding: 18px;
+                text-align: left;
+            }
+
+            .service-highlight svg {
+                grid-row: span 2;
+                width: 32px;
+                height: 32px;
+            }
+
+            .service-highlight strong,
+            .service-highlight span {
+                align-self: end;
+            }
+
+            .reviews-section,
+            .related-section {
+                margin-top: 42px;
             }
         }
 
         @media (max-width: 520px) {
             .product-profile {
                 width: calc(100% - 28px);
-                padding-top: 28px;
             }
 
             .related-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .section-title h2 {
+                font-size: 22px;
+            }
+
+            .detail-list div {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .detail-list dd {
+                text-align: left;
+            }
+
+            .order-form {
+                display: grid;
+                grid-template-columns: 78px 1fr;
+            }
+
+            .order-form label,
+            .order-form .order-error {
+                grid-column: 1 / -1;
+            }
+
+            .order-form .review-submit {
+                width: 100%;
             }
         }
     </style>
