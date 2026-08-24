@@ -8,10 +8,11 @@
         <div class="nav-links">
             <a href="{{ url('/dashboard') }}" class={{ request()->routeIs('dashboard') ? 'active' : '' }}>Dashboard</a>
             <a href="{{ url('/dashboard#catalogue') }}"
-                class={{ request()->routeIs('calaloge') ? 'active' : '' }}>Catalogue</a>
-            <a href="{{ url('/login') }}"class={{ request()->routeIs('user.login') ? 'active' : '' }}>Restock guide</a>
-            <a href="{{ url('/register') }}"
-                class={{ request()->routeIs('user.register') ? 'active' : '' }}>Register</a>
+                class={{ request()->routeIs('#catalogue') ? 'active' : '' }}>Catalogue</a>
+            <a href="{{ url('/dashboard#restock-guide') }}"class={{ request()->routeIs('login') ? 'active' : '' }}>Restock
+                guide</a>
+            <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
+            <a href="{{ url('/register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
         </div>
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
@@ -25,7 +26,9 @@
                     @auth
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit">Logout</button>
+                            <button type="submit" onclick='return confirm("Are you sure to logout?")'>
+                                Logout
+                            </button>
                         </form>
                     @else
                         <a href="{{ route('login') }}">Login</a>

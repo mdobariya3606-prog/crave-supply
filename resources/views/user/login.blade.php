@@ -18,6 +18,10 @@
                 <p>Log in to manage your supplies and keep your next restock simple.</p>
             </header>
 
+            @if (session('status'))
+                <div class="alert-success" role="status">{{ session('status') }}</div>
+            @endif
+
             <form action="{{ url('/login') }}" method="POST" id="loginForm" novalidate>
                 @csrf
 
@@ -47,7 +51,7 @@
                         <input id="remember" name="remember" type="checkbox" value="1" {{ old('remember') ? 'checked' : '' }}>
                         <span>Remember me</span>
                     </label>
-                    <a href="mailto:hello@cravesupply.test">Need help?</a>
+                    <a href="{{ route('password.request') }}">Forgot password?</a>
                 </div>
 
                 <button type="submit" class="btn-submit">Log in</button>

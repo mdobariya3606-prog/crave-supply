@@ -29,22 +29,27 @@
                 @csrf
                 @method('PUT')
                 <div class="form-grid">
-                    <!-- Main account field -->
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                         <label for="name">Full name <span class="required">*</span></label>
-                        <div class="input-wrapper"><input id="name" name="name" type="text"
+                        <div class="input-wrapper">
+
+                            {{-- Name  --}}
+                            <input id="name" name="name" type="text"
                                 value="{{ old('name', auth()->user()->name) }}" required minlength="3" maxlength="255"
                                 autocomplete="name" placeholder="Alex Morgan" aria-describedby="nameError"><svg
                                 class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                 <circle cx="12" cy="7" r="4" />
-                            </svg></div>
+                            </svg>
+                        </div>
                         @include('user.partials.field-error', ['field' => 'name'])
                     </div>
-                    <!-- Main business fields -->
                     <div class="form-group{{ $errors->has('business_name') ? ' has-error' : '' }}">
                         <label for="business_name">Business name</label>
-                        <div class="input-wrapper"><input id="business_name" name="business_name" type="text"
+                        <div class="input-wrapper">
+
+                            {{-- Business name --}}
+                            <input id="business_name" name="business_name" type="text"
                                 value="{{ old('business_name', auth()->user()->business_name) }}" maxlength="255"
                                 autocomplete="organization" placeholder="Morgan Foods Ltd."
                                 aria-describedby="business_nameError"><svg class="input-icon" viewBox="0 0 24 24"
@@ -52,12 +57,15 @@
                                 <path d="M3 21h18" />
                                 <path d="M5 21V5l7-3 7 3v16" />
                                 <path d="M9 21v-5h6v5" />
-                            </svg></div>
+                            </svg>
+                        </div>
                         @include('user.partials.field-error', ['field' => 'business_name'])
                     </div>
                     <div class="form-group full-width{{ $errors->has('business_address') ? ' has-error' : '' }}">
                         <label for="business_address">Business address</label>
                         <div class="input-wrapper">
+
+                            {{-- Business address --}}
                             <textarea id="business_address" name="business_address" maxlength="255" autocomplete="street-address"
                                 placeholder="123 Market Street, City, State" aria-describedby="business_addressError">{{ old('business_address', auth()->user()->business_address) }}</textarea><svg class="input-icon input-icon-top" viewBox="0 0 24 24"
                                 aria-hidden="true">
@@ -67,56 +75,35 @@
                         </div>
                         @include('user.partials.field-error', ['field' => 'business_address'])
                     </div>
-                    <!-- Main contact field -->
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                         <label for="email">Email address <span class="required">*</span></label>
-                        <div class="input-wrapper"><input id="email" name="email" type="email"
+                        <div class="input-wrapper">
+
+                            {{-- Email  --}}
+                            <input id="email" name="email" type="email"
                                 value="{{ old('email', auth()->user()->email) }}" required maxlength="255"
                                 autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><svg
                                 class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
                                 <rect x="3" y="5" width="18" height="14" rx="2" />
                                 <polyline points="3,7 12,13 21,7" />
-                            </svg></div>
+                            </svg>
+                        </div>
                         @include('user.partials.field-error', ['field' => 'email'])
                     </div>
                     <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                         <label for="phone">Phone number</label>
-                        <div class="input-wrapper"><input id="phone" name="phone" type="tel"
+                        <div class="input-wrapper">
+
+                            {{-- Phone no. --}}
+                            <input id="phone" name="phone" type="tel"
                                 value="{{ old('phone', auth()->user()->phone) }}" maxlength="10" inputmode="numeric"
                                 autocomplete="tel" placeholder="9876543210" aria-describedby="phoneError"><svg
                                 class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
                                 <rect x="6" y="3" width="12" height="18" rx="2" />
                                 <path d="M10 18h4" />
-                            </svg></div>
-                        @include('user.partials.field-error', ['field' => 'phone'])
-                    </div>
-                    <div class="form-group">
-                        <label for="password">New password</label>
-                        <div class="input-wrapper"><input id="password" name="password" type="password"
-                                minlength="8" maxlength="255" autocomplete="new-password"
-                                placeholder="Leave blank to keep current password"
-                                aria-describedby="passwordError"><svg class="input-icon" viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <rect x="4" y="10" width="16" height="11" rx="2" />
-                                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-                            </svg><button type="button" class="pass-toggle"
-                                onclick="togglePassword('password', this)" aria-label="Show password">Show</button>
+                            </svg>
                         </div>
-                        @include('user.partials.field-error', ['field' => 'password'])
-                    </div>
-                    <div class="form-group">
-                        <label for="password_confirmation">Confirm new password</label>
-                        <div class="input-wrapper"><input id="password_confirmation" name="password_confirmation"
-                                type="password" minlength="8" maxlength="255" autocomplete="new-password"
-                                placeholder="Re-enter your new password"
-                                aria-describedby="password_confirmationError"><svg class="input-icon"
-                                viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 3 4 6v5c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-3Z" />
-                                <path d="m9 12 2 2 4-4" />
-                            </svg><button type="button" class="pass-toggle"
-                                onclick="togglePassword('password_confirmation', this)"
-                                aria-label="Show password">Show</button></div>
-                        @include('user.partials.field-error', ['field' => 'password_confirmation'])
+                        @include('user.partials.field-error', ['field' => 'phone'])
                     </div>
                 </div>
                 <div class="profile-actions"><a class="secondary-btn"

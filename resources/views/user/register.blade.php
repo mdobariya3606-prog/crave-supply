@@ -21,7 +21,7 @@
                 <p>Set up your business account to manage your supplies.</p>
             </header>
 
-            <form action="{{ route('user.register') }}" method="POST" id="registerForm" novalidate>
+            <form action="{{ route('register') }}" method="POST" id="registerForm" novalidate>
                 @csrf
 
                 <div id="formStatus" class="form-status" role="status" aria-live="polite" hidden></div>
@@ -159,6 +159,8 @@
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <label for="password">Password <span class="required">*</span></label>
                         <div class="input-wrapper">
+
+                            {{-- Password input --}}
                             <input id="password" name="password" type="password" required minlength="8"
                                 maxlength="255" autocomplete="new-password" placeholder="At least 8 characters"
                                 aria-describedby="passwordError">
@@ -184,6 +186,8 @@
                     <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                         <label for="password_confirmation">Confirm password <span class="required">*</span></label>
                         <div class="input-wrapper">
+
+                            {{-- Confirm password --}}
                             <input id="password_confirmation" name="password_confirmation" type="password" required
                                 minlength="8" maxlength="255" autocomplete="new-password"
                                 placeholder="Re-enter your password" aria-describedby="password_confirmationError">
@@ -191,6 +195,8 @@
                                 <path d="M12 3 4 6v5c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-3Z" />
                                 <path d="m9 12 2 2 4-4" />
                             </svg>
+
+                            {{-- Password toggle button --}}
                             <button type="button" class="pass-toggle"
                                 onclick="togglePassword('password_confirmation', this)"
                                 aria-label="Show password">Show</button>
@@ -203,6 +209,7 @@
                             </svg><span></span></div>
                     </div>
 
+                    {{-- Create account button --}}
                     <div class="full-width">
                         <button type="submit" class="btn-submit">Create account</button>
                     </div>
@@ -267,20 +274,20 @@
             return !message;
         }
 
-        function focusFirstError(field) {
-            if (!field) return;
-
-            field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            window.setTimeout(() => field.focus({ preventScroll: true }), 300);
-        }
+        fields.forEach((field) => {
+            field.addEventListener('input', () => {
+                validateField(field);
+                if (field === password) validateField(passwordConfirmation);
+            });
+            field.addEventListener('blur', () => validateField(field));
+        });
 
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const invalidFields = fields.filter((field) => !validateField(field));
-            const isValid = invalidFields.length === 0;
+            const isValid = fields.map(validateField).every(Boolean);
             if (!isValid) {
-                focusFirstError(invalidFields[0]);
+                fields.find((field) => getErrorMessage(field))?.focus();
                 return;
             }
 
@@ -309,7 +316,7 @@
                             firstServerErrorField ??= field;
                         }
                     });
-                    focusFirstError(firstServerErrorField || fields.find((field) => getErrorMessage(field)));
+                    (firstServerErrorField || fields.find((field) => getErrorMessage(field)))?.focus();
                     return;
                 }
 
