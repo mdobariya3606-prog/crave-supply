@@ -1,20 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
 :root {
-    --layout-navy: #133458;
-    --layout-blue: #3b82f6;
-    --layout-ink: #1e293b;
-    --layout-muted: #64748b;
-    --layout-line: #e2e8f0;
+    --layout-navy: #2c2722;
+    --layout-blue: #8d6c4a;
+    --layout-ink: #29251f;
+    --layout-muted: #8d8376;
+    --layout-line: #ded4c8;
+    --layout-cream: #f8f4ed;
+    --layout-surface: #fffdf9;
 }
 
 * {
-    font-family: 'Inter';
+    font-family: 'DM Sans', sans-serif;
 }
 
 html,
 body {
     margin: 0;
     padding: 0;
+    color: var(--layout-ink);
+    background: var(--layout-cream) !important;
 }
 
 .site-header {
@@ -23,8 +27,8 @@ body {
     z-index: 10;
     height: 70px;
     box-sizing: border-box;
-    border-bottom: 1px solid rgba(226, 232, 240, .9);
-    background: rgba(255, 255, 255, .94);
+    border-bottom: 1px solid rgba(222, 212, 200, .9);
+    background: rgba(248, 244, 237, .94);
     backdrop-filter: blur(14px);
 }
 
@@ -81,7 +85,7 @@ body {
 .nav-links a:hover,
 .nav-links .active,
 .footer-links a:hover {
-    color: var(--layout-navy);
+    color: var(--layout-blue);
 }
 
 .user-menu {
@@ -102,7 +106,7 @@ body {
     place-items: center;
     border-radius: 50%;
     color: var(--layout-navy);
-    background: #dbeafe;
+    background: #eadfd2;
     font-weight: 800;
 }
 
@@ -129,7 +133,7 @@ body {
     padding: 6px;
     border: 1px solid var(--layout-line);
     border-radius: 12px;
-    background: #fff;
+    background: var(--layout-surface);
     box-shadow: 0 12px 30px rgba(15, 23, 42, .14);
 }
 
@@ -151,13 +155,14 @@ body {
 
 .profile-menu a:hover,
 .profile-menu form button:hover {
-    background: #eff6ff;
+    background: #f1e9df;
     color: var(--layout-navy);
 }
 
 .site-footer {
     border-top: 1px solid var(--layout-line);
-    background: #fff;
+    background: #2c2722;
+    color: #f8f4ed;
 }
 
 .footer-wrap {
@@ -174,14 +179,28 @@ body {
 }
 
 .footer-brand { max-width: 260px; }
-.footer-brand p { margin: 14px 0 0; color: var(--layout-muted); font-size: 13px; line-height: 1.7; }
-.footer-column h3 { margin: 0 0 13px; color: var(--layout-ink); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.site-footer .brand { color: #f8f4ed; }
+.footer-brand p { margin: 14px 0 0; color: #b9aa9b; font-size: 13px; line-height: 1.7; }
+.footer-column h3 { margin: 0 0 13px; color: #f8f4ed; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .footer-column a,
-.footer-column p { display: block; margin: 0 0 9px; color: var(--layout-muted); font-size: 13px; }
-.footer-column a:hover { color: var(--layout-blue); }
+.footer-column p { display: block; margin: 0 0 9px; color: #b9aa9b; font-size: 13px; }
+.footer-column a:hover { color: #dba8a3; }
 .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid var(--layout-line); }
-.footer-copy { color: var(--layout-muted); font-size: 12px; }
-.footer-links { display: flex; gap: 20px; color: var(--layout-muted); font-size: 12px; font-weight: 600; }
+.footer-copy { color: #998c80; font-size: 12px; }
+.footer-links { display: flex; gap: 20px; color: #b9aa9b; font-size: 12px; font-weight: 600; }
+
+/* Shared premium controls for pages that use local styles as well. */
+button, input, select, textarea { accent-color: #8d6c4a; }
+button, .btn-submit, .review-submit, .cart-checkout, .primary-btn, .button {
+    border-color: #2c2722 !important;
+    border-radius: 0 !important;
+    background: #2c2722 !important;
+    color: #fffdf9 !important;
+}
+button:hover, .btn-submit:hover, .review-submit:hover, .cart-checkout:hover, .primary-btn:hover, .button:hover {
+    background: #8d6c4a !important;
+}
+a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
 @media (max-width: 1000px) {
     .nav-wrap { gap: 16px; }

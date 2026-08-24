@@ -1,0 +1,47 @@
+/* Shared CraveSupply premium theme. Page-specific layouts can still refine these components. */
+:root {
+    --premium-ink: #29251f;
+    --premium-brown: #2c2722;
+    --premium-accent: #8d6c4a;
+    --premium-muted: #8d8376;
+    --premium-line: #ded4c8;
+    --premium-cream: #f8f4ed;
+    --premium-surface: #fffdf9;
+}
+
+body { background: var(--premium-cream) !important; color: var(--premium-ink) !important; }
+h1, h2, h3 { color: var(--premium-ink); }
+h1, .card-header h1, .orders-heading h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; }
+
+input, select, textarea {
+    border-color: var(--premium-line) !important;
+    border-radius: 0 !important;
+    background: var(--premium-surface) !important;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: var(--premium-accent) !important;
+    box-shadow: 0 0 0 3px rgba(141,108,74,.13) !important;
+}
+
+.card, .orders-card, .order-card, .orders-table-wrap, .cart-panel, .cart-summary, .review-card, .review-form {
+    border-color: var(--premium-line) !important;
+    border-radius: 0 !important;
+    background: var(--premium-surface) !important;
+    box-shadow: 0 12px 30px rgba(68,48,31,.06) !important;
+}
+
+.btn-submit, .review-submit, .cart-checkout, .submit-order, .button, button[type="submit"] {
+    border-radius: 0 !important;
+    color: #fffdf9 !important;
+    background: var(--premium-brown) !important;
+}
+.btn-submit:hover, .review-submit:hover, .cart-checkout:hover, .submit-order:hover, .button:hover, button[type="submit"]:hover {
+    background: var(--premium-accent) !important;
+}
+
+.availability, .status, .customer-order-status { border-radius: 0 !important; }
+.pagination a, .pagination span, .review-pagination a, .review-pagination span { border-radius: 0 !important; }
+
+@media (max-width: 760px) {
+    .site-header { background: var(--premium-cream) !important; }
+}

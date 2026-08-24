@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
 
 *,
 *::before,
@@ -7,13 +7,13 @@
 }
 
 :root {
-    --navy: #133458;
-    --blue: #3b82f6;
-    --ink: #1e293b;
-    --muted: #94a3b8;
-    --line: #e2e8f0;
-    --surface: #ffffff;
-    --page: #f1f5f9;
+    --navy: #2c2722;
+    --blue: #8d6c4a;
+    --ink: #29251f;
+    --muted: #8d8376;
+    --line: #ded4c8;
+    --surface: #fffdf9;
+    --page: #f8f4ed;
 }
 
 body {
@@ -22,8 +22,8 @@ body {
     padding: 0;
     overflow-x: hidden;
     color: var(--ink);
-    background: var(--page);
-    font-family: "Inter", sans-serif;
+    background: var(--page) !important;
+    font-family: "DM Sans", sans-serif;
 }
 
 body::before,
@@ -42,12 +42,12 @@ body::after {
 body::before {
     top: -130px;
     right: -90px;
-    background: #60a5fa;
+    background: #dba8a3;
 }
 body::after {
     bottom: -120px;
     left: -80px;
-    background: #67e8f9;
+    background: #e4c28e;
 }
 
 .register-container {
@@ -62,9 +62,9 @@ body::after {
 .card {
     padding: 44px 40px;
     border: 1px solid var(--line);
-    border-radius: 24px;
+    border-radius: 0;
     background: var(--surface);
-    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.07);
+    box-shadow: 0 14px 35px rgba(68, 48, 31, .08);
 }
 
 .card-header {
@@ -97,7 +97,9 @@ body::after {
 .card-header h1 {
     margin: 0;
     color: var(--ink);
-    font-size: 27px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 32px;
+    font-weight: 400;
     letter-spacing: -0.5px;
 }
 .card-header p:last-child {

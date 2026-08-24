@@ -3,13 +3,13 @@
     <div class="footer-wrap">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a class="brand" href="{{ url('/dashboard') }}"><span class="brand-mark">CS</span><span>CraveSupply</span></a>
-                <p>Thoughtful business supplies for better breaks, fuller shelves, and simpler weekly routines.</p>
+                <a class="brand" href="{{ route('home') }}"><span class="brand-mark">CS</span><span>CraveSupply</span></a>
+                <p>Thoughtful snacks and drinks for better breaks, fuller shelves, and happier teams.</p>
             </div>
             <div class="footer-column">
                 <h3>Explore</h3>
-                <a href="{{ url('/dashboard#catalogue') }}">Catalogue</a>
-                <a href="{{ url('/dashboard#restock-guide') }}">Restock guide</a>
+                <a href="{{ route('home') }}#catalogue">Catalogue</a>
+                <a href="{{ route('home') }}#restock-guide">Restock guide</a>
                 <a href="{{ url('/register') }}">Create account</a>
             </div>
             <div class="footer-column">
@@ -27,7 +27,7 @@
         </div>
         <div class="footer-bottom">
             <div class="footer-copy">&copy; {{ date('Y') }} CraveSupply. Business supplies, made simpler.</div>
-            <div class="footer-links"><a href="{{ url('/dashboard#about') }}">About</a><a href="mailto:hello@cravesupply.test">Contact</a><a href="{{ url('/dashboard#about') }}">Privacy</a></div>
+            <div class="footer-links"><a href="{{ route('about') }}">About</a>@if (auth()->user()?->role !== 'admin')<a href="{{ route('contact') }}">Contact</a>@endif<a href="{{ route('about') }}#privacy">Privacy</a></div>
         </div>
     </div>
 </footer>

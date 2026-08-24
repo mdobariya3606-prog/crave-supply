@@ -29,6 +29,7 @@ class ProductProfileController extends Controller
             'relatedProducts' => Product::where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->where('is_available', true)
+                ->with('productImages')
                 ->latest()
                 ->take(3)
                 ->get(),

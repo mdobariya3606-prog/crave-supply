@@ -4,21 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — CraveSupply</title>
+    <title>CraveSupply — Better snacks for every break</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <style>
         :root {
-            --navy: #133458;
-            --blue: #3b82f6;
-            --ink: #1e293b;
-            --muted: #64748b;
-            --line: #e2e8f0;
-            --page: #f6f8fb;
+            --navy: #2c2722;
+            --blue: #8d6c4a;
+            --ink: #29251f;
+            --muted: #8d8376;
+            --line: #ded4c8;
+            --page: #f8f4ed;
             --orange: #e85d04;
-            --forest: #244b35;
-            --cream: #fbfaf6;
-            --gold: #d6a84f;
+            --forest: #5b6840;
+            --cream: #f8f4ed;
+            --gold: #dba8a3;
         }
 
         * {
@@ -33,7 +33,7 @@
             margin: 0;
             color: var(--ink);
             background: var(--cream);
-            font-family: 'Inter', sans-serif;
+            font-family: 'DM Sans', sans-serif;
         }
 
         a {
@@ -60,6 +60,30 @@
             color: #fff;
             background: linear-gradient(120deg, #102d25 0%, #244b35 55%, #366624 100%);
             box-shadow: 0 18px 44px rgba(36, 75, 53, .18);
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 260px;
+            height: 190px;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, .18);
+            border-radius: 22px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, .18);
+            transform: rotate(2deg);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
         }
 
         .welcome::after {
@@ -343,6 +367,7 @@
 
         .premium-callout h2 {
             margin: 0 0 7px;
+            color: #fff;
             font-size: 24px;
             letter-spacing: -.035em;
         }
@@ -435,6 +460,7 @@
 
         .explore-card-content h3 {
             margin: 0;
+            color: #fff;
             font-size: 22px;
             letter-spacing: -.03em;
         }
@@ -684,6 +710,13 @@
                 padding: 32px 24px;
             }
 
+            .hero-image {
+                width: 100%;
+                height: 170px;
+                margin-top: 28px;
+                transform: none;
+            }
+
             .welcome .primary-btn {
                 margin-top: 22px;
                 width: 100%;
@@ -739,13 +772,17 @@
 
     <main class="dashboard">
         <section class="welcome">
-            <div>
-                <p class="eyebrow">Premium business supply</p>
-                <h1>Premium snacks for the way your business works.</h1>
-                <p>Welcome back, {{ auth()->user()->name ?? 'there' }}. Discover a curated range of quality products,
-                    selected for better shelves, better breaks, and smarter restocking.</p>
+            <div class="hero-copy">
+                <p class="eyebrow">CraveSupply · snacks made simple</p>
+                <h1>Make every break taste better.</h1>
+                <p>Discover thoughtfully selected snacks, drinks, and pantry favourites for offices, cafés, retailers,
+                    and the people they serve.</p>
+                <a class="primary-btn" href="#catalogue">Shop the snack range <span aria-hidden="true">→</span></a>
             </div>
-            <a class="primary-btn" href="#catalogue">Explore premium range</a>
+            <div class="hero-image">
+                <img src="{{ asset('images/snack-hero.svg') }}"
+                    alt="Colourful snacks arranged for sharing">
+            </div>
         </section>
 
         <section class="premium-proof" aria-label="CraveSupply benefits">
@@ -756,26 +793,6 @@
             <div class="proof-item"><strong>Smarter restocking</strong><span>Clear categories that make repeat orders
                     easier.</span></div>
         </section>
-
-        @if ($customerOrders->isNotEmpty())
-            <section class="customer-orders" aria-labelledby="customer-orders-title">
-                <div class="customer-orders-header">
-                    <div>
-                        <h2 id="customer-orders-title">Your recent orders</h2>
-                        <p>Track the current status of your submitted orders.</p>
-                    </div>
-                </div>
-                @foreach ($customerOrders as $order)
-                    <div class="customer-order-row">
-                        <div>
-                            <span class="customer-order-number">{{ $order->order_number }}</span>
-                            <span class="customer-order-date">{{ $order->created_at->format('M j, Y') }} · ₹{{ number_format($order->total_amount, 2) }}</span>
-                        </div>
-                        <span class="customer-order-status">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span>
-                    </div>
-                @endforeach
-            </section>
-        @endif
 
         <section class="quick-grid" aria-label="Dashboard shortcuts">
             <article class="quick-card">
@@ -909,6 +926,17 @@
             <div class="service-item"><strong>Support when you need it</strong><span>Our team is here to help with
                     product questions and your next replenishment.</span></div>
         </section>
+
+        @if (auth()->user()?->role !== 'admin')
+        <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
+            <div>
+                <p class="eyebrow">Have a question?</p>
+                <h2 id="contact-title">Let’s make your next restock easier.</h2>
+                <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
+            </div>
+            <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
+        </section>
+        @endif
 
         @if ($topReviews->isNotEmpty())
         <section class="review-section" aria-labelledby="reviews-title">

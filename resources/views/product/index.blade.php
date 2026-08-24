@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         :root {
-            --products-ink: #1e293b;
-            --products-muted: #64748b;
-            --products-line: #e2e8f0;
-            --products-blue: #3b82f6;
-            --products-navy: #133458;
+            --products-ink: #29251f;
+            --products-muted: #8d8376;
+            --products-line: #ded4c8;
+            --products-blue: #8d6c4a;
+            --products-navy: #2c2722;
         }
 
         .products-page {
@@ -46,6 +46,9 @@
 
         .products-hero h1 {
             margin: 0;
+            color: #fff;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 400;
             font-size: clamp(28px, 4vw, 42px);
             letter-spacing: -.05em;
         }

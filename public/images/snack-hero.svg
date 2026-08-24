@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">Colourful snacks arranged for sharing</title>
+  <desc id="desc">A cheerful illustration of a snack bowl, crackers, fruit and a drink.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8d98b"/>
+      <stop offset="1" stop-color="#f08a55"/>
+    </linearGradient>
+    <linearGradient id="bowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e85d04"/>
+      <stop offset="1" stop-color="#b93711"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="520" rx="34" fill="url(#bg)"/>
+  <circle cx="590" cy="90" r="115" fill="#fff4c7" opacity=".5"/>
+  <circle cx="110" cy="430" r="150" fill="#f6b45e" opacity=".45"/>
+  <ellipse cx="365" cy="424" rx="250" ry="38" fill="#8f3d25" opacity=".22"/>
+  <path d="M155 231h150v159c0 38-34 64-75 64s-75-26-75-64V231Z" fill="url(#bowl)"/>
+  <ellipse cx="230" cy="231" rx="89" ry="31" fill="#8f2f11"/>
+  <ellipse cx="230" cy="225" rx="76" ry="23" fill="#f5b544"/>
+  <circle cx="192" cy="220" r="15" fill="#8b3f20"/><circle cx="230" cy="214" r="18" fill="#d64b24"/>
+  <circle cx="268" cy="223" r="14" fill="#6f8f35"/><circle cx="220" cy="237" r="13" fill="#e7c064"/>
+  <rect x="415" y="150" width="104" height="218" rx="22" fill="#f8f4e8"/>
+  <rect x="429" y="177" width="76" height="174" rx="14" fill="#82b85a"/>
+  <path d="M429 224h76v42h-76z" fill="#e8c66f"/><path d="M448 241h38" stroke="#fff8df" stroke-width="8" stroke-linecap="round"/>
+  <path d="M448 150v-28c0-20 38-20 38 0v28" fill="none" stroke="#f8f4e8" stroke-width="14" stroke-linecap="round"/>
+  <path d="m337 292 63-87 63 87-63 55Z" fill="#f7e4a7" stroke="#b96c28" stroke-width="7"/>
+  <path d="m361 280 38-52 38 52-38 34Z" fill="#d97b31" opacity=".55"/>
+  <circle cx="566" cy="345" r="52" fill="#e9573f"/><path d="M543 300c14-31 42-38 64-16" fill="none" stroke="#5a8e3e" stroke-width="13" stroke-linecap="round"/>
+  <circle cx="573" cy="333" r="7" fill="#f8d98b"/><circle cx="551" cy="360" r="6" fill="#f8d98b"/>
+</svg>

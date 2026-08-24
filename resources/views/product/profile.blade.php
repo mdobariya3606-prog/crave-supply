@@ -565,6 +565,16 @@
             text-decoration: none;
         }
 
+        .related-card-image {
+            display: block;
+            width: calc(100% + 36px);
+            aspect-ratio: 1.25;
+            margin: -18px -18px 16px;
+            object-fit: contain;
+            background: #eee6d9;
+            mix-blend-mode: multiply;
+        }
+
         .related-card:hover {
             border-color: #93c5fd;
         }
@@ -747,6 +757,174 @@
                 width: 100%;
             }
         }
+
+        /* Premium editorial product treatment */
+        body {
+            color: #29251f;
+            background: #f8f4ed;
+        }
+
+        .product-profile {
+            width: min(1240px, calc(100% - 48px));
+            padding-top: 30px;
+        }
+
+        .breadcrumb {
+            color: #8d8376;
+            font-size: 10px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .breadcrumb a { color: #6e685f; }
+
+        .product-main {
+            grid-template-columns: minmax(0, 1.06fr) minmax(360px, .94fr);
+            gap: 70px;
+            padding: 18px 0 64px;
+        }
+
+        .gallery { width: 100%; top: 92px; }
+
+        .gallery-main {
+            aspect-ratio: 1 / 1;
+            max-height: none;
+            border-radius: 0;
+            background: #eee6d9;
+            box-shadow: none;
+        }
+
+        .gallery-track img {
+            object-fit: contain;
+            padding: 26px;
+            mix-blend-mode: multiply;
+        }
+
+        .gallery-arrow {
+            width: 42px;
+            height: 42px;
+            color: #29251f;
+            background: rgba(255,255,255,.82);
+            box-shadow: none;
+        }
+
+        .gallery-thumb {
+            flex-basis: 76px;
+            border-radius: 0;
+            border-color: transparent;
+            background: #eee6d9;
+        }
+
+        .gallery-thumb.active { border-color: #29251f; }
+
+        .product-info {
+            padding: 28px 0 0;
+        }
+
+        .product-label {
+            color: #8d6c4a;
+            font-size: 10px;
+            letter-spacing: .2em;
+        }
+
+        .product-info h1 {
+            max-width: 560px;
+            color: #29251f;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(38px, 5vw, 64px);
+            font-weight: 400;
+            letter-spacing: -.045em;
+            line-height: .98;
+        }
+
+        .product-subtitle {
+            max-width: 560px;
+            margin-top: 22px;
+            color: #71695f;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .rating-summary {
+            margin-top: 22px;
+            color: #8d8376;
+            font-size: 11px;
+        }
+
+        .stars { color: #b48a44; letter-spacing: .12em; }
+
+        .price-row {
+            margin-top: 26px;
+            padding: 22px 0;
+            border-top: 1px solid #ddd3c6;
+            border-bottom: 1px solid #ddd3c6;
+        }
+
+        .price { color: #29251f; font-family: Georgia, 'Times New Roman', serif; font-size: 25px; }
+        .availability { color: #607044; background: #e8eddf; }
+        .availability.unavailable { color: #9b4338; background: #f4e2dc; }
+
+        .detail-list { margin-top: 22px; border-bottom: 1px solid #ddd3c6; }
+        .detail-list div { padding: 12px 0; border-top: 1px solid #ddd3c6; }
+        .detail-list dt { color: #8d8376; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+        .detail-list dd { color: #3c372f; font-size: 12px; }
+
+        .order-form { margin-top: 24px; }
+        .order-form label { color: #51483e; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .order-form input { border-color: #cfc3b4; border-radius: 0; background: #fffdf9; }
+        .review-submit { border-radius: 0; color: #fff; background: #29251f; letter-spacing: .1em; text-transform: uppercase; }
+        .review-submit:hover { background: #8d6c4a; }
+
+        .service-highlights {
+            margin: 0 calc((48px - 50vw)) 72px;
+            padding: 34px max(24px, calc((100vw - 1240px) / 2));
+            border-top: 1px solid #e2d9cd;
+            border-bottom: 1px solid #e2d9cd;
+            background: #f1eadf;
+        }
+
+        .service-highlight { color: #51483e; background: transparent; }
+        .service-highlight svg { stroke: #8d6c4a; }
+        .service-highlight strong { color: #29251f; }
+        .service-highlight span { color: #8d8376; }
+
+        .editorial-story {
+            display: grid;
+            grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+            min-height: 310px;
+            margin: 0 0 76px;
+            background: #2c2722;
+            color: #f8f4ed;
+        }
+
+        .editorial-story-copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 42px;
+            background: #dba8a3;
+            color: #29251f;
+        }
+
+        .editorial-story-copy h2 { max-width: 320px; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 34px; font-weight: 400; line-height: 1; }
+        .editorial-story-copy p { max-width: 370px; margin: 18px 0 0; color: #5d4d47; font-size: 13px; line-height: 1.7; }
+        .editorial-story-visual { min-height: 310px; background: radial-gradient(circle at 70% 30%, #795c42, #211c18 65%); }
+        .editorial-story-visual::after { content: 'CRAFTED FOR THE EVERYDAY'; display: grid; height: 100%; place-items: center; color: rgba(248,244,237,.28); font-size: 11px; letter-spacing: .3em; transform: rotate(-12deg); }
+
+        .reviews-section, .related-section { padding-top: 0; }
+        .section-title h2, .reviews-section h2, .related-section h2 { color: #29251f; font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 400; }
+        .section-title p { color: #8d8376; }
+        .review-card, .review-form, .review-item, .related-card { border-color: #e2d9cd; border-radius: 0; background: #fffdf9; box-shadow: none; }
+        .review-score { color: #29251f; font-family: Georgia, 'Times New Roman', serif; }
+
+        @media (max-width: 760px) {
+            .product-profile { width: calc(100% - 28px); }
+            .product-main { gap: 28px; padding-bottom: 42px; }
+            .product-info { padding-top: 0; }
+            .service-highlights { margin-inline: -14px; padding-inline: 14px; }
+            .editorial-story { grid-template-columns: 1fr; }
+            .editorial-story-visual { min-height: 180px; }
+        }
     </style>
 </head>
 
@@ -805,7 +983,7 @@
                         from {{ $product->reviews->count() }} reviews</span></div>
                 <div class="price-row"><span
                         class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
-                        class="availability{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'In stock' : 'Out of stock' }}</span>
+                        class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{ $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently unavailable') }}</span>
                 </div>
                 <dl class="detail-list">
                     <div>
@@ -838,9 +1016,10 @@
                     <button class="review-submit" type="submit">Add to Order</button>
                 </form>
                 @endif
-                @else
-                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
-                    stock</span>
+                @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
+                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of stock</span>
+                @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
+                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Currently unavailable</span>
                 @endif
             </div>
         </section>
@@ -872,6 +1051,15 @@
                 <strong>Reliable delivery</strong>
                 <span>Carefully packed for your business</span>
             </article>
+        </section>
+
+        <section class="editorial-story" aria-labelledby="story-title">
+            <div class="editorial-story-copy">
+                <p class="product-label">The CraveSupply standard</p>
+                <h2 id="story-title">Good choices, beautifully considered.</h2>
+                <p>We look for products that earn their place on the shelf: dependable quality, thoughtful details, and a little joy in every everyday moment.</p>
+            </div>
+            <div class="editorial-story-visual" aria-hidden="true"></div>
         </section>
 
         <section class="reviews-section" aria-labelledby="reviews-title">
@@ -954,6 +1142,8 @@
             <div class="related-grid">
                 @foreach ($relatedProducts as $relatedProduct)
                 <a class="related-card" href="{{ route('products.profile', $relatedProduct) }}">
+                    @php($relatedImage = $relatedProduct->productImages->firstWhere('is_primary', true) ?: $relatedProduct->productImages->first())
+                    <img class="related-card-image" src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}" alt="{{ $relatedProduct->name }}">
                     <h3>{{ $relatedProduct->name }}</h3>
                     <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
                 </a>
@@ -968,8 +1158,7 @@
         (() => {
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
-            const images = @json(
-                $product->productImages->map(fn($image) => asset('storage/'.$image->image_path))->values()->all() ? : [
+            const images = @json($product->productImages->map(fn($image) => asset('storage/'.$image->image_path))->values()->all() ? : [
                     asset('images/product-placeholder.svg'),
                 ]
             );
