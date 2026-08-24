@@ -5,7 +5,10 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Product\CheckoutController;
 use App\Models\Review;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +26,9 @@ Route::get('/dashboard', function () {
             ->latest()
             ->take(6)
             ->get(),
+        'customerOrders' => auth()->user()?->role === 'customer'
+            ? Order::where('user_id', auth()->id())->latest()->take(5)->get()
+            : collect(),
     ]);
 })->name('dashboard');
 
@@ -31,6 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+    Route::get('/cart/review', [CheckoutController::class, 'review'])->name('cart.review');
+    Route::post('/cart/submit', [CheckoutController::class, 'submit'])->name('cart.submit');
+    Route::get('/orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])->name('orders.confirmation');
+    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::put('/admin/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.status');
 });
 
 Route::middleware('guest')

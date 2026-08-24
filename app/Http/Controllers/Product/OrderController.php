@@ -10,7 +10,7 @@ class OrderController extends Controller
 {
     public function store(Request $request, Product $product)
     {
-        abort_unless($request->user()?->role === 'customer', 403);
+        abort_unless(!$request->user() || $request->user()->role === 'customer', 403);
         if (!$product->is_available || $product->stock < 1) {
             return back()->withErrors([
                 'quantity' => 'This product is currently unavailable or out of stock.',

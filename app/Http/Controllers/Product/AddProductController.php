@@ -10,7 +10,8 @@ use App\Models\ProductImage;
 
 class AddProductController extends Controller
 {
-    public function create() {
+    public function create()
+    {
         abort_unless(auth()->user()?->role === 'admin', 403);
 
         return view('product.add', [
@@ -18,7 +19,8 @@ class AddProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request) {
+    public function store(ProductRequest $request)
+    {
         $product = Product::create([
             ...$request->validated(),
             'is_available' => $request->boolean('is_available'),

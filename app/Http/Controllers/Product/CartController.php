@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    private function customer(Request $request): void
+    private function canUseCart(Request $request): void
     {
-        abort_unless($request->user()?->role === 'customer', 403);
+        abort_unless(!$request->user() || $request->user()->role === 'customer', 403);
     }
 
     public function index(Request $request)
     {
-        $this->customer($request);
+        $this->canUseCart($request);
         $cart = $request->session()->get('cart', []);
         $products = Product::with('productImages')
             ->whereIn('id', array_keys($cart))
@@ -47,7 +47,7 @@ class CartController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $this->customer($request);
+        $this->canUseCart($request);
         $validated = $request->validateWithBag('cart', [
             'quantity' => ['required', 'integer', 'min:1'],
         ]);
@@ -78,7 +78,7 @@ class CartController extends Controller
 
     public function remove(Request $request, Product $product)
     {
-        $this->customer($request);
+        $this->canUseCart($request);
         $cart = $request->session()->get('cart', []);
         unset($cart[$product->id]);
         $request->session()->put('cart', $cart);
@@ -87,7 +87,7 @@ class CartController extends Controller
 
     public function clear(Request $request)
     {
-        $this->customer($request);
+        $this->canUseCart($request);
         $request->session()->forget('cart');
         return back()->with('success', 'Cart cleared.');
     }

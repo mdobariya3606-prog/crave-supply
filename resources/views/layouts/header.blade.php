@@ -16,15 +16,14 @@
         </div>
         <div class="nav-links">
             <a href="{{ url('/dashboard') }}" class={{ request()->routeIs('dashboard') ? 'active' : '' }}>Dashboard</a>
-            <a href="{{ url('/dashboard#catalogue') }}"
-                class={{ request()->routeIs('#catalogue') ? 'active' : '' }}>Catalogue</a>
-            <a href="{{ url('/dashboard#restock-guide') }}"class={{ request()->routeIs('login') ? 'active' : '' }}>Restock
-                guide</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
-            @if (auth()->user()?->role === 'customer')
+            @if (!auth()->check() || auth()->user()?->role === 'customer')
                 <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
                     Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}
                 </a>
+            @endif
+            @if (auth()->user()?->role === 'admin')
+                <a href="{{ route('admin.orders.index') }}" class={{ request()->routeIs('admin.orders.*') ? 'active' : '' }}>Orders</a>
             @endif
             <a href="{{ url('/register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
         </div>

@@ -30,11 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/categories/{category}', [AddCategoryController::class, 'update'])->name('categories.update');
 
     Route::post('/products/{product:slug}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
-    Route::post('/products/{product:slug}/order', [OrderController::class, 'store'])->name('products.order.store');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::put('/cart/{product:slug}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 });
 
+Route::post('/products/{product:slug}/order', [OrderController::class, 'store'])->name('products.order.store');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::put('/cart/{product:slug}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 Route::get('/products/{product:slug}', [ProductProfileController::class, 'show'])->name('products.profile');

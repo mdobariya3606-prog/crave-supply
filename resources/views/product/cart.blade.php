@@ -415,7 +415,13 @@
                 <div class="summary-line"><span>Subtotal</span><strong data-cart-subtotal>₹{{ number_format($total, 2) }}</strong></div>
                 <div class="summary-line"><span>Delivery</span><strong data-delivery>{{ $total >= 2000 ? 'FREE' : '₹100.00' }}</strong></div>
                 <div class="summary-total"><span>Total</span><strong data-cart-total>₹{{ number_format($total + ($total >= 2000 ? 0 : 100), 2) }}</strong></div>
-                <button class="cart-checkout" type="button">Proceed to Buy</button>
+                @auth
+                    <form action="{{ route('cart.review') }}" method="GET">
+                        <button class="cart-checkout" type="submit">Review order</button>
+                    </form>
+                @else
+                    <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none" href="{{ route('login') }}">Log in to submit order</a>
+                @endauth
                 <form action="{{ route('cart.clear') }}" method="POST" style="margin-top:12px;text-align:center">
                     @csrf @method('DELETE')
                     <button class="cart-remove" type="submit">Clear cart</button>

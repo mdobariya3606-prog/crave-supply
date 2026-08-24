@@ -472,7 +472,7 @@
             max-width: 760px;
             margin: 0 0 18px;
             color: var(--ink);
-            font-size: clamp(19px, 3vw, 26px);
+            font-size: 15px;
             line-height: 1.35;
             letter-spacing: -.035em;
         }
@@ -596,6 +596,67 @@
             background: var(--line);
         }
 
+        .customer-orders {
+            margin-top: 28px;
+            padding: 24px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: #fff;
+        }
+
+        .customer-orders-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .customer-orders h2 {
+            margin: 0;
+            color: var(--ink);
+            font-size: 20px;
+            letter-spacing: -.04em;
+        }
+
+        .customer-orders p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .customer-order-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .customer-order-number {
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .customer-order-date {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .customer-order-status {
+            padding: 6px 10px;
+            border-radius: 99px;
+            color: #166534;
+            background: #dcfce7;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
         .service-item {
             padding: 24px;
             background: #fff;
@@ -638,6 +699,13 @@
 
             .premium-proof {
                 grid-template-columns: 1fr;
+            }
+
+            .customer-orders-header,
+            .customer-order-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
             }
 
             .premium-callout {
@@ -689,6 +757,26 @@
                     easier.</span></div>
         </section>
 
+        @if ($customerOrders->isNotEmpty())
+            <section class="customer-orders" aria-labelledby="customer-orders-title">
+                <div class="customer-orders-header">
+                    <div>
+                        <h2 id="customer-orders-title">Your recent orders</h2>
+                        <p>Track the current status of your submitted orders.</p>
+                    </div>
+                </div>
+                @foreach ($customerOrders as $order)
+                    <div class="customer-order-row">
+                        <div>
+                            <span class="customer-order-number">{{ $order->order_number }}</span>
+                            <span class="customer-order-date">{{ $order->created_at->format('M j, Y') }} · ₹{{ number_format($order->total_amount, 2) }}</span>
+                        </div>
+                        <span class="customer-order-status">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span>
+                    </div>
+                @endforeach
+            </section>
+        @endif
+
         <section class="quick-grid" aria-label="Dashboard shortcuts">
             <article class="quick-card">
                 <div class="quick-icon">✦</div>
@@ -716,7 +804,7 @@
                     <h2 id="featured-snacks">Explore our <span>premium range</span></h2>
                     <p>Curated categories for retailers, cafés, offices, and growing teams.</p>
                 </div>
-                <a class="text-link" href="#catalogue">View all →</a>
+                <a class="text-link" href="/products">View all →</a>
             </div>
 
             <div class="snack-grid">
