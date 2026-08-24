@@ -1,0 +1,22 @@
+CraveSupply change notes
+========================
+
+1. feat(theme): apply premium editorial visual system
+   - Added shared cream, brown, caramel, and serif-heading theme styles.
+   - Updated shared header/footer, homepage, catalogue, and product profile styling.
+   - Added local snack hero artwork and improved related-product image cards.
+   - Fixed dark-section text contrast and product availability wording.
+
+2. feat(pages): add About and Contact experiences
+   - Added long-form snack-company About page.
+   - Added responsive Contact page with validation and success feedback.
+   - Added About/Contact navigation and hid Contact links for admins.
+   - Contact submissions are mailed to booknest44@gmail.com.
+
+3. feat(pdf): improve downloadable order bills
+   - Added Dompdf dependency and a redesigned invoice-style PDF template.
+   - Added bill downloads from customer, confirmation, and admin order views.
+
+4. feat(orders): add customer order history page
+   - Added paginated customer Orders page with itemized order cards.
+   - Removed recent orders from the homepage and added Orders navigation.
