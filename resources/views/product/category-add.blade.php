@@ -32,8 +32,8 @@
                         <label for="name">Category name <span class="required">*</span></label>
 
                         {{-- category name --}}
-                        <input id="name" name="name" type="text" value="{{ old('name', $category?->name) }}" maxlength="255"
-                            required placeholder="Beverages">
+                        <div class="input-wrapper"><input id="name" name="name" type="text" value="{{ old('name', $category?->name) }}" maxlength="255"
+                            required placeholder="Beverages"><svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h6"/></svg></div>
                         @error('name')
                             <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
@@ -42,8 +42,8 @@
                         <label for="slug">Slug <span class="required">*</span></label>
 
                         {{-- slug --}}
-                        <input id="slug" name="slug" type="text" value="{{ old('slug', $category?->slug) }}" maxlength="255"
-                            required placeholder="beverages">
+                        <div class="input-wrapper"><input id="slug" name="slug" type="text" value="{{ old('slug', $category?->slug) }}" maxlength="255"
+                            required placeholder="beverages"><svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2a5 5 0 0 0 7.1 7.1l1.2-1.2"/></svg></div>
                         @error('slug')
                             <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
@@ -52,7 +52,7 @@
                         <label for="description">Description</label>
 
                         {{-- description --}}
-                        <textarea id="description" name="description" placeholder="A short description">{{ old('description', $category?->description) }}</textarea>
+                        <div class="input-wrapper"><textarea id="description" name="description" placeholder="A short description">{{ old('description', $category?->description) }}</textarea><svg class="input-icon input-icon-top" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
                         @error('description')
                             <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
