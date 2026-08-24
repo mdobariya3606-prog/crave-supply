@@ -483,6 +483,19 @@
             font-size: 13px;
         }
 
+        .review-product {
+            display: inline-block;
+            margin-top: 7px;
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .review-product:hover {
+            text-decoration: underline;
+        }
+
         .review-controls {
             display: flex;
             align-items: center;
@@ -809,6 +822,7 @@
                     product questions and your next replenishment.</span></div>
         </section>
 
+        @if ($topReviews->isNotEmpty())
         <section class="review-section" aria-labelledby="reviews-title">
             <div class="section-heading">
                 <div>
@@ -819,33 +833,25 @@
 
             <div class="review-slider" aria-live="polite">
                 <div class="review-track" id="reviewTrack">
-                    <article class="review-card">
-                        <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                        <blockquote>“CraveSupply makes our weekly office restock feel effortless. We find what we need
-                            and get back to work.”</blockquote>
-                        <p class="review-author">Priya Shah · Office manager, Northstar Studio</p>
-                    </article>
-                    <article class="review-card">
-                        <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                        <blockquote>“The range is thoughtful, the ordering is simple, and our team always notices when
-                            the snack shelf is full.”</blockquote>
-                        <p class="review-author">Daniel Brooks · Founder, Field &amp; Form</p>
-                    </article>
-                    <article class="review-card">
-                        <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                        <blockquote>“It feels like having a reliable local supplier in our pocket. Clear choices, quick
-                            decisions, no fuss.”</blockquote>
-                        <p class="review-author">Maya Chen · Operations lead, Common Ground</p>
-                    </article>
+                    @foreach ($topReviews as $review)
+                        <article class="review-card">
+                            <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</div>
+                            <blockquote>“{{ $review->comment }}”</blockquote>
+                            <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
+                            @if ($review->product)
+                                <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed: {{ $review->product->name }}</a>
+                            @endif
+                        </article>
+                    @endforeach
                 </div>
             </div>
 
             <div class="review-controls">
                 <div class="review-dots" aria-label="Choose a review">
-                    <button class="review-dot active" type="button" aria-label="Show review 1"
-                        aria-current="true"></button>
-                    <button class="review-dot" type="button" aria-label="Show review 2"></button>
-                    <button class="review-dot" type="button" aria-label="Show review 3"></button>
+                    @foreach ($topReviews as $index => $review)
+                        <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
+                            aria-label="Show review {{ $index + 1 }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
+                    @endforeach
                 </div>
                 <div class="review-buttons">
                     <button class="review-button" id="reviewPrevious" type="button"
@@ -854,6 +860,7 @@
                 </div>
             </div>
         </section>
+        @endif
     </main>
 
     @include('layouts.footer')
@@ -882,6 +889,7 @@
             const previous = document.getElementById('reviewPrevious');
             const next = document.getElementById('reviewNext');
             const reviewSection = document.querySelector('.review-section');
+            if (!track || !previous || !next || !reviewSection || dots.length === 0) return;
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let current = 0;
             let autoplay = null;

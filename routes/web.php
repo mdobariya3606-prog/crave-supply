@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,7 +13,17 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', [
+        'topReviews' => Review::query()
+            ->where('is_approved', true)
+            ->whereNotNull('comment')
+            ->where('comment', '!=', '')
+            ->with(['product', 'user'])
+            ->orderByDesc('rating')
+            ->latest()
+            ->take(6)
+            ->get(),
+    ]);
 })->name('dashboard');
 
 Route::middleware('auth')->group(function () {
