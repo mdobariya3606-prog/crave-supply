@@ -46,7 +46,7 @@
             align-items: start;
         }
 
-        .product-main > * {
+        .product-main>* {
             min-width: 0;
         }
 
@@ -392,6 +392,67 @@
             gap: 12px;
         }
 
+        .review-pagination {
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .review-pagination nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-pagination nav > div:first-child {
+            display: none;
+        }
+
+        .review-pagination nav > div:last-child > span,
+        .review-pagination nav > div:last-child > a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-pagination a,
+        .review-pagination span[aria-current="page"] span,
+        .review-pagination span[aria-disabled="true"] span {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--profile-line);
+            border-radius: 8px;
+            color: var(--profile-ink);
+            background: #fff;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .review-pagination a:hover {
+            border-color: var(--profile-blue);
+            color: var(--profile-blue);
+        }
+
+        .review-pagination span[aria-current="page"] span {
+            border-color: var(--profile-blue);
+            color: #fff;
+            background: var(--profile-blue);
+        }
+
+        .review-pagination span[aria-disabled="true"] span {
+            color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .review-pagination svg {
+            width: 14px;
+            height: 14px;
+        }
+
         .review-item {
             padding: 18px;
             border: 1px solid var(--profile-line);
@@ -693,7 +754,7 @@
     @include('layouts.header')
     <main class="product-profile">
         @if (session('success'))
-            <div class="review-message" role="status">{{ session('success') }}</div>
+        <div class="review-message" role="status">{{ session('success') }}</div>
         @endif
 
         <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
@@ -703,11 +764,11 @@
                 <div class="gallery-main">
                     <div class="gallery-track" data-gallery-track>
                         @forelse ($product->productImages as $index => $image)
-                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                        <img src="{{ asset('storage/' . $image->image_path) }}"
+                            alt="{{ $product->name }} view {{ $index + 1 }}">
                         @empty
-                            <img src="{{ asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }} product image">
+                        <img src="{{ asset('images/product-placeholder.svg') }}"
+                            alt="{{ $product->name }} product image">
                         @endforelse
                     </div>
                     <button class="gallery-arrow previous" type="button" data-gallery-previous
@@ -717,17 +778,17 @@
                 </div>
                 <div class="gallery-thumbs">
                     @foreach ($product->productImages as $index => $image)
-                        <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
-                            data-gallery-thumb="{{ $index }}">
-                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}">
-                        </button>
+                    <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
+                        data-gallery-thumb="{{ $index }}">
+                        <img src="{{ asset('storage/' . $image->image_path) }}"
+                            alt="{{ $product->name }} view {{ $index + 1 }}">
+                    </button>
                     @endforeach
                     @if ($product->productImages->isEmpty())
-                        <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
-                            <img src="{{ asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }} placeholder">
-                        </button>
+                    <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
+                        <img src="{{ asset('images/product-placeholder.svg') }}"
+                            alt="{{ $product->name }} placeholder">
+                    </button>
                     @endif
                 </div>
             </div>
@@ -739,7 +800,8 @@
                     {{ $product->description ?: 'A thoughtfully selected premium product for your business and shared spaces.' }}
                 </p>
                 <div class="rating-summary"><span
-                        class="stars">★★★★★</span><span>{{ number_format((float) $product->reviews->avg('rating'), 1) }}
+                        class="stars"><?php $avgRating = (int) $product->reviews->avg('rating'); ?>
+                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span>{{ number_format((float) $product->reviews->avg('rating'), 1) }}
                         from {{ $product->reviews->count() }} reviews</span></div>
                 <div class="price-row"><span
                         class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
@@ -760,25 +822,25 @@
                     </div>
                 </dl>
                 @if (auth()->user()?->role === 'admin')
-                    <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
-                        href="{{ route('products.edit', $product) }}">Edit product</a>
+                <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
+                    href="{{ route('products.edit', $product) }}">Edit product</a>
                 @endif
                 @if ($product->is_available && $product->stock > 0)
-                    @if (auth()->user()?->role === 'customer')
-                        <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
-                            @csrf
-                            <label for="quantity">Quantity</label>
-                            <input id="quantity" name="quantity" type="number" min="1"
-                                max="{{ $product->stock }}" value="1">
-                            @error('quantity', 'order')
-                                <span class="order-error" role="alert">{{ $message }}</span>
-                            @enderror
-                            <button class="review-submit" type="submit">Add to Order</button>
-                        </form>
-                    @endif
+                @if (!auth()->check() || auth()->user()?->role === 'customer')
+                <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
+                    @csrf
+                    <label for="quantity">Quantity</label>
+                    <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
+                            max="{{ $product->stock }}" value="1"></div>
+                    @error('quantity', 'order')
+                    <span class="order-error" role="alert">{{ $message }}</span>
+                    @enderror
+                    <button class="review-submit" type="submit">Add to Order</button>
+                </form>
+                @endif
                 @else
-                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
-                        stock</span>
+                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
+                    stock</span>
                 @endif
             </div>
         </section>
@@ -827,73 +889,77 @@
                             {{ $product->reviews->count() ? number_format((float) $product->reviews->avg('rating'), 1) : '—' }}
                         </div>
                         <div class="stars">
-                            <?php $avgRating = (int) $product->reviews->avg('rating'); ?>
                             {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
                         </div>
                         <p class="review-note">{{ $product->reviews->count() }} verified
                             review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
                     @auth
-                        @if (session('review_success'))
-                            <div class="review-message" role="status">{{ session('review_success') }}</div>
-                        @endif
-                        <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
-                            @csrf
-                            <h3>Share your experience</h3>
-                            <label for="rating">Your rating</label>
-                            <select id="rating" name="rating" required>
+                    @if (session('review_success'))
+                    <div class="review-message" role="status">{{ session('review_success') }}</div>
+                    @endif
+                    <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
+                        @csrf
+                        <h3>Share your experience</h3>
+                        <label for="rating">Your rating</label>
+                        <div class="input-wrapper"><select id="rating" name="rating" required>
                                 <option value="">Select a rating</option>
                                 <option value="5">★★★★★ Excellent</option>
                                 <option value="4">★★★★☆ Very good</option>
                                 <option value="3">★★★☆☆ Good</option>
                                 <option value="2">★★☆☆☆ Fair</option>
                                 <option value="1">★☆☆☆☆ Needs improvement</option>
-                            </select>
-                            <label for="comment">Review</label>
-                            <textarea id="comment" name="comment" maxlength="1000" placeholder="Tell us about the product..."></textarea>
-                            <button class="review-submit" type="submit">Submit review</button>
-                        </form>
+                            </select></div>
+                        <label for="comment">Review</label>
+                        <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000" placeholder="Tell us about the product..."></textarea></div>
+                        <button class="review-submit" type="submit">Submit review</button>
+                    </form>
                     @else
-                        <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
+                    <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
                     @endauth
                 </div>
                 <div class="review-list">
-                    @forelse ($product->reviews as $review)
-                        <article class="review-item">
-                            <header>
-                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
-                            </header>
-                            <div class="stars">
-                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                            </div>
-                            @if ($review->comment)
-                                <p>{{ $review->comment }}</p>
-                            @endif
-                        </article>
+                    @forelse ($reviews as $review)
+                    <article class="review-item">
+                        <header>
+                            <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
+                        </header>
+                        <div class="stars">
+                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                        </div>
+                        @if ($review->comment)
+                        <p>{{ $review->comment }}</p>
+                        @endif
+                    </article>
                     @empty
-                        <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
+                    <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
                     @endforelse
+                    @if ($reviews->hasPages())
+                    <nav class="review-pagination" aria-label="Reviews pagination">
+                        {{ $reviews->links() }}
+                    </nav>
+                    @endif
                 </div>
             </div>
         </section>
 
         @if ($relatedProducts->isNotEmpty())
-            <section class="related-section" aria-labelledby="related-title">
-                <div class="section-title">
-                    <div>
-                        <h2 id="related-title">You may also like</h2>
-                        <p>More premium products from this collection.</p>
-                    </div>
+        <section class="related-section" aria-labelledby="related-title">
+            <div class="section-title">
+                <div>
+                    <h2 id="related-title">You may also like</h2>
+                    <p>More premium products from this collection.</p>
                 </div>
-                <div class="related-grid">
-                    @foreach ($relatedProducts as $relatedProduct)
-                        <a class="related-card" href="{{ route('products.profile', $relatedProduct) }}">
-                            <h3>{{ $relatedProduct->name }}</h3>
-                            <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
-                        </a>
-                    @endforeach
-                </div>
-            </section>
+            </div>
+            <div class="related-grid">
+                @foreach ($relatedProducts as $relatedProduct)
+                <a class="related-card" href="{{ route('products.profile', $relatedProduct) }}">
+                    <h3>{{ $relatedProduct->name }}</h3>
+                    <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
+                </a>
+                @endforeach
+            </div>
+        </section>
         @endif
     </main>
     @include('layouts.footer')
@@ -903,7 +969,7 @@
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
             const images = @json(
-                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
+                $product->productImages->map(fn($image) => asset('storage/'.$image->image_path))->values()->all() ? : [
                     asset('images/product-placeholder.svg'),
                 ]
             );

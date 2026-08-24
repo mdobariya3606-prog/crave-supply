@@ -16,8 +16,16 @@ class ProductProfileController extends Controller
             'reviews' => fn ($query) => $query->where('is_approved', true)->with('user')->latest(),
         ]);
 
+        $reviews = $product->reviews()
+            ->where('is_approved', true)
+            ->with('user')
+            ->latest()
+            ->paginate(4)
+            ->withQueryString();
+
         return view('product.profile', [
             'product' => $product,
+            'reviews' => $reviews,
             'relatedProducts' => Product::where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->where('is_available', true)
