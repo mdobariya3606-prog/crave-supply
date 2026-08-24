@@ -23,7 +23,6 @@ class ProfileRequest extends FormRequest
             'business_address' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user)],
             'phone' => ['nullable', 'regex:/^[7-9][0-9]{9}$/', Rule::unique('users', 'phone')->ignore($user)],
-            'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
         ];
     }
 }
