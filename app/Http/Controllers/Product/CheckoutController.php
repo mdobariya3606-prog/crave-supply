@@ -10,9 +10,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
+    public function orders(Request $request)
+    {
+        $this->customer($request);
+
+        $orders = Order::where('user_id', $request->user()->id)
+            ->with('orderItems')
+            ->latest()
+            ->paginate(10);
+
+        return view('orders.index', compact('orders'));
+    }
+
     public function review(Request $request)
     {
         $this->customer($request);
@@ -93,6 +106,16 @@ class CheckoutController extends Controller
         $order->load(['orderItems', 'orderStatusHistories' => fn ($query) => $query->latest()]);
 
         return view('orders.confirmation', compact('order'));
+    }
+
+    public function bill(Request $request, Order $order)
+    {
+        abort_unless($request->user()->id === $order->user_id || $request->user()->role === 'admin', 403);
+        $order->load(['user', 'orderItems']);
+
+        return Pdf::loadView('orders.bill', compact('order'))
+            ->setPaper('a4')
+            ->download('cravesupply-' . $order->order_number . '-bill.pdf');
     }
 
     private function customer(Request $request): void

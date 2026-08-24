@@ -178,6 +178,7 @@
                                 <summary>History</summary>
                                 <ul class="history">@foreach($order->orderStatusHistories->sortBy('created_at') as $history)<li>{{ $history->created_at->format('M j, g:i A') }} — {{ ucwords(str_replace('_', ' ', $history->status->value)) }}</li>@endforeach</ul>
                             </details>
+                            <a href="{{ route('orders.bill', $order) }}" style="display:inline-block;margin-top:8px;color:#2563eb;font-size:12px;font-weight:700;text-decoration:none">Download bill (PDF)</a>
                         </td>
                     </tr>
                     @empty

@@ -34,7 +34,8 @@
                 @endforeach
             </ul>
             <p><strong>Total:</strong> ₹{{ number_format($order->total_amount, 2) }}</p>
-            <a class="button" href="{{ route('dashboard') }}">View order status on dashboard</a>
+            <a class="button" href="{{ route('orders.bill', $order) }}">Download bill (PDF)</a>
+            <a class="button" href="{{ route('orders.index') }}">View my orders</a>
         </section>
     </main>
     @include('layouts.footer')
