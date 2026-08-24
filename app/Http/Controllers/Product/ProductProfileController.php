@@ -12,6 +12,7 @@ class ProductProfileController extends Controller
     {
         $product->load([
             'category',
+            'productImages',
             'reviews' => fn ($query) => $query->where('is_approved', true)->with('user')->latest(),
         ]);
 

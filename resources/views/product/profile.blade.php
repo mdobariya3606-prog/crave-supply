@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $product->name }} — CraveSupply</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+
     <style>
         :root {
             --profile-ink: #1e293b;
@@ -43,20 +42,34 @@
         .gallery {
             position: sticky;
             top: 102px;
+            width: min(100%, 430px);
+            margin-inline: auto;
         }
 
         .gallery-main {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
-            border-radius: 24px;
-            background: #eef4f8;
+            aspect-ratio: 4 / 3;
+            max-height: 325px;
+            border-radius: 14px;
+            background: #f1f5f4;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .08);
         }
 
-        .gallery-main img {
-            display: block;
+        .gallery-track {
+            display: flex;
             width: 100%;
             height: 100%;
+            transition: transform .65s cubic-bezier(.22, .61, .36, 1);
+            will-change: transform;
+        }
+
+        .gallery-track img {
+            display: block;
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            padding: 0;
             object-fit: cover;
         }
 
@@ -87,15 +100,19 @@
         }
 
         .gallery-thumbs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             gap: 10px;
             margin-top: 12px;
+            padding: 2px 1px 5px;
+            overflow-x: auto;
+            overscroll-behavior-inline: contain;
+            scrollbar-width: thin;
         }
 
         .gallery-thumb {
             overflow: hidden;
             padding: 0;
+            flex: 0 0 84px;
             border: 2px solid transparent;
             border-radius: 12px;
             background: #eef4f8;
@@ -111,6 +128,7 @@
             width: 100%;
             aspect-ratio: 1;
             object-fit: cover;
+            padding: 0;
         }
 
         .product-info {
@@ -414,6 +432,18 @@
             font-size: 12px;
         }
 
+        .order-error {
+            display: block;
+            margin: -4px 0 12px;
+            padding: 10px 12px;
+            border: 1px solid #fecaca;
+            border-radius: 9px;
+            color: #991b1b;
+            background: #fef2f2;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
         .related-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -456,7 +486,9 @@
         }
 
         @media (max-width: 640px) {
-            .service-highlights { grid-template-columns: 1fr; }
+            .service-highlights {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 520px) {
@@ -475,30 +507,43 @@
 <body>
     @include('layouts.header')
     <main class="product-profile">
+        @if (session('success'))
+            <div class="review-message" role="status">{{ session('success') }}</div>
+        @endif
+
         <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
 
         <section class="product-main" aria-labelledby="product-title">
             <div class="gallery" data-gallery>
                 <div class="gallery-main">
-                    <img data-gallery-image src="https://images.unsplash.com/photo-1651761101898-9ca160ae2565?auto=format&fit=crop&w=1200&q=85"
-                        alt="{{ $product->name }} product image">
+                    <div class="gallery-track" data-gallery-track>
+                        @forelse ($product->productImages as $index => $image)
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                        @empty
+                            <img src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} product image">
+                        @endforelse
+                    </div>
                     <button class="gallery-arrow previous" type="button" data-gallery-previous
                         aria-label="Previous image">‹</button>
                     <button class="gallery-arrow next" type="button" data-gallery-next
                         aria-label="Next image">›</button>
                 </div>
                 <div class="gallery-thumbs">
-                    @foreach ([
-                        'https://images.unsplash.com/photo-1651761101898-9ca160ae2565?auto=format&fit=crop&w=600&q=85',
-                        'https://images.unsplash.com/photo-1750378626882-b6598228d724?auto=format&fit=crop&w=600&q=85',
-                        'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI2LTAxL3Jhd3BpeGVsb2ZmaWNlNF9jb2ZmZWVfYm90dGxlX3dpdGhfd2hpdGVfbGFiZWxfbW9ja3VwX3RoZV9kZXNpZ190OTljYmI3ZS02Y2Q2LTQ1M2MtODZiZC03MWE1ZGM4NzkyZTdfMS5qcGc.jpg'
-                    ] as $index => $image)
+                    @foreach ($product->productImages as $index => $image)
                         <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
                             data-gallery-thumb="{{ $index }}">
-                            <img src="{{ $image }}"
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
                                 alt="{{ $product->name }} view {{ $index + 1 }}">
                         </button>
                     @endforeach
+                    @if ($product->productImages->isEmpty())
+                        <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
+                            <img src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} placeholder">
+                        </button>
+                    @endif
                 </div>
             </div>
 
@@ -513,7 +558,7 @@
                         from {{ $product->reviews->count() }} reviews</span></div>
                 <div class="price-row"><span
                         class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
-                        class="availability{{ !$product->is_available ? ' unavailable' : '' }}">{{ $product->is_available ? 'In stock' : 'Currently unavailable' }}</span>
+                        class="availability{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'In stock' : 'Out of stock' }}</span>
                 </div>
                 <dl class="detail-list">
                     <div>
@@ -529,22 +574,54 @@
                         <dd>{{ $product->category?->name ?: 'Premium collection' }}</dd>
                     </div>
                 </dl>
+                @if (auth()->user()?->role === 'admin')
+                    <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
+                        href="{{ route('products.edit', $product) }}">Edit product</a>
+                @endif
+                @if ($product->is_available && $product->stock > 0)
+                    @if (auth()->user()?->role === 'customer')
+                        <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
+                            @csrf
+                            <label for="quantity">Quantity</label>
+                            <input id="quantity" name="quantity" type="number" min="1"
+                                max="{{ $product->stock }}" value="1">
+                            @error('quantity', 'order')
+                                <span class="order-error" role="alert">{{ $message }}</span>
+                            @enderror
+                            <button class="review-submit" type="submit">Add to Order</button>
+                        </form>
+                    @endif
+                @else
+                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
+                        stock</span>
+                @endif
             </div>
         </section>
 
         <section class="service-highlights" aria-label="CraveSupply service benefits">
             <article class="service-highlight">
-                <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 38 10v11c0 9-5.8 17.2-14 21-8.2-3.8-14-12-14-21V10l14-6Z"/><path d="m17 24 5 5 10-11"/></svg>
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M24 4 38 10v11c0 9-5.8 17.2-14 21-8.2-3.8-14-12-14-21V10l14-6Z" />
+                    <path d="m17 24 5 5 10-11" />
+                </svg>
                 <strong>Curated quality</strong>
                 <span>Selected for dependable everyday use</span>
             </article>
             <article class="service-highlight">
-                <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M11 18h26v22H11z"/><path d="M17 18v-5h14v5M20 27h8M24 23v8"/><path d="M8 24H4m4-6-3-3m3 12-3 3"/></svg>
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M11 18h26v22H11z" />
+                    <path d="M17 18v-5h14v5M20 27h8M24 23v8" />
+                    <path d="M8 24H4m4-6-3-3m3 12-3 3" />
+                </svg>
                 <strong>Simple returns</strong>
                 <span>Easy support when plans change</span>
             </article>
             <article class="service-highlight">
-                <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 31h25V16H5zM30 23h7l6 6v2H30zM12 37a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm25 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M35 16V9m-4 4 4-4 4 4"/></svg>
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <path
+                        d="M5 31h25V16H5zM30 23h7l6 6v2H30zM12 37a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm25 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+                    <path d="M35 16V9m-4 4 4-4 4 4" />
+                </svg>
                 <strong>Reliable delivery</strong>
                 <span>Carefully packed for your business</span>
             </article>
@@ -564,7 +641,10 @@
                         <div class="review-score">
                             {{ $product->reviews->count() ? number_format((float) $product->reviews->avg('rating'), 1) : '—' }}
                         </div>
-                        <div class="stars">★★★★★</div>
+                        <div class="stars">
+                            <?php $avgRating = (int) $product->reviews->avg('rating'); ?>
+                            {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
+                        </div>
                         <p class="review-note">{{ $product->reviews->count() }} verified
                             review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
@@ -599,7 +679,8 @@
                                 <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
                             </header>
                             <div class="stars">
-                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</div>
+                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                            </div>
                             @if ($review->comment)
                                 <p>{{ $review->comment }}</p>
                             @endif
@@ -636,22 +717,60 @@
         (() => {
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
-            const images = [
-                'https://images.unsplash.com/photo-1651761101898-9ca160ae2565?auto=format&fit=crop&w=1200&q=85',
-                'https://images.unsplash.com/photo-1750378626882-b6598228d724?auto=format&fit=crop&w=1200&q=85',
-                'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI2LTAxL3Jhd3BpeGVsb2ZmaWNlNF9jb2ZmZWVfYm90dGxlX3dpdGhfd2hpdGVfbGFiZWxfbW9ja3VwX3RoZV9kZXNpZ190OTljYmI3ZS02Y2Q2LTQ1M2MtODZiZC03MWE1ZGM4NzkyZTdfMS5qcGc.jpg'
-            ];
-            const image = gallery.querySelector('[data-gallery-image]');
+            const images = @json(
+                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
+                    asset('images/product-placeholder.svg'),
+                ]
+            );
+            const track = gallery.querySelector('[data-gallery-track]');
             const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
             let current = 0;
+            let timer;
+            if (images.length > 1) track.appendChild(track.firstElementChild.cloneNode(true));
             const show = (index) => {
-                current = (index + images.length) % images.length;
-                image.src = images[current];
+                const next = (index + images.length) % images.length;
+                const isForwardWrap = current === images.length - 1 && next === 0;
+                current = next;
+                track.style.transform = 'translateX(-' + ((isForwardWrap ? images.length : current) * 100) + '%)';
+                if (isForwardWrap) {
+                    window.setTimeout(() => {
+                        track.style.transition = 'none';
+                        track.style.transform = 'translateX(0)';
+                        window.requestAnimationFrame(() => track.style.transition = '');
+                    }, 650);
+                }
                 thumbs.forEach((thumb, thumbIndex) => thumb.classList.toggle('active', thumbIndex === current));
             };
-            gallery.querySelector('[data-gallery-previous]').addEventListener('click', () => show(current - 1));
-            gallery.querySelector('[data-gallery-next]').addEventListener('click', () => show(current + 1));
-            thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => show(index)));
+            const restart = () => {
+                window.clearInterval(timer);
+                if (images.length > 1) timer = window.setInterval(() => show(current + 1), 5000);
+            };
+            gallery.querySelector('[data-gallery-previous]').addEventListener('click', () => {
+                show(current - 1);
+                restart();
+            });
+            gallery.querySelector('[data-gallery-next]').addEventListener('click', () => {
+                show(current + 1);
+                restart();
+            });
+            thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => {
+                show(index);
+                restart();
+            }));
+            gallery.addEventListener('mouseenter', () => window.clearInterval(timer));
+            gallery.addEventListener('mouseleave', restart);
+            gallery.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowLeft') {
+                    show(current - 1);
+                    restart();
+                }
+                if (event.key === 'ArrowRight') {
+                    show(current + 1);
+                    restart();
+                }
+            });
+            gallery.tabIndex = 0;
+            restart();
         })();
     </script>
 </body>

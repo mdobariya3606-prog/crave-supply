@@ -11,10 +11,18 @@
     font-family: 'Inter';
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .site-header {
     position: sticky;
     top: 0;
     z-index: 10;
+    height: 70px;
+    box-sizing: border-box;
     border-bottom: 1px solid rgba(226, 232, 240, .9);
     background: rgba(255, 255, 255, .94);
     backdrop-filter: blur(14px);
@@ -22,9 +30,10 @@
 
 .nav-wrap {
     width: min(1180px, calc(100% - 40px));
-    min-height: 70px;
+    height: 70px;
     margin: auto;
-    padding: 16px 0;
+    padding: 0;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 28px;
@@ -173,7 +182,8 @@
 .footer-links { display: flex; gap: 20px; color: var(--layout-muted); font-size: 12px; font-weight: 600; }
 
 @media (max-width: 760px) {
-    .nav-wrap { padding: 13px 0; }
+    .site-header,
+    .nav-wrap { height: 60px; }
     .nav-links { display: none; }
     .user-menu span:first-child { display: none; }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 18px; }

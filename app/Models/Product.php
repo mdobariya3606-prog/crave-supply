@@ -36,7 +36,7 @@ class Product extends Model
 
     public function productImages()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class)->orderBy('is_primary', 'desc')->orderBy('sort_order');
     }
 
     public function reviews()

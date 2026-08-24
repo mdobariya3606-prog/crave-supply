@@ -217,6 +217,15 @@
             font-weight: 700;
         }
 
+        .product-index-image {
+            width: 52px;
+            height: 52px;
+            display: block;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #eef4f8;
+        }
+
         .product-meta {
             display: block;
             margin-top: 4px;
@@ -369,6 +378,7 @@
                     <table class="products-table">
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Product</th>
                                 <th>Category</th>
                                 <th>Price</th>
@@ -379,13 +389,19 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
-                                    <td><a class="product-name" href="{{ route('products.profile', $product) }}">{{ $product->name }}</a><span
+                                    <td>
+                                        <img class="product-index-image"
+                                            src="{{ $product->productImages->first() ? asset('storage/'.$product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                            alt="{{ $product->name }}">
+                                    </td>
+                                    <td><a class="product-name"
+                                            href="{{ route('products.profile', $product) }}">{{ $product->name }}</a><span
                                             class="product-meta">{{ $product->sku ?: $product->slug }}</span></td>
                                     <td>{{ $product->category?->name ?: 'Uncategorised' }}</td>
                                     <td>₹{{ number_format((float) $product->price, 2) }}</td>
                                     <td>{{ number_format($product->stock) }}</td>
                                     <td><span
-                                            class="status-pill{{ !$product->is_available ? ' unavailable' : '' }}">{{ $product->is_available ? 'Available' : 'Unavailable' }}</span>
+                                            class="status-pill{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
                                     </td>
                                 </tr>
                             @endforeach

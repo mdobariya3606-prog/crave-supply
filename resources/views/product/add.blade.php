@@ -28,7 +28,7 @@
                 <div class="alert-error" role="alert">Please correct the highlighted fields and try again.</div>
             @endif
 
-            <form action="{{ route('products.add') }}" method="POST">
+            <form action="{{ route('products.add') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-grid">
                     <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
@@ -84,6 +84,14 @@
                         <textarea id="description" name="description" rows="5"
                             placeholder="Describe the product...">{{ old('description') }}</textarea>
                         @error('description')<div class="error-text is-visible"><span>{{ $message }}</span></div>@enderror
+                    </div>
+
+                    <div class="form-group full-width{{ $errors->has('images') ? ' has-error' : '' }}">
+                        <label for="images">Product images</label>
+                        <input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                        <small>Upload up to 8 images. The first image becomes the primary image.</small>
+                        @error('images')<div class="error-text is-visible"><span>{{ $message }}</span></div>@enderror
+                        @error('images.*')<div class="error-text is-visible"><span>{{ $message }}</span></div>@enderror
                     </div>
 
                     <div class="form-group full-width">
