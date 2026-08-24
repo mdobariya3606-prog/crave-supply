@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 *,
 *::before,
 *::after {
@@ -152,6 +154,37 @@ body::after {
     border-radius: 12px;
     font-size: 13px;
 }
+.auth-snack-note {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: -10px 0 24px;
+    padding: 10px;
+    border: 1px solid #e7e4d9;
+    border-radius: 14px;
+    background: #fbfaf6;
+}
+.auth-snack-note img {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.auth-snack-note strong,
+.auth-snack-note span {
+    display: block;
+}
+.auth-snack-note strong {
+    margin-bottom: 3px;
+    color: var(--ink);
+    font-size: 12px;
+}
+.auth-snack-note span {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.45;
+}
 
 .form-grid {
     display: grid;
@@ -180,7 +213,8 @@ body::after {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     border: 1.5px solid var(--line);
     border-radius: 12px;
@@ -202,12 +236,17 @@ body::after {
     padding: 12px 14px 12px 44px;
     resize: vertical;
 }
+.form-group select {
+    height: 48px;
+    padding: 12px 14px;
+}
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: var(--muted);
 }
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     border-color: var(--blue);
     background: #fff;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
@@ -328,7 +367,7 @@ body::after {
 
 .btn-submit {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 20px;
     padding: 14px 24px;
     border: 0;
     border-radius: 12px;
@@ -348,6 +387,7 @@ body::after {
 .btn-submit:active {
     transform: translateY(0);
 }
+
 .form-footer {
     margin-top: 24px;
     padding-top: 20px;

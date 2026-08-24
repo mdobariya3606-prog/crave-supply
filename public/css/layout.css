@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 :root {
     --layout-navy: #133458;
     --layout-blue: #3b82f6;
     --layout-ink: #1e293b;
     --layout-muted: #64748b;
     --layout-line: #e2e8f0;
+}
+
+* {
+    font-family: 'Inter';
 }
 
 .site-header {
