@@ -81,6 +81,12 @@
             text-transform: uppercase;
         }
 
+        .order-table a {
+            color: #8d6c4a;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
         .item-list {
             margin: 0;
             padding-left: 16px;
@@ -94,9 +100,27 @@
             gap: 7px;
         }
 
-        .order-filters { display:flex; gap:10px; margin:20px 0; }
-        .order-filters input, .order-filters select { min-height:38px; padding:0 11px; border:1px solid #ded4c8; background:#fffdf9; }
-        .order-filters button { padding:0 15px; border:0; color:#fff; background:#2c2722; cursor:pointer; }
+        .order-filters {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .order-filters input,
+        .order-filters select {
+            min-height: 38px;
+            padding: 0 11px;
+            border: 1px solid #ded4c8;
+            background: #fffdf9;
+        }
+
+        .order-filters button {
+            padding: 0 15px;
+            border: 0;
+            color: #fff;
+            background: #2c2722;
+            cursor: pointer;
+        }
 
         select,
         button {
@@ -108,7 +132,7 @@
             font-size: 12px;
         }
 
-        .btn-save{
+        .btn-save {
             border: 0;
             color: #fff;
             background: #133458;
@@ -146,15 +170,22 @@
     <main class="admin-orders">
         <h1>Orders</h1>
         <p class="intro">Review new customer orders and update their fulfilment status.</p>
-        @if(session('success'))<div class="notice">{{ session('success') }}</div>@endif
-        @if($errors->any())<div class="error-notice">{{ $errors->first('status') }}</div>@endif
+        @if(session('success'))
+        <div class="notice">{{ session('success') }}</div>@endif
+        @if($errors->any())
+        <div class="error-notice">{{ $errors->first('status') }}</div>@endif
         <form class="order-filters" method="GET">
             <input name="q" value="{{ $search }}" placeholder="Search order or customer">
-            <select name="status"><option value="">All statuses</option>@foreach($statuses as $status)<option value="{{ $status->value }}" @selected($selectedStatus === $status->value)>{{ ucwords(str_replace('_', ' ', $status->value)) }}</option>@endforeach</select>
+            <select name="status">
+                <option value="">All statuses</option>@foreach($statuses as $status)
+                    <option value="{{ $status->value }}" @selected($selectedStatus === $status->value)>
+                        {{ ucwords(str_replace('_', ' ', $status->value)) }}
+                </option>@endforeach
+            </select>
             <button type="submit">Filter</button>
         </form>
         <div class="orders-table-wrap">
-            <table>
+            <table class="order-table">
                 <thead>
                     <tr>
                         <th>Order</th>
@@ -166,39 +197,57 @@
                 </thead>
                 <tbody>
                     @forelse($orders as $order)
-                    <tr>                                                                               {{-- Aug 24, 2026 8:11 AM --}}
-                        <td><strong>{{ $order->order_number }}</strong><br><small>{{ $order->created_at->format('M j, Y g:i A') }}</small></td>
-                        <td>{{ $order->user?->name ?: 'Customer' }}<br><small>{{ $order->user?->email }}</small></td>
-                        <td>
-                            <ul class="item-list">@foreach($order->orderItems as $item)<li>{{ $item->product_name }} × {{ $item->quantity }}</li>@endforeach</ul>
-                        </td>
-                        <td>₹{{ number_format($order->total_amount, 2) }}</td>
-                        <td>
-                            <form class="status-form" action="{{ route('admin.orders.status', $order) }}" method="POST">@csrf @method('PUT')
-                                <select name="status">
-                                    <option value="{{ $order->status->value }}">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</option>
-                                    @foreach($order->status->nextStatuses() as $status)
-                                    <option value="{{ $status->value }}">{{ ucwords(str_replace('_', ' ', $status->value)) }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="btn-save">Save</button>
-                            </form>
-                            <details>
-                                <summary>History</summary>
-                                <ul class="history">@foreach($order->orderStatusHistories->sortBy('created_at') as $history)<li>{{ $history->created_at->format('M j, g:i A') }} — {{ ucwords(str_replace('_', ' ', $history->status->value)) }}</li>@endforeach</ul>
-                            </details>
-                            <a href="{{ route('orders.bill', $order) }}" style="display:inline-block;margin-top:8px;color:#2563eb;font-size:12px;font-weight:700;text-decoration:none">Download bill (PDF)</a>
-                        </td>
-                    </tr>
+                        <tr> {{-- Aug 24, 2026 8:11 AM --}}
+                            <td><strong>{{ $order->order_number }}</strong><br><small>{{ $order->created_at->format('M j, Y g:i A') }}</small>
+                            </td>
+                            <td><a
+                                    href="{{ route('admin.customers.show', $order->user) }}">{{ $order->user?->name ?: 'Customer' }}</a><br><small>{{ $order->user?->email }}</small>
+                            </td>
+                            <td>
+                                <ul class="item-list">@foreach($order->orderItems as $item)
+                                <li>{{ $item->product_name }} × {{ $item->quantity }}</li>@endforeach
+                                </ul>
+                            </td>
+                            <td>₹{{ number_format($order->total_amount, 2) }}</td>
+                            <td>
+                                <form class="status-form" action="{{ route('admin.orders.status', $order) }}" method="POST">
+                                    @csrf @method('PUT')
+                                    <select name="status">
+                                        <option value="{{ $order->status->value }}">
+                                            {{ ucwords(str_replace('_', ' ', $order->status->value)) }}
+                                        </option>
+                                        @foreach($order->status->nextStatuses() as $status)
+                                            <option value="{{ $status->value }}">
+                                                {{ ucwords(str_replace('_', ' ', $status->value)) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn-save">Save</button>
+                                </form>
+                                <details>
+                                    <summary>History</summary>
+                                    <ul class="history">
+                                        @foreach($order->orderStatusHistories->sortBy('created_at') as $history)
+                                            <li>{{ $history->created_at->format('M j, g:i A') }} —
+                                                {{ ucwords(str_replace('_', ' ', $history->status->value)) }}
+                                        </li>@endforeach
+                                    </ul>
+                                </details>
+                                <a href="{{ route('orders.bill', $order) }}"
+                                    style="display:inline-block;margin-top:8px;color:#2563eb;font-size:12px;font-weight:700;text-decoration:none">Download
+                                    bill (PDF)</a>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="5">No orders have been submitted yet.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="5">No orders have been submitted yet.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-        @if($orders->hasPages())<div style="margin-top:20px">{{ $orders->links() }}</div>@endif
+        @if($orders->hasPages())
+        <div style="margin-top:20px">{{ $orders->links() }}</div>@endif
     </main>
     @include('layouts.footer')
 </body>
