@@ -31,3 +31,15 @@
         </div>
     </div>
 </footer>
+<script>
+    document.querySelectorAll('form[action*="contact"], form[action*="/messages/"]').forEach(form => {
+        form.addEventListener('submit', () => {
+            const button = form.querySelector('button[type="submit"]');
+            if (!button || button.disabled) return;
+
+            button.disabled = true;
+            button.classList.add('mail-submit', 'is-sending');
+            button.innerHTML = '<span class="mail-submit-spinner" aria-hidden="true"></span>Sending…';
+        });
+    });
+</script>

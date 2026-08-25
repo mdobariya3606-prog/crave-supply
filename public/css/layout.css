@@ -196,6 +196,28 @@ body {
     color: #f8f4ed;
 }
 
+.mail-submit.is-sending {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: wait;
+    opacity: .78;
+}
+
+.mail-submit-spinner {
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255, 255, 255, .45);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: mail-submit-spin .7s linear infinite;
+}
+
+@keyframes mail-submit-spin {
+    to { transform: rotate(360deg); }
+}
+
 .footer-wrap {
     width: min(1180px, calc(100% - 40px));
     margin: auto;

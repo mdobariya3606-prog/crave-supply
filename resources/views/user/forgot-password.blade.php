@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot password — CraveSupply</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        .btn-submit.is-sending {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: wait;
+            opacity: .78
+        }
+
+        .mail-submit-spinner {
+            width: 13px;
+            height: 13px;
+            border: 2px solid rgba(255, 255, 255, .45);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: mail-submit-spin .7s linear infinite
+        }
+
+        @keyframes mail-submit-spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
 </head>
+
 <body>
     <main class="register-container">
         <section class="card" aria-labelledby="forgot-title">
@@ -26,7 +53,7 @@
             </div>
 
             @if (session('status'))
-                <div class="alert-success" role="status">{{ session('status') }}</div>
+            <div class="alert-success" role="status">{{ session('status') }}</div>
             @endif
 
             <form action="{{ route('password.email') }}" method="POST" id="forgotForm" novalidate>
@@ -35,7 +62,10 @@
                     <label for="email">Email address <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <input id="email" name="email" type="email" value="{{ old('email') }}" required maxlength="255" autocomplete="email" placeholder="you@company.com" aria-describedby="emailError">
-                        <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>
+                        <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <polyline points="3,7 12,13 21,7" />
+                        </svg>
                     </div>
                     @include('user.partials.field-error', ['field' => 'email'])
                 </div>
@@ -48,6 +78,7 @@
     <script>
         const forgotForm = document.getElementById('forgotForm');
         const email = document.getElementById('email');
+
         function validateEmail() {
             const message = email.validity.valueMissing ? 'This field is required.' : email.validity.typeMismatch ? 'Enter a valid email address.' : '';
             const error = document.getElementById('emailError');
@@ -59,7 +90,19 @@
         }
         email.addEventListener('input', validateEmail);
         email.addEventListener('blur', validateEmail);
-        forgotForm.addEventListener('submit', (event) => { if (!validateEmail()) { event.preventDefault(); email.focus(); } });
+        forgotForm.addEventListener('submit', (event) => {
+            if (!validateEmail()) {
+                event.preventDefault();
+                email.focus();
+                return;
+            }
+
+            const button = forgotForm.querySelector('button[type="submit"]');
+            button.disabled = true;
+            button.classList.add('is-sending');
+            button.innerHTML = '<span class="mail-submit-spinner" aria-hidden="true"></span>Sending…';
+        });
     </script>
 </body>
+
 </html>
