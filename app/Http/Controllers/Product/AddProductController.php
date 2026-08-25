@@ -7,20 +7,26 @@ use App\Http\Requests\Product\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Illuminate\Http\Request;
 
 class AddProductController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         abort_unless(auth()->user()?->role === 'admin', 403);
+        $category = $request->filled('category')
+            ? Category::whereKey($request->integer('category'))->first()
+            : null;
 
         return view('product.add', [
             'categories' => Category::orderBy('name')->get(),
+            'selectedCategory' => $category,
         ]);
     }
 
     public function store(ProductRequest $request)
     {
+        abort_unless($request->user()?->role === 'admin', 403);
         $product = Product::create([
             ...$request->validated(),
             'is_available' => $request->boolean('is_available'),

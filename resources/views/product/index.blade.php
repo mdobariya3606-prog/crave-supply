@@ -406,11 +406,11 @@
             margin-top: 24px;
         }
 
-        .products-pagination nav > div:first-child {
+        .products-pagination nav>div:first-child {
             display: none;
         }
 
-        .products-pagination nav > div:last-child {
+        .products-pagination nav>div:last-child {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -496,6 +496,46 @@
                 font-size: 30px;
             }
         }
+
+        .category-product-section {
+            margin-top: 38px;
+            padding-top: 26px;
+            border-top: 1px solid var(--products-line);
+        }
+
+        .category-product-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 15px;
+        }
+
+        .category-product-heading h3 {
+            margin: 0;
+            color: var(--products-ink);
+            font: 400 25px Georgia, serif;
+        }
+
+        .category-product-heading a {
+            color: var(--products-blue);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .category-product-heading a:hover {
+            color: var(--products-navy);
+        }
+
+        @media(max-width:600px) {
+            .category-product-heading {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 7px;
+            }
+        }
     </style>
 </head>
 
@@ -517,7 +557,9 @@
             @if (auth()->user()?->role === 'admin')
                 <div class="manage-actions" aria-label="Product management actions">
                     <a href="{{ route('categories.add') }}">Add category</a>
-                    <a class="secondary" href="{{ route('products.add') }}">Add product</a>
+                    <a class="secondary"
+                        href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
+                        product</a>
                 </div>
             @endif
         </section>
@@ -566,59 +608,77 @@
             <div class="products-section-heading">
                 <div>
                     <h2 id="catalogue-title">
-                        {{ $selectedCategory ? $selectedCategory->name . ' products' : 'Catalogue' }}</h2>
+                        {{ $selectedCategory ? $selectedCategory->name . ' products' : 'Catalogue' }}
+                    </h2>
                     <p>{{ $selectedCategory ? 'Premium products in this collection.' : 'Current products and stock levels.' }}
                     </p>
                 </div>
             </div>
+            @if (!$selectedCategory)
+            @foreach ($categories as $category)
+            @php($categoryItems = $categoryProducts->get($category->id, collect()))
+                <section class="category-product-section" aria-labelledby="cat  egory-products-{{ $category->id }}">
+                    <div class="category-product-heading">
+                        <h3 id="category-products-{{ $category->id }}">{{ $category->name }}</h3>
+                        <a href="{{ route('products.category', $category->slug) }}">View all products →</a>
+                    </div>
+                    @if ($categoryItems->isNotEmpty())
+                        <div class="product-grid">
+                            @foreach ($categoryItems as $product)
+                                <article class="product-card">
+                                    <a href="{{ route('products.profile', $product) }}"><img class="product-card-image"
+                                            src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                            alt="{{ $product->name }}"></a>
+                                    <div class="product-card-body">
+                                        <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p><a
+                                            class="product-card-name"
+                                            href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                                        <p class="product-card-description">
+                                            {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                                        </p>
+                                        <div class="product-card-footer"><strong
+                                                class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong><span
+                                                class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                        </div>
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-state">No products in this category yet.</div>
+                    @endif
+                </section>
+                @endforeach
+            @else
             @if ($products->isNotEmpty())
-                <div class="product-grid">
-                    @foreach ($products as $product)
-                        <article class="product-card">
-                            <a href="{{ route('products.profile', $product) }}">
-                                <img class="product-card-image"
-                                    src="{{ $product->productImages->first() ? asset('storage/'.$product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                    alt="{{ $product->name }}">
-                            </a>
-                            <div class="product-card-body">
-                                <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                                <a class="product-card-name" href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                                <p class="product-card-description">{{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}</p>
-                                <div class="product-card-footer">
-                                    <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
-                                    <span class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                <div class="product-grid">
+                                    @foreach ($products as $product)
+                                        <article class="product-card">
+                                            <a href="{{ route('products.profile', $product) }}">
+                                                <img class="product-card-image"
+                                                    src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                                    alt="{{ $product->name }}">
+                                            </a>
+                                            <div class="product-card-body">
+                                                <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                                                <a class="product-card-name"
+                                                    href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                                                <p class="product-card-description">
+                                                    {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                                                </p>
+                                                <div class="product-card-footer">
+                                                    <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
+                                                    <span
+                                                        class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    @endforeach
                                 </div>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-                @if ($products->hasPages())
-                    @php
-                        $startPage = max(1, $products->currentPage() - 2);
-                        $endPage = min($products->lastPage(), $products->currentPage() + 2);
-                    @endphp
-                    <nav class="catalogue-pagination" aria-label="Product pages">
-                        @if ($products->onFirstPage())
-                            <span class="disabled" aria-disabled="true">←</span>
-                        @else
-                            <a href="{{ $products->previousPageUrl() }}" rel="prev" aria-label="Previous page">←</a>
-                        @endif
-                        @for ($page = $startPage; $page <= $endPage; $page++)
-                            @if ($page === $products->currentPage())
-                                <span class="active" aria-current="page">{{ $page }}</span>
-                            @else
-                                <a href="{{ $products->url($page) }}">{{ $page }}</a>
-                            @endif
-                        @endfor
-                        @if ($products->hasMorePages())
-                            <a href="{{ $products->nextPageUrl() }}" rel="next" aria-label="Next page">→</a>
-                        @else
-                            <span class="disabled" aria-disabled="true">→</span>
-                        @endif
-                    </nav>
-                @endif
+               
             @else
                 <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
+            @endif
             @endif
         </section>
     </main>

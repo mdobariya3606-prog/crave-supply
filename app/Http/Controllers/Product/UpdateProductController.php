@@ -42,4 +42,12 @@ class UpdateProductController extends Controller
         }
         return back()->with('success', 'Product image removed.');
     }
+
+    public function destroy(Product $product)
+    {
+        abort_unless(auth()->user()?->role === 'admin', 403);
+        $product->delete();
+
+        return redirect()->route('products.dashboard')->with('success', 'Product deleted successfully.');
+    }
 }

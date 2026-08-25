@@ -17,6 +17,7 @@ class AddCategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        abort_unless($request->user()?->role === 'admin', 403);
         Category::create($request->validated());
 
         return redirect()->route('products.dashboard')->with('success', 'Category added successfully.');
@@ -31,6 +32,7 @@ class AddCategoryController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
+        abort_unless($request->user()?->role === 'admin', 403);
         $category->update($request->validated());
 
         return redirect()->route('products.category', $category->slug)

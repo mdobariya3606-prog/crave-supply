@@ -67,13 +67,14 @@
                     <div class="form-group full-width"><label class="remember-option" for="is_available"><input
                                 id="is_available" name="is_available" type="checkbox" value="1"
                                 @checked(old('is_available', $product->is_available))> Product is available for purchase</label></div>
-                    <div class="full-width"><button type="submit" class="btn-submit">Save changes</button></div>
+                    <div class="full-width" style="display:flex;gap:10px;flex-wrap:wrap"><button type="submit" class="btn-submit">Save changes</button><button type="submit" form="delete-product" style="background:#a04338" onclick="return confirm('Delete this product?')">Delete product</button></div>
                 </div>
             </form>
             @foreach ($product->productImages as $image)
             <form id="delete-image-{{ $image->id }}" action="{{ route('products.images.destroy', $image) }}"
                 method="POST">@csrf @method('DELETE')</form>
             @endforeach
+            <form id="delete-product" action="{{ route('products.destroy', $product) }}" method="POST">@csrf @method('DELETE')</form>
         </section>
     </main>
     @include('layouts.footer')
