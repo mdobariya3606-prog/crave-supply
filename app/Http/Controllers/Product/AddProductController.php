@@ -13,7 +13,6 @@ class AddProductController extends Controller
 {
     public function create(Request $request)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
         $category = $request->filled('category')
             ? Category::whereKey($request->integer('category'))->first()
             : null;

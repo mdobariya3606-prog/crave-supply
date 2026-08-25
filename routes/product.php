@@ -10,6 +10,8 @@ use App\Http\Controllers\Product\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\EnsureAccountIsActive;
 
+Route::get('/products', [ProductDashboardController::class, 'index'])->name('products.dashboard');
+
 Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
@@ -26,7 +28,6 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
 });
 
 Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
-Route::get('/products', [ProductDashboardController::class, 'index'])->name('products.dashboard');
 Route::get('/products/category/{category:slug}', [ProductDashboardController::class, 'category'])->name('products.category');
 
 Route::post('/products/{product:slug}/order', [OrderController::class, 'store'])->middleware(['auth', EnsureAccountIsActive::class])->name('products.order.store');

@@ -4,6 +4,7 @@ use App\Models\Review;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 require_once 'auth.php';
@@ -16,7 +17,7 @@ Route::get('/', function () {
     if (Auth::check() && Auth::user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
-    return redirect()->route('home');
+    return redirect()->route('dashboard');
 })->name('home');
 
 Route::get('/dashboard', function () {

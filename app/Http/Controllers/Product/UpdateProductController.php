@@ -15,13 +15,11 @@ class UpdateProductController extends Controller
 {
     public function edit(Product $product)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
         return view('product.edit', compact('product') + ['categories' => Category::orderBy('name')->get()]);
     }
 
     public function update(ProductRequest $request, Product $product)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
         $product->update([...$request->validated(), 'is_available' => $request->boolean('is_available')]);
         AddProductController::storeImages($request, $product);
         if ($request->filled('primary_image')) {
@@ -33,7 +31,6 @@ class UpdateProductController extends Controller
 
     public function destroyImage(ProductImage $image)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
         Storage::disk('public')->delete($image->image_path);
         $product = $image->product;
         $image->delete();
@@ -45,7 +42,6 @@ class UpdateProductController extends Controller
 
     public function destroy(Product $product)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
         $product->delete();
 
         return redirect()->route('products.dashboard')->with('success', 'Product deleted successfully.');
