@@ -10,7 +10,6 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $this->admin($request);
         $search = trim((string) $request->query('q'));
 
         $customers = User::where('role', 'customer')
@@ -28,7 +27,6 @@ class CustomerController extends Controller
 
     public function show(Request $request, User $user)
     {
-        $this->admin($request);
         abort_unless($user->role === 'customer', 404);
         $user->load(['orders' => fn ($query) => $query->with('orderItems')->latest()]);
 
@@ -37,7 +35,6 @@ class CustomerController extends Controller
 
     public function toggle(Request $request, User $user)
     {
-        $this->admin($request);
         abort_unless($user->role === 'customer', 404);
         $user->update(['is_active' => ! $user->is_active]);
 
@@ -46,15 +43,40 @@ class CustomerController extends Controller
 
     public function destroy(Request $request, User $user)
     {
-        $this->admin($request);
         abort_unless($user->role === 'customer', 404);
         $user->delete();
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer account deleted.');
     }
 
-    private function admin(Request $request): void
+    public function deleted(Request $request)
     {
-        abort_unless($request->user()?->role === 'admin', 403);
+        $deletedCustomers = User::onlyTrashed()->where('role', 'customer')->latest('deleted_at')->paginate(20);
+        return view('admin.customers.deleted', compact('deletedCustomers'));
     }
+
+    public function restore(Request $request, int $userId)
+    {
+        User::onlyTrashed()->where('role', 'customer')->findOrFail($userId)->restore();
+        return back()->with('success', 'Customer account restored.');
+    }
+
+    public function forceDestroy(Request $request, int $userId)
+    {
+        User::onlyTrashed()->where('role', 'customer')->findOrFail($userId)->forceDelete();
+        return back()->with('success', 'Customer permanently deleted.');
+    }
+
+    public function restoreAll(Request $request)
+    {
+        User::onlyTrashed()->where('role', 'customer')->restore();
+        return back()->with('success', 'All deleted customer accounts restored.');
+    }
+
+    public function forceDestroyAll(Request $request)
+    {
+        User::onlyTrashed()->where('role', 'customer')->forceDelete();
+        return back()->with('success', 'All deleted customer accounts permanently deleted.');
+    }
+
 }
