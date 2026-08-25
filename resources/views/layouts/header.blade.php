@@ -37,22 +37,33 @@
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
             <div class="profile-dropdown">
-                <button type="button" class="avatar profile-trigger" aria-label="Open user menu" aria-expanded="false"
+                <button type="button" class="avatar profile-trigger" aria-label="Open navigation menu" aria-expanded="false"
                     aria-controls="profileMenu">
-                    {{ strtoupper(substr(auth()->user()->name ?? 'C', 0, 1)) }}
+                    <svg class="menu-icon" viewBox="0 0 20 20" aria-hidden="true">
+                        <path class="menu-bar menu-bar-one" d="M2 4h16" />
+                        <path class="menu-bar menu-bar-two" d="M2 10h16" />
+                        <path class="menu-bar menu-bar-three" d="M2 16h16" />
+                        <path class="menu-cross menu-cross-one" d="M4 4 16 16" />
+                        <path class="menu-cross menu-cross-two" d="M16 4 4 16" />
+                    </svg>
                 </button>
                 <div id="profileMenu" class="profile-menu" hidden>
-                    <a href="{{ url('/profile') }}">Profile</a>
+                    <a href="{{ route('home') }}">Dashboard</a>
+                    <a href="{{ route('products.dashboard') }}">Products</a>
+                    <a href="{{ route('about') }}">About us</a>
                     @auth
-                        <form action="{{ route('logout') }}" method="POST">
+                    <a href="{{ route('profile') }}">Profile</a>
+                    <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" onclick='return confirm("Are you sure to logout?")'>
                                 Logout
                             </button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('login') }}">Login</a>
                     @endauth
+                    <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
+                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark mode</span></button>
                 </div>
             </div>
         </div>
@@ -204,6 +215,33 @@
                 menu.hidden = true;
                 trigger.setAttribute('aria-expanded', 'false');
             }
+        });
+    })();
+</script>
+
+<script>
+    (() => {
+        const root = document.documentElement;
+        const toggle = document.querySelector('[data-theme-toggle]');
+        const icon = document.querySelector('[data-theme-icon]');
+        const label = document.querySelector('[data-theme-label]');
+        const savedTheme = localStorage.getItem('cravesupply-theme');
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        const applyTheme = theme => {
+            const dark = theme === 'dark';
+            root.dataset.theme = dark ? 'dark' : 'light';
+            if (toggle) {
+                toggle.setAttribute('aria-pressed', String(dark));
+                toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            }
+            if (icon) icon.textContent = dark ? '☀' : '☾';
+            if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+        };
+        applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+        toggle?.addEventListener('click', () => {
+            const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('cravesupply-theme', next);
+            applyTheme(next);
         });
     })();
 </script>
