@@ -28,7 +28,7 @@
 
                         {{-- Email address --}}
                         <input id="email" name="email" type="email" value="{{ old('email', $email) }}" required
-                            maxlength="255" autocomplete="email" placeholder="you@company.com" disabled
+                            maxlength="255" autocomplete="email" placeholder="you@company.com" readonly
                             aria-describedby="emailError"><svg class="input-icon" viewBox="0 0 24 24"
                             aria-hidden="true">
                             <rect x="3" y="5" width="18" height="14" rx="2" />

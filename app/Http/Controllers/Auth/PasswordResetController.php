@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -20,6 +22,15 @@ class PasswordResetController extends Controller
 
     public function email(ForgotPasswordRequest $request)
     {
+        $token = DB::table('password_reset_tokens')->where('email', $request->only('email'))->first();
+
+        if ($token) {
+            $expiresAt = Carbon::parse($token->created_at)->addMinutes(60);
+            if (!$expiresAt->isPast()) {
+                return back()->withInput()->withErrors(['email' => 'Email already sent.']);
+            }
+        }
+
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status !== Password::RESET_LINK_SENT) {
