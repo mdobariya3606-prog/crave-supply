@@ -13,7 +13,7 @@ class ProductDashboardController extends Controller
     {
         $allCategories = Category::orderBy('name')->get();
         $categories = $request->boolean('all') ? $allCategories : $allCategories->take(4);
-        $categoryProducts = $categories->mapWithKeys(fn (Category $category) => [
+        $categoryProducts = $categories->mapWithKeys(fn(Category $category) => [
             $category->id => $category->products()
                 ->with(['category', 'productImages'])
                 ->latest()
