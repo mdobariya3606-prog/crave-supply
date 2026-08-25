@@ -780,8 +780,7 @@
                 <a class="primary-btn" href="#catalogue">Shop the snack range <span aria-hidden="true">→</span></a>
             </div>
             <div class="hero-image">
-                <img src="{{ asset('images/snack-hero.svg') }}"
-                    alt="Colourful snacks arranged for sharing">
+                <img src="{{ asset('images/snack-hero.svg') }}" alt="Colourful snacks arranged for sharing">
             </div>
         </section>
 
@@ -826,34 +825,45 @@
 
             <div class="snack-grid">
                 <article class="snack-card">
-                    <img class="snack-image" loading="lazy"
-                        src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&amp;fit=crop&amp;w=720&amp;q=75"
-                        alt="Freshly baked cookies">
-                    <div class="snack-body">
-                        <p class="snack-label">Sweet treats</p>
-                        <h3>Cookies &amp; biscuits</h3>
-                        <p>Reliable favourites for office shelves, cafés, and stores.</p>
-                    </div>
+                    <a href="{{ route('products.category', 'artisan-beverages') }}">
+                        <img class="snack-image" loading="lazy"
+                            src="http://127.0.0.1:8000/storage/products/jwwKuoUM0ybse44TBLGFB8JYRY5VzMWHvOs9SJyp.jpg"
+                            alt="Freshly baked cookies">
+                        <div class="snack-body">
+                            <p class="snack-label">Sweet treats</p>
+                            <h3>Artisan Beverages</h3>
+                            <p>Small-batch coffees, teas, and refreshments for every setting.</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="snack-card">
+                    <a href="{{ route('products.category', 'premium-confectionery') }}">
+                        <img class="snack-image" loading="lazy"
+                            src="http://127.0.0.1:8000/storage/products/mF1EsVw31FzgdpSnFRmpJHave0BOt8xuC6jMq6sl.webp"
+                            alt="Chocolate pieces">
+                        <div class="snack-body">
+                            <p class="snack-label">Confectionery</p>
+                            <h3>Premium Confectionery</h3>
+                            <p>High-quality chocolate and confectionery products sourced from premium brands, suitable
+                                for
+                                retail, gifting, and
+                                specialty distribution.</p>
+                        </div>
+                    </a>
                 </article>
                 <article class="snack-card">
-                    <img class="snack-image" loading="lazy"
-                        src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&amp;fit=crop&amp;w=720&amp;q=75"
-                        alt="Chocolate pieces">
-                    <div class="snack-body">
-                        <p class="snack-label">Confectionery</p>
-                        <h3>Chocolate &amp; candy</h3>
-                        <p>Stock up on familiar treats your customers already love.</p>
-                    </div>
-                </article>
-                <article class="snack-card">
-                    <img class="snack-image" loading="lazy"
-                        src="https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&amp;fit=crop&amp;w=720&amp;q=75"
-                        alt="Crispy savoury snack bites">
-                    <div class="snack-body">
-                        <p class="snack-label">Savoury snacks</p>
-                        <h3>Chips &amp; quick bites</h3>
-                        <p>Everyday savoury options for counters, pantries, and events.</p>
-                    </div>
+                    <a href="{{ route('products.category', 'gourmet-pantry') }}">
+                        <img class="snack-image" loading="lazy"
+                            src="http://127.0.0.1:8000/storage/products/jazIFilyTjQos1e5IzNpaxDolOOFqLPL9lnOzEpd.jpg"
+                            alt="Crispy savoury snack bites">
+                        <div class="snack-body">
+                            <p class="snack-label">Savoury snacks</p>
+                            <h3>Gourmet Pantry</h3>
+                            <p>Premium staples and ingredients for considered kitchens.
+                            </p>
+                        </div>
+                    </a>
                 </article>
             </div>
         </section>
@@ -876,18 +886,22 @@
             </div>
 
             <div class="explore-grid">
-                <article class="explore-card">
-                    <div class="explore-card-content">
-                        <p>Everyday refreshment</p>
-                        <h3>Drinks for every kind of workday.</h3>
-                    </div>
-                </article>
-                <article class="explore-card">
-                    <div class="explore-card-content">
-                        <p>Made for teams</p>
-                        <h3>Stock the moments people remember.</h3>
-                    </div>
-                </article>
+                <a href="">
+                    <article class="explore-card">
+                        <div class="explore-card-content">
+                            <p>Everyday refreshment</p>
+                            <h3>Drinks for every kind of workday.</h3>
+                        </div>
+                    </article>
+                </a>
+                <a href="{{ route('products.dashboard') }}">
+                    <article class="explore-card">
+                        <div class="explore-card-content">
+                            <p>Made for teams</p>
+                            <h3>Stock the moments people remember.</h3>
+                        </div>
+                    </article>
+                </a>
             </div>
         </section>
 
@@ -928,54 +942,58 @@
         </section>
 
         @if (auth()->user()?->role !== 'admin')
-        <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
-            <div>
-                <p class="eyebrow">Have a question?</p>
-                <h2 id="contact-title">Let’s make your next restock easier.</h2>
-                <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
-            </div>
-            <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
-        </section>
+            <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
+                <div>
+                    <p class="eyebrow">Have a question?</p>
+                    <h2 id="contact-title">Let’s make your next restock easier.</h2>
+                    <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
+                </div>
+                <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
+            </section>
         @endif
 
         @if ($topReviews->isNotEmpty())
-        <section class="review-section" aria-labelledby="reviews-title">
-            <div class="section-heading">
-                <div>
-                    <h2 id="reviews-title">What businesses are saying</h2>
-                    <p>Real routines, made a little easier.</p>
+            <section class="review-section" aria-labelledby="reviews-title">
+                <div class="section-heading">
+                    <div>
+                        <h2 id="reviews-title">What businesses are saying</h2>
+                        <p>Real routines, made a little easier.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="review-slider" aria-live="polite">
-                <div class="review-track" id="reviewTrack">
-                    @foreach ($topReviews as $review)
-                        <article class="review-card">
-                            <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</div>
-                            <blockquote>“{{ $review->comment }}”</blockquote>
-                            <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
-                            @if ($review->product)
-                                <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed: {{ $review->product->name }}</a>
-                            @endif
-                        </article>
-                    @endforeach
+                <div class="review-slider" aria-live="polite">
+                    <div class="review-track" id="reviewTrack">
+                        @foreach ($topReviews as $review)
+                            <article class="review-card">
+                                <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">
+                                    {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                </div>
+                                <blockquote>“{{ $review->comment }}”</blockquote>
+                                <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
+                                @if ($review->product)
+                                    <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed:
+                                        {{ $review->product->name }}</a>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <div class="review-controls">
-                <div class="review-dots" aria-label="Choose a review">
-                    @foreach ($topReviews as $index => $review)
-                        <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
-                            aria-label="Show review {{ $index + 1 }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
-                    @endforeach
+                <div class="review-controls">
+                    <div class="review-dots" aria-label="Choose a review">
+                        @foreach ($topReviews as $index => $review)
+                            <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
+                                aria-label="Show review {{ $index + 1 }}"
+                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
+                        @endforeach
+                    </div>
+                    <div class="review-buttons">
+                        <button class="review-button" id="reviewPrevious" type="button"
+                            aria-label="Previous review">←</button>
+                        <button class="review-button" id="reviewNext" type="button" aria-label="Next review">→</button>
+                    </div>
                 </div>
-                <div class="review-buttons">
-                    <button class="review-button" id="reviewPrevious" type="button"
-                        aria-label="Previous review">←</button>
-                    <button class="review-button" id="reviewNext" type="button" aria-label="Next review">→</button>
-                </div>
-            </div>
-        </section>
+            </section>
         @endif
     </main>
 
