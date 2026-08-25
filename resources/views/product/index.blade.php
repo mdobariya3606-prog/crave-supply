@@ -229,6 +229,66 @@
             background: #eef4f8;
         }
 
+        .catalogue-pagination {
+            margin-top: 30px
+        }
+
+        .catalogue-pagination nav {
+            display: flex;
+            justify-content: center
+        }
+
+        .catalogue-pagination nav>div:first-child {
+            display: none
+        }
+
+        .catalogue-pagination nav>div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .catalogue-pagination nav>div:last-child>* {
+            display: grid;
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            place-items: center;
+            border: 1px solid #ded4c8;
+            color: #51483e;
+            background: #fffdf9;
+            font-size: 12px;
+            text-decoration: none
+        }
+
+        .catalogue-pagination nav>div:last-child>span[aria-current="page"] {
+            border-color: #2c2722;
+            color: #fff;
+            background: #2c2722
+        }
+
+        .catalogue-pagination nav>div:last-child>a:hover {
+            border-color: #8d6c4a;
+            color: #8d6c4a;
+            background: #f8f4ed
+        }
+
+        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] {
+            color: #b9aa9b
+        }
+
+        .catalogue-pagination svg {
+            width: 14px;
+            height: 14px
+        }
+
+        @media(max-width:500px) {
+            .catalogue-pagination nav>div:last-child {
+                flex-wrap: wrap;
+                justify-content: center
+            }
+        }
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -332,7 +392,8 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            margin-top: 28px;
+            margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .catalogue-pagination a,
@@ -349,6 +410,11 @@
             font-size: 12px;
             font-weight: 700;
             text-decoration: none;
+        }
+
+        .catalogue-pagination svg {
+            width: 14px;
+            height: 14px;
         }
 
         .catalogue-pagination a:hover {
@@ -536,6 +602,21 @@
                 gap: 7px;
             }
         }
+        /* Laravel's pagination has nested wrappers; only the inner links are buttons. */
+        .catalogue-pagination nav{display:flex;justify-content:center}
+        .catalogue-pagination nav>div:first-child{display:none}
+        .catalogue-pagination nav>div:last-child{display:flex;align-items:center;gap:6px}
+        .catalogue-pagination nav>div:last-child>span,
+        .catalogue-pagination nav>div:last-child>a{display:inline-flex;align-items:center;gap:4px}
+        .catalogue-pagination nav>div:last-child>a,
+        .catalogue-pagination nav>div:last-child>span[aria-current="page"] span,
+        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span{min-width:34px;height:34px;padding:0 9px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;border:1px solid #ded4c8;border-radius:8px;color:#51483e;background:#fffdf9;font-size:12px;text-decoration:none}
+        .catalogue-pagination nav>div:last-child>a:hover{border-color:#8d6c4a;color:#8d6c4a;background:#f8f4ed}
+        .catalogue-pagination nav>div:last-child>span[aria-current="page"] span{border-color:#2c2722;color:#fff;background:#2c2722}
+        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span{color:#b9aa9b;background:#f8f4ed}
+        .catalogue-pagination svg{width:14px;height:14px}
+        @media(max-width:500px){.catalogue-pagination nav>div:last-child{flex-wrap:wrap;justify-content:center}}
+        .manual-pagination{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:30px}.manual-pagination-pages{display:flex;gap:7px}.manual-pagination-button{display:inline-flex;min-width:36px;height:36px;box-sizing:border-box;align-items:center;justify-content:center;padding:0 10px;border:1px solid var(--products-line);border-radius:9px;color:var(--products-ink);background:#fff;font-size:12px;font-weight:700;text-decoration:none}.manual-pagination-button:hover{border-color:var(--products-blue);color:var(--products-blue)}.manual-pagination-button.active{border-color:var(--products-blue);color:#fff;background:var(--products-blue)}.manual-pagination-button.disabled{color:#cbd5e1;background:#f8fafc;cursor:not-allowed}@media(max-width:500px){.manual-pagination{flex-wrap:wrap}.manual-pagination-pages{flex-wrap:wrap;justify-content:center}}
     </style>
 </head>
 
@@ -543,7 +624,7 @@
     @include('layouts.header')
     <main class="products-page">
         @if (session('success'))
-            <div class="alert-success" role="status">{{ session('success') }}</div>
+        <div class="alert-success" role="status">{{ session('success') }}</div>
         @endif
 
         <section class="products-hero" aria-labelledby="products-title">
@@ -555,12 +636,12 @@
                 </p>
             </div>
             @if (auth()->user()?->role === 'admin')
-                <div class="manage-actions" aria-label="Product management actions">
-                    <a href="{{ route('categories.add') }}">Add category</a>
-                    <a class="secondary"
-                        href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
-                        product</a>
-                </div>
+            <div class="manage-actions" aria-label="Product management actions">
+                <a href="{{ route('categories.add') }}">Add category</a>
+                <a class="secondary"
+                    href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
+                    product</a>
+            </div>
             @endif
         </section>
 
@@ -573,34 +654,34 @@
             </div>
 
             @if ($selectedCategory)
-                <div class="category-detail">
-                    <article class="category-card">
-                        <div style="padding: 20px">
-                            <h3>{{ $selectedCategory->name }}</h3>
-                            <p>{{ $selectedCategory->description ?: 'A curated CraveSupply collection.' }}</p>
-                            @if (auth()->user()?->role === 'admin')
-                                <a class="category-edit" href="{{ route('categories.edit', $selectedCategory) }}">Edit
-                                    category →</a>
-                            @endif
-                        </div>
-                    </article>
-                </div>
+            <div class="category-detail">
+                <article class="category-card">
+                    <div style="padding: 20px">
+                        <h3>{{ $selectedCategory->name }}</h3>
+                        <p>{{ $selectedCategory->description ?: 'A curated CraveSupply collection.' }}</p>
+                        @if (auth()->user()?->role === 'admin')
+                        <a class="category-edit" href="{{ route('categories.edit', $selectedCategory) }}">Edit
+                            category →</a>
+                        @endif
+                    </div>
+                </article>
+            </div>
             @elseif ($categories->isNotEmpty())
-                <div class="category-grid">
-                    @foreach ($categories as $category)
-                        <article class="category-card">
-                            <a href="{{ route('products.category', $category->slug) }}">
-                                <h3>{{ $category->name }}</h3>
-                                <p>{{ $category->description ?: 'A curated CraveSupply collection.' }}</p>
-                            </a>
-                        </article>
-                    @endforeach
-                </div>
+            <div class="category-grid">
+                @foreach ($categories as $category)
+                <article class="category-card">
+                    <a href="{{ route('products.category', $category->slug) }}">
+                        <h3>{{ $category->name }}</h3>
+                        <p>{{ $category->description ?: 'A curated CraveSupply collection.' }}</p>
+                    </a>
+                </article>
+                @endforeach
+            </div>
             @else
-                <div class="empty-state">No categories have been added yet.</div>
+            <div class="empty-state">No categories have been added yet.</div>
             @endif
             @if (!$selectedCategory && !$showAllCategories && $categories->count() === 4)
-                <a class="category-more" href="{{ route('products.dashboard', ['all' => 1]) }}">More categories →</a>
+            <a class="category-more" href="{{ route('products.dashboard', ['all' => 1]) }}">More categories →</a>
             @endif
         </section>
 
@@ -617,67 +698,89 @@
             @if (!$selectedCategory)
             @foreach ($categories as $category)
             @php($categoryItems = $categoryProducts->get($category->id, collect()))
-                <section class="category-product-section" aria-labelledby="cat  egory-products-{{ $category->id }}">
-                    <div class="category-product-heading">
-                        <h3 id="category-products-{{ $category->id }}">{{ $category->name }}</h3>
-                        <a href="{{ route('products.category', $category->slug) }}">View all products →</a>
-                    </div>
-                    @if ($categoryItems->isNotEmpty())
-                        <div class="product-grid">
-                            @foreach ($categoryItems as $product)
-                                <article class="product-card">
-                                    <a href="{{ route('products.profile', $product) }}"><img class="product-card-image"
-                                            src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                            alt="{{ $product->name }}"></a>
-                                    <div class="product-card-body">
-                                        <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p><a
-                                            class="product-card-name"
-                                            href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                                        <p class="product-card-description">
-                                            {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                                        </p>
-                                        <div class="product-card-footer"><strong
-                                                class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong><span
-                                                class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            @endforeach
+            <section class="category-product-section" aria-labelledby="cat  egory-products-{{ $category->id }}">
+                <div class="category-product-heading">
+                    <h3 id="category-products-{{ $category->id }}">{{ $category->name }}</h3>
+                    <a href="{{ route('products.category', $category->slug) }}">View all products →</a>
+                </div>
+                @if ($categoryItems->isNotEmpty())
+                <div class="product-grid">
+                    @foreach ($categoryItems as $product)
+                    <article class="product-card">
+                        <a href="{{ route('products.profile', $product) }}"><img class="product-card-image"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }}"></a>
+                        <div class="product-card-body">
+                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p><a
+                                class="product-card-name"
+                                href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                            <p class="product-card-description">
+                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                            </p>
+                            <div class="product-card-footer"><strong
+                                    class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong><span
+                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                            </div>
                         </div>
-                    @else
-                        <div class="empty-state">No products in this category yet.</div>
-                    @endif
-                </section>
-                @endforeach
+                    </article>
+                    @endforeach
+                </div>
+                @else
+                <div class="empty-state">No products in this category yet.</div>
+                @endif
+            </section>
+            @endforeach
             @else
             @if ($products->isNotEmpty())
-                                <div class="product-grid">
-                                    @foreach ($products as $product)
-                                        <article class="product-card">
-                                            <a href="{{ route('products.profile', $product) }}">
-                                                <img class="product-card-image"
-                                                    src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                                    alt="{{ $product->name }}">
-                                            </a>
-                                            <div class="product-card-body">
-                                                <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                                                <a class="product-card-name"
-                                                    href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                                                <p class="product-card-description">
-                                                    {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                                                </p>
-                                                <div class="product-card-footer">
-                                                    <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
-                                                    <span
-                                                        class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    @endforeach
-                                </div>
-               
+            <div class="product-grid">
+                @foreach ($products as $product)
+                <article class="product-card">
+                    <a href="{{ route('products.profile', $product) }}">
+                        <img class="product-card-image"
+                            src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                            alt="{{ $product->name }}">
+                    </a>
+                    <div class="product-card-body">
+                        <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                        <a class="product-card-name"
+                            href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                        <p class="product-card-description">
+                            {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                        </p>
+                        <div class="product-card-footer">
+                            <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
+                            <span
+                                class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                        </div>
+                    </div>
+                </article>
+                @endforeach
+            </div>
+            @if ($products->hasPages())
+                <nav class="manual-pagination" aria-label="Product pagination">
+                    @if ($products->onFirstPage())
+                        <span class="manual-pagination-button disabled" aria-disabled="true">‹</span>
+                    @else
+                        <a class="manual-pagination-button" href="{{ $products->previousPageUrl() }}" rel="prev">‹</a>
+                    @endif
+                    <div class="manual-pagination-pages">
+                        @for ($page = 1; $page <= $products->lastPage(); $page++)
+                            @if ($page === $products->currentPage())
+                                <span class="manual-pagination-button active" aria-current="page">{{ $page }}</span>
+                            @else
+                                <a class="manual-pagination-button" href="{{ $products->url($page) }}">{{ $page }}</a>
+                            @endif
+                        @endfor
+                    </div>
+                    @if ($products->hasMorePages())
+                        <a class="manual-pagination-button" href="{{ $products->nextPageUrl() }}" rel="next">›</a>
+                    @else
+                        <span class="manual-pagination-button disabled" aria-disabled="true">›</span>
+                    @endif
+                </nav>
+            @endif
             @else
-                <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
+            <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
             @endif
             @endif
         </section>

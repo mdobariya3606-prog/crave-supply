@@ -21,6 +21,16 @@ body {
     background: var(--layout-cream) !important;
 }
 
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: .28s;
+    animation-timing-function: ease;
+}
+
 .site-header {
     /* Shared header shell; keep its height independent from open popups. */
     position: sticky;
@@ -163,6 +173,21 @@ body {
 .profile-menu form button:hover {
     background: #f1e9df;
     color: var(--layout-navy);
+}
+
+.unread-badge {
+    display: inline-grid;
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 4px;
+    padding: 0;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: #a04338;
+    font-size: 10px;
+    letter-spacing: 0;
 }
 
 .site-footer {

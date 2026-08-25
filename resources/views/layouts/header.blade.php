@@ -12,7 +12,6 @@
                 <label class="search-label" for="global-search-input">Search products and categories</label>
                 <input id="global-search-input" name="q" type="search" autocomplete="off"
                     placeholder="Search products or categories" data-search-input>
-                <button type="submit" aria-label="Search">⌕</button>
             </form>
             <div class="search-results" data-search-results hidden></div>
         </div>
@@ -20,27 +19,18 @@
         <div class="nav-links">
             <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ? 'active' : '' }}>Home</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
-
-            @if (auth()->user()?->role !== 'admin')
-                <a href="{{ route('contact') }}" class={{ request()->routeIs('contact*') ? 'active' : '' }}>Contact</a>
-            @endif
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-            <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}
-            </a>
+                <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
+                    Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}
+                </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-            <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : '' }}>Orders</a>
-            @endif
-            @if (auth()->user()?->role === 'admin')
-                <a href="{{ route('admin.dashboard') }}" class={{ request()->routeIs('admin.dashboard') ? 'active' : '' }}>Admin</a>
-                <a href="{{ route('admin.orders.index') }}" class={{ request()->routeIs('admin.orders.*') ? 'active' : '' }}>Orders</a>
-                <a href="{{ route('admin.customers.index') }}" class={{ request()->routeIs('admin.customers.*') ? 'active' : '' }}>Customers</a>
+                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : '' }}>Orders</a>
             @endif
             @guest
-            <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-            <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
+                <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
+                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
             @endguest
         </div>
         {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
@@ -54,14 +44,14 @@
                 <div id="profileMenu" class="profile-menu" hidden>
                     <a href="{{ url('/profile') }}">Profile</a>
                     @auth
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" onclick='return confirm("Are you sure to logout?")'>
-                            Logout
-                        </button>
-                    </form>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" onclick='return confirm("Are you sure to logout?")'>
+                                Logout
+                            </button>
+                        </form>
                     @else
-                    <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
                     @endauth
                 </div>
             </div>
@@ -232,7 +222,7 @@
             '>': '&gt;',
             '"': '&quot;',
             "'": '&#039;'
-        } [character]));
+        }[character]));
         const render = data => {
             const groups = [
                 ['Products', data.products || []],
@@ -255,10 +245,10 @@
             timer = setTimeout(async () => {
                 try {
                     const response = await fetch('{{ route('search.suggestions') }}?q=' + encodeURIComponent(term), {
-                            headers: {
-                                Accept: 'application/json'
-                            }
-                        });
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    });
                     render(await response.json());
                 } catch {
                     results.hidden = true;

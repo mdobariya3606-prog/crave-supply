@@ -11,8 +11,15 @@ class ProductDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $allCategories = Category::orderBy('name')->get();
+        // Only show categories with enough products to make a useful catalogue section.
+        $allCategories = Category::withCount('products')
+            ->orderBy('name')
+            ->get()
+            ->filter(fn(Category $category) => $category->products_count > 3)
+            ->values();
+        // The default view is limited; the "all" query parameter shows every eligible category.
         $categories = $request->boolean('all') ? $allCategories : $allCategories->take(4);
+        // Load only the products needed for each catalogue preview.
         $categoryProducts = $categories->mapWithKeys(fn(Category $category) => [
             $category->id => $category->products()
                 ->with(['category', 'productImages'])
@@ -35,7 +42,7 @@ class ProductDashboardController extends Controller
         return view('product.index', [
             'categories' => Category::orderBy('name')->take(4)->get(),
             'categoryProducts' => collect(),
-            'products' => $category->products()->with(['category', 'productImages'])->latest()->paginate(15)->withQueryString(),
+            'products' => $category->products()->with(['category', 'productImages'])->latest()->paginate(5)->withQueryString(),
             'selectedCategory' => $category,
             'showAllCategories' => false,
         ]);

@@ -21,6 +21,15 @@
             box-sizing: border-box;
         }
 
+        @keyframes profile-page-in {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-profile {
+            animation: profile-page-in .32s ease-out both;
+        }
+
         .product-profile {
             width: min(1180px, calc(100% - 40px));
             margin: auto;
@@ -1053,8 +1062,18 @@
             }
 
             .product-main {
+                grid-template-columns: minmax(0, 1fr);
                 gap: 28px;
                 padding-bottom: 42px;
+            }
+
+            .gallery {
+                position: static;
+                width: 100%;
+            }
+
+            .gallery-main {
+                max-height: none;
             }
 
             .product-info {
@@ -1072,6 +1091,43 @@
 
             .editorial-story-visual {
                 min-height: 180px;
+            }
+
+            .review-layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .review-form input,
+            .review-form select,
+            .review-form textarea,
+            .order-form input {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .related-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .editorial-story-copy {
+                padding: 28px 22px;
+            }
+
+            .section-title h2,
+            .reviews-section h2,
+            .related-section h2 {
+                font-size: 26px;
+            }
+
+            .review-item header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 5px;
             }
         }
     </style>
