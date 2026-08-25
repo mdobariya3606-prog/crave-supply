@@ -419,14 +419,14 @@ body::after {
     gap: 12px;
     margin-top: 24px;
 }
+
 .secondary-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
+    min-height: 46px;
     padding: 0 20px;
     border: 1px solid var(--line);
-    border-radius: 12px;
     color: var(--ink);
     background: #fff;
     font-size: 14px;
