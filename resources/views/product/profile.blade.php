@@ -22,8 +22,15 @@
         }
 
         @keyframes profile-page-in {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .product-profile {
@@ -83,6 +90,14 @@
             height: 100%;
             transition: transform .65s cubic-bezier(.22, .61, .36, 1);
             will-change: transform;
+            cursor: grab;
+            user-select: none;
+            touch-action: pan-y;
+        }
+
+        .gallery-track.is-dragging {
+            cursor: grabbing;
+            transition: none;
         }
 
         .gallery-track img {
@@ -289,6 +304,10 @@
         .order-form input:focus {
             outline: 3px solid rgba(59, 130, 246, .16);
             border-color: var(--profile-blue);
+        }
+
+        .review-submit {
+            height: 40px;
         }
 
         .service-highlights {
@@ -586,6 +605,11 @@
 
         .related-card:hover {
             border-color: #93c5fd;
+        }
+
+
+        html[data-theme="dark"] .related-card:hover {
+            border-color: #fff;
         }
 
         .related-card h3 {
@@ -1056,6 +1080,47 @@
             font-family: Georgia, 'Times New Roman', serif;
         }
 
+        .manual-review-pagination{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:24px}.review-page-numbers{display:flex;gap:7px}.review-page-button{display:inline-flex;min-width:34px;height:34px;align-items:center;justify-content:center;padding:0 9px;border:1px solid #e2d9cd;border-radius:0;color:#51483e;background:#fffdf9;font-size:12px;text-decoration:none}.review-page-button:hover{border-color:#8d6c4a;color:#8d6c4a}.review-page-button.active{border-color:#2c2722;color:#fff;background:#2c2722}.review-page-button.disabled{color:#b9aa9b;background:#f1e9df}@media(max-width:520px){.manual-review-pagination{flex-wrap:wrap}.review-page-numbers{flex-wrap:wrap;justify-content:center}}
+
+        html[data-theme="dark"] .gallery-main,
+        html[data-theme="dark"] .related-card-image {
+            background: #29251f;
+        }
+
+        html[data-theme="dark"] dt,
+        html[data-theme="dark"] dd,
+        html[data-theme="dark"] time,
+        html[data-theme="dark"] .review-score,
+        html[data-theme="dark"] .review-page-button {
+            color: #f5ede4 !important;
+        }
+
+        html[data-theme="dark"] .review-page-button {
+            background: #2a241f;
+            border-color: #51463c;
+        }
+
+        html[data-theme="dark"] .review-page-button.active {
+            color: #fff !important;
+            background: #604a35;
+            border-color: #806348;
+        }
+
+        html[data-theme='dark'] .service-highlights {
+            border-top: 1px solid #8d6c4a;
+            border-bottom: 1px solid #8d6c4a;
+            background: #8d6c4a;
+        }
+
+        html[data-theme='dark'] .service-highlight {
+            color: #f1eadf;
+            background: transparent;
+        }
+
+        html[data-theme='dark'] .service-highlight svg {
+            stroke: #f1eadf;
+        }
+
         @media (max-width: 760px) {
             .product-profile {
                 width: calc(100% - 28px);
@@ -1329,8 +1394,26 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
                     @endforelse
                     @if ($reviews->hasPages())
-                        <nav class="review-pagination" aria-label="Reviews pagination">
-                            {{ $reviews->links() }}
+                        <nav class="review-pagination manual-review-pagination" aria-label="Reviews pagination">
+                            @if ($reviews->onFirstPage())
+                                <span class="review-page-button disabled" aria-disabled="true">‹</span>
+                            @else
+                                <a class="review-page-button" href="{{ $reviews->previousPageUrl() }}" rel="prev">‹</a>
+                            @endif
+                            <div class="review-page-numbers">
+                                @for ($page = 1; $page <= $reviews->lastPage(); $page++)
+                                    @if ($page === $reviews->currentPage())
+                                        <span class="review-page-button active" aria-current="page">{{ $page }}</span>
+                                    @else
+                                        <a class="review-page-button" href="{{ $reviews->url($page) }}">{{ $page }}</a>
+                                    @endif
+                                @endfor
+                            </div>
+                            @if ($reviews->hasMorePages())
+                                <a class="review-page-button" href="{{ $reviews->nextPageUrl() }}" rel="next">›</a>
+                            @else
+                                <span class="review-page-button disabled" aria-disabled="true">›</span>
+                            @endif
                         </nav>
                     @endif
                 </div>
@@ -1352,8 +1435,10 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                     <img class="related-card-image"
                         src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
                         alt="{{ $relatedProduct->name }}">
-                    <h3>{{ $relatedProduct->name }}</h3>
-                    <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
+                    <div class="related-card-desc">
+                        <h3>{{ $relatedProduct->name }}</h3>
+                        <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
+                    </div>
                 </a>
                 @endforeach
             </div>
@@ -1375,6 +1460,9 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
             let current = 0;
             let timer;
+            let dragStartX = null;
+            let dragStartY = null;
+            let dragged = false;
             if (images.length > 1) track.appendChild(track.firstElementChild.cloneNode(true));
             const show = (index) => {
                 const next = (index + images.length) % images.length;
@@ -1406,6 +1494,39 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 show(index);
                 restart();
             }));
+            track.addEventListener('pointerdown', (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                dragStartX = event.clientX;
+                dragStartY = event.clientY;
+                dragged = false;
+                track.classList.add('is-dragging');
+                track.setPointerCapture?.(event.pointerId);
+                window.clearInterval(timer);
+            });
+            track.addEventListener('pointermove', (event) => {
+                if (dragStartX === null) return;
+                if (Math.abs(event.clientX - dragStartX) > 8 || Math.abs(event.clientY - dragStartY) > 8) {
+                    dragged = true;
+                }
+            });
+            track.addEventListener('pointerup', (event) => {
+                if (dragStartX === null) return;
+                const distanceX = event.clientX - dragStartX;
+                const distanceY = event.clientY - dragStartY;
+                track.classList.remove('is-dragging');
+                dragStartX = null;
+                dragStartY = null;
+                if (Math.abs(distanceX) > 45 && Math.abs(distanceX) > Math.abs(distanceY)) {
+                    show(distanceX < 0 ? current + 1 : current - 1);
+                }
+                restart();
+            });
+            track.addEventListener('pointercancel', () => {
+                track.classList.remove('is-dragging');
+                dragStartX = null;
+                dragStartY = null;
+                restart();
+            });
             gallery.addEventListener('mouseenter', () => window.clearInterval(timer));
             gallery.addEventListener('mouseleave', restart);
             gallery.addEventListener('keydown', (event) => {

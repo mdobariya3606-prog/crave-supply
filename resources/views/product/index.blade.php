@@ -73,12 +73,18 @@
             justify-content: center;
             min-height: 42px;
             padding: 0 15px;
-            border-radius: 10px;
+            border-radius: 2px;
             color: #17362a;
             background: #e8c66f;
             font-size: 13px;
             font-weight: 700;
             text-decoration: none;
+        }
+
+        .manage-actions a.secondary:hover {
+            color: #e8c66f;
+            background: #17362a;
+            transition: 0.5s;
         }
 
         .manage-actions a.secondary {
@@ -382,9 +388,19 @@
             white-space: nowrap;
         }
 
+        html[data-theme="dark"] .product-card-status {
+            color: #dcfce7;
+            background: #166534;
+        }
+
         .product-card-status.unavailable {
             color: #991b1b;
             background: #fee2e2;
+        }
+
+        html[data-theme="dark"] .product-card-status.unavailable {
+            color: #fee2e2;
+            background: #991b1b;
         }
 
         .catalogue-pagination {
@@ -602,21 +618,134 @@
                 gap: 7px;
             }
         }
+
         /* Laravel's pagination has nested wrappers; only the inner links are buttons. */
-        .catalogue-pagination nav{display:flex;justify-content:center}
-        .catalogue-pagination nav>div:first-child{display:none}
-        .catalogue-pagination nav>div:last-child{display:flex;align-items:center;gap:6px}
+        .catalogue-pagination nav {
+            display: flex;
+            justify-content: center
+        }
+
+        .catalogue-pagination nav>div:first-child {
+            display: none
+        }
+
+        .catalogue-pagination nav>div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
         .catalogue-pagination nav>div:last-child>span,
-        .catalogue-pagination nav>div:last-child>a{display:inline-flex;align-items:center;gap:4px}
+        .catalogue-pagination nav>div:last-child>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px
+        }
+
         .catalogue-pagination nav>div:last-child>a,
         .catalogue-pagination nav>div:last-child>span[aria-current="page"] span,
-        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span{min-width:34px;height:34px;padding:0 9px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;border:1px solid #ded4c8;border-radius:8px;color:#51483e;background:#fffdf9;font-size:12px;text-decoration:none}
-        .catalogue-pagination nav>div:last-child>a:hover{border-color:#8d6c4a;color:#8d6c4a;background:#f8f4ed}
-        .catalogue-pagination nav>div:last-child>span[aria-current="page"] span{border-color:#2c2722;color:#fff;background:#2c2722}
-        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span{color:#b9aa9b;background:#f8f4ed}
-        .catalogue-pagination svg{width:14px;height:14px}
-        @media(max-width:500px){.catalogue-pagination nav>div:last-child{flex-wrap:wrap;justify-content:center}}
-        .manual-pagination{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:30px}.manual-pagination-pages{display:flex;gap:7px}.manual-pagination-button{display:inline-flex;min-width:36px;height:36px;box-sizing:border-box;align-items:center;justify-content:center;padding:0 10px;border:1px solid var(--products-line);border-radius:9px;color:var(--products-ink);background:#fff;font-size:12px;font-weight:700;text-decoration:none}.manual-pagination-button:hover{border-color:var(--products-blue);color:var(--products-blue)}.manual-pagination-button.active{border-color:var(--products-blue);color:#fff;background:var(--products-blue)}.manual-pagination-button.disabled{color:#cbd5e1;background:#f8fafc;cursor:not-allowed}@media(max-width:500px){.manual-pagination{flex-wrap:wrap}.manual-pagination-pages{flex-wrap:wrap;justify-content:center}}
+        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ded4c8;
+            border-radius: 8px;
+            color: #51483e;
+            background: #fffdf9;
+            font-size: 12px;
+            text-decoration: none
+        }
+
+        .catalogue-pagination nav>div:last-child>a:hover {
+            border-color: #8d6c4a;
+            color: #8d6c4a;
+            background: #f8f4ed
+        }
+
+        .catalogue-pagination nav>div:last-child>span[aria-current="page"] span {
+            border-color: #2c2722;
+            color: #fff;
+            background: #2c2722
+        }
+
+        .catalogue-pagination nav>div:last-child>span[aria-disabled="true"] span {
+            color: #b9aa9b;
+            background: #f8f4ed
+        }
+
+        .catalogue-pagination svg {
+            width: 14px;
+            height: 14px
+        }
+
+        @media(max-width:500px) {
+            .catalogue-pagination nav>div:last-child {
+                flex-wrap: wrap;
+                justify-content: center
+            }
+        }
+
+        .manual-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 30px
+        }
+
+        .manual-pagination-pages {
+            display: flex;
+            gap: 7px
+        }
+
+        .manual-pagination-button {
+            display: inline-flex;
+            min-width: 36px;
+            height: 36px;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            border: 1px solid var(--products-line);
+            border-radius: 9px;
+            color: var(--products-ink);
+            background: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none
+        }
+
+        .manual-pagination-button:hover {
+            border-color: var(--products-blue);
+            color: var(--products-blue)
+        }
+
+        .manual-pagination-button.active {
+            border-color: var(--products-blue);
+            color: #fff;
+            background: var(--products-blue)
+        }
+
+        .manual-pagination-button.disabled {
+            color: #cbd5e1;
+            background: #f8fafc;
+            cursor: not-allowed
+        }
+
+        @media(max-width:500px) {
+            .manual-pagination {
+                flex-wrap: wrap
+            }
+
+            .manual-pagination-pages {
+                flex-wrap: wrap;
+                justify-content: center
+            }
+        }
     </style>
 </head>
 
@@ -637,7 +766,7 @@
             </div>
             @if (auth()->user()?->role === 'admin')
             <div class="manage-actions" aria-label="Product management actions">
-                <a href="{{ route('categories.add') }}">Add category</a>
+                <a class="secondary" href="{{ route('categories.add') }}">Add category</a>
                 <a class="secondary"
                     href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
                     product</a>
@@ -757,27 +886,27 @@
                 @endforeach
             </div>
             @if ($products->hasPages())
-                <nav class="manual-pagination" aria-label="Product pagination">
-                    @if ($products->onFirstPage())
-                        <span class="manual-pagination-button disabled" aria-disabled="true">‹</span>
-                    @else
-                        <a class="manual-pagination-button" href="{{ $products->previousPageUrl() }}" rel="prev">‹</a>
-                    @endif
-                    <div class="manual-pagination-pages">
-                        @for ($page = 1; $page <= $products->lastPage(); $page++)
-                            @if ($page === $products->currentPage())
-                                <span class="manual-pagination-button active" aria-current="page">{{ $page }}</span>
-                            @else
-                                <a class="manual-pagination-button" href="{{ $products->url($page) }}">{{ $page }}</a>
-                            @endif
+            <nav class="manual-pagination" aria-label="Product pagination">
+                @if ($products->onFirstPage())
+                <span class="manual-pagination-button disabled" aria-disabled="true">‹</span>
+                @else
+                <a class="manual-pagination-button" href="{{ $products->previousPageUrl() }}" rel="prev">‹</a>
+                @endif
+                <div class="manual-pagination-pages">
+                    @for ($page = 1; $page <= $products->lastPage(); $page++)
+                        @if ($page === $products->currentPage())
+                        <span class="manual-pagination-button active" aria-current="page">{{ $page }}</span>
+                        @else
+                        <a class="manual-pagination-button" href="{{ $products->url($page) }}">{{ $page }}</a>
+                        @endif
                         @endfor
-                    </div>
-                    @if ($products->hasMorePages())
-                        <a class="manual-pagination-button" href="{{ $products->nextPageUrl() }}" rel="next">›</a>
-                    @else
-                        <span class="manual-pagination-button disabled" aria-disabled="true">›</span>
-                    @endif
-                </nav>
+                </div>
+                @if ($products->hasMorePages())
+                <a class="manual-pagination-button" href="{{ $products->nextPageUrl() }}" rel="next">›</a>
+                @else
+                <span class="manual-pagination-button disabled" aria-disabled="true">›</span>
+                @endif
+            </nav>
             @endif
             @else
             <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
