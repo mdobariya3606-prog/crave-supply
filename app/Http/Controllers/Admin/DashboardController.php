@@ -13,8 +13,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $this->admin($request);
-
         return view('admin.dashboard', [
             'orderCount' => Order::count(),
             'currentOrderCount' => Order::whereIn('status', ['order_received', 'processing', 'ready', 'out_for_delivery'])->count(),
@@ -25,10 +23,5 @@ class DashboardController extends Controller
             'recentOrders' => Order::with('user')->latest()->take(8)->get(),
             'lowStockProducts' => Product::where('stock', '<=', 10)->orderBy('stock')->take(6)->get(),
         ]);
-    }
-
-    private function admin(Request $request): void
-    {
-        abort_unless($request->user()?->role === 'admin', 403);
     }
 }

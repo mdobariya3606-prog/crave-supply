@@ -12,7 +12,6 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $this->admin($request);
         $search = trim((string) $request->query('q'));
         $status = $request->query('status');
 
@@ -35,7 +34,6 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, Order $order)
     {
-        $this->admin($request);
         $currentStatus = $order->status;
         $allowedStatuses = array_map(
             fn(OrderStatus $status) => $status->value,
@@ -57,10 +55,5 @@ class OrderController extends Controller
         }
 
         return back()->with('success', 'Order status updated.');
-    }
-
-    private function admin(Request $request): void
-    {
-        abort_unless($request->user()?->role === 'admin', 403);
     }
 }
