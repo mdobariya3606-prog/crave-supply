@@ -31,6 +31,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         'email',
         'phone',
         'password',
+        'is_active',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -52,6 +53,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 

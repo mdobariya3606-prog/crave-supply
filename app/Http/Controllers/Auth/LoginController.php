@@ -15,7 +15,7 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
-        if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+        if (! Auth::attempt([...$request->only('email', 'password'), 'is_active' => true], $request->boolean('remember'))) {
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors(['email' => 'These credentials do not match our records.']);
