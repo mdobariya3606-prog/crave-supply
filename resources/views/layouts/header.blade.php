@@ -32,7 +32,9 @@
             <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : '' }}>Orders</a>
             @endif
             @if (auth()->user()?->role === 'admin')
-            <a href="{{ route('admin.orders.index') }}" class={{ request()->routeIs('admin.orders.*') ? 'active' : '' }}>Orders</a>
+                <a href="{{ route('admin.dashboard') }}" class={{ request()->routeIs('admin.dashboard') ? 'active' : '' }}>Admin</a>
+                <a href="{{ route('admin.orders.index') }}" class={{ request()->routeIs('admin.orders.*') ? 'active' : '' }}>Orders</a>
+                <a href="{{ route('admin.customers.index') }}" class={{ request()->routeIs('admin.customers.*') ? 'active' : '' }}>Customers</a>
             @endif
             @guest
             <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
@@ -74,9 +76,9 @@
     .global-search form {
         display: flex;
         align-items: center;
-        height: 38px;
+        height: 36px;
         overflow: hidden;
-        border: 1px solid #ded4c8;
+        border: 1px solid #cfc3b4;
         border-radius: 0;
         background: #fffdf9;
     }
@@ -106,12 +108,12 @@
     }
 
     .global-search button {
-        width: 38px;
+        width: 36px;
         height: 100%;
         border: 0;
-        color: #2c2722;
-        background: #f1e9df;
-        font-size: 20px;
+        color: #fffdf9;
+        background: #2c2722;
+        font-size: 17px;
         cursor: pointer;
     }
 

@@ -6,6 +6,9 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Middleware\EnsureAccountIsActive;
 use App\Http\Controllers\Product\CheckoutController;
 use App\Models\Review;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +29,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', fn () => redirect()->route('home'))->name('dashboard');
+
+Route::get('/account-disabled', fn () => view('account-disabled'))->name('account.disabled');
 
 Route::view('/about', 'about')->name('about');
 Route::get('/contact', fn () => view('contact'))->name('contact');
@@ -48,7 +53,7 @@ Route::post('/contact', function (\Illuminate\Http\Request $request) {
     return back()->with('contact_success', 'Thanks for reaching out. Our team will get back to you shortly.');
 })->name('contact.submit');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -60,6 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{order}/bill', [CheckoutController::class, 'bill'])->name('orders.bill');
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::put('/admin/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.status');
+    Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/customers', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
+    Route::get('/admin/customers/{user}', [AdminCustomerController::class, 'show'])->name('admin.customers.show');
+    Route::patch('/admin/customers/{user}/toggle', [AdminCustomerController::class, 'toggle'])->name('admin.customers.toggle');
+    Route::delete('/admin/customers/{user}', [AdminCustomerController::class, 'destroy'])->name('admin.customers.destroy');
 });
 
 Route::middleware('guest')

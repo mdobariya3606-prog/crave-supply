@@ -13,10 +13,23 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $this->admin($request);
+        $search = trim((string) $request->query('q'));
+        $status = $request->query('status');
+
+        $orders = Order::with(['user', 'orderItems', 'orderStatusHistories.user'])
+            ->when($status && in_array($status, array_column(OrderStatus::cases(), 'value'), true), fn ($query) => $query->where('status', $status))
+            ->when($search, fn ($query) => $query->where(fn ($query) => $query
+                ->where('order_number', 'like', "%{$search}%")
+                ->orWhereHas('user', fn ($query) => $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"))))
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
 
         return view('admin.orders.index', [
-            'orders' => Order::with(['user', 'orderItems', 'orderStatusHistories.user'])->latest()->paginate(20),
+            'orders' => $orders,
             'statuses' => OrderStatus::cases(),
+            'search' => $search,
+            'selectedStatus' => $status,
         ]);
     }
 

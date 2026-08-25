@@ -94,6 +94,10 @@
             gap: 7px;
         }
 
+        .order-filters { display:flex; gap:10px; margin:20px 0; }
+        .order-filters input, .order-filters select { min-height:38px; padding:0 11px; border:1px solid #ded4c8; background:#fffdf9; }
+        .order-filters button { padding:0 15px; border:0; color:#fff; background:#2c2722; cursor:pointer; }
+
         select,
         button {
             padding: 8px 9px;
@@ -144,6 +148,11 @@
         <p class="intro">Review new customer orders and update their fulfilment status.</p>
         @if(session('success'))<div class="notice">{{ session('success') }}</div>@endif
         @if($errors->any())<div class="error-notice">{{ $errors->first('status') }}</div>@endif
+        <form class="order-filters" method="GET">
+            <input name="q" value="{{ $search }}" placeholder="Search order or customer">
+            <select name="status"><option value="">All statuses</option>@foreach($statuses as $status)<option value="{{ $status->value }}" @selected($selectedStatus === $status->value)>{{ ucwords(str_replace('_', ' ', $status->value)) }}</option>@endforeach</select>
+            <button type="submit">Filter</button>
+        </form>
         <div class="orders-table-wrap">
             <table>
                 <thead>
