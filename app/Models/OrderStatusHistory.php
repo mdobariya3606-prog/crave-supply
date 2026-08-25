@@ -22,12 +22,13 @@ class OrderStatusHistory extends Model
         ];
     }
 
-    public function order() {
+    public function order()
+    {
         return $this->belongsTo(Order::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'changed_by');
     }
-
 }

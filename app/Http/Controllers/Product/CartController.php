@@ -41,7 +41,7 @@ class CartController extends Controller
 
         return view('product.cart', [
             'cart' => $cart,
-            'total' => collect($cart)->sum(fn ($item) => $item['current_price'] * $item['quantity']),
+            'total' => collect($cart)->sum(fn($item) => $item['current_price'] * $item['quantity']),
         ]);
     }
 

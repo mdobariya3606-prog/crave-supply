@@ -20,7 +20,10 @@ class CategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => [
-                'required', 'string', 'max:255', 'alpha_dash',
+                'required',
+                'string',
+                'max:255',
+                'alpha_dash',
                 Rule::unique('categories', 'slug')->ignore($this->route('category')),
             ],
             'description' => ['nullable', 'string'],

@@ -28,12 +28,12 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', fn () => redirect()->route('home'))->name('dashboard');
+Route::get('/dashboard', fn() => redirect()->route('home'))->name('dashboard');
 
-Route::get('/account-disabled', fn () => view('account-disabled'))->name('account.disabled');
+Route::get('/account-disabled', fn() => view('account-disabled'))->name('account.disabled');
 
 Route::view('/about', 'about')->name('about');
-Route::get('/contact', fn () => view('contact'))->name('contact');
+Route::get('/contact', fn() => view('contact'))->name('contact');
 Route::post('/contact', function (\Illuminate\Http\Request $request) {
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:100'],

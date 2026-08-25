@@ -404,12 +404,12 @@
             gap: 4px;
         }
 
-        .review-pagination nav > div:first-child {
+        .review-pagination nav>div:first-child {
             display: none;
         }
 
-        .review-pagination nav > div:last-child > span,
-        .review-pagination nav > div:last-child > a {
+        .review-pagination nav>div:last-child>span,
+        .review-pagination nav>div:last-child>a {
             display: inline-flex;
             align-items: center;
             gap: 4px;
@@ -776,7 +776,9 @@
             text-transform: uppercase;
         }
 
-        .breadcrumb a { color: #6e685f; }
+        .breadcrumb a {
+            color: #6e685f;
+        }
 
         .product-main {
             grid-template-columns: minmax(0, 1.06fr) minmax(360px, .94fr);
@@ -784,7 +786,10 @@
             padding: 18px 0 64px;
         }
 
-        .gallery { width: 100%; top: 92px; }
+        .gallery {
+            width: 100%;
+            top: 92px;
+        }
 
         .gallery-main {
             aspect-ratio: 1 / 1;
@@ -804,7 +809,7 @@
             width: 42px;
             height: 42px;
             color: #29251f;
-            background: rgba(255,255,255,.82);
+            background: rgba(255, 255, 255, .82);
             box-shadow: none;
         }
 
@@ -815,7 +820,9 @@
             background: #eee6d9;
         }
 
-        .gallery-thumb.active { border-color: #29251f; }
+        .gallery-thumb.active {
+            border-color: #29251f;
+        }
 
         .product-info {
             padding: 28px 0 0;
@@ -851,7 +858,10 @@
             font-size: 11px;
         }
 
-        .stars { color: #b48a44; letter-spacing: .12em; }
+        .stars {
+            color: #b48a44;
+            letter-spacing: .12em;
+        }
 
         .price-row {
             margin-top: 26px;
@@ -860,20 +870,73 @@
             border-bottom: 1px solid #ddd3c6;
         }
 
-        .price { color: #29251f; font-family: Georgia, 'Times New Roman', serif; font-size: 25px; }
-        .availability { color: #607044; background: #e8eddf; }
-        .availability.unavailable { color: #9b4338; background: #f4e2dc; }
+        .price {
+            color: #29251f;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 25px;
+        }
 
-        .detail-list { margin-top: 22px; border-bottom: 1px solid #ddd3c6; }
-        .detail-list div { padding: 12px 0; border-top: 1px solid #ddd3c6; }
-        .detail-list dt { color: #8d8376; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-        .detail-list dd { color: #3c372f; font-size: 12px; }
+        .availability {
+            color: #607044;
+            background: #e8eddf;
+        }
 
-        .order-form { margin-top: 24px; }
-        .order-form label { color: #51483e; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-        .order-form input { border-color: #cfc3b4; border-radius: 0; background: #fffdf9; }
-        .review-submit { border-radius: 0; color: #fff; background: #29251f; letter-spacing: .1em; text-transform: uppercase; }
-        .review-submit:hover { background: #8d6c4a; }
+        .availability.unavailable {
+            color: #9b4338;
+            background: #f4e2dc;
+        }
+
+        .detail-list {
+            margin-top: 22px;
+            border-bottom: 1px solid #ddd3c6;
+        }
+
+        .detail-list div {
+            padding: 12px 0;
+            border-top: 1px solid #ddd3c6;
+        }
+
+        .detail-list dt {
+            color: #8d8376;
+            font-size: 10px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .detail-list dd {
+            color: #3c372f;
+            font-size: 12px;
+        }
+
+        .order-form {
+            margin-top: 24px;
+        }
+
+        .order-form label {
+            color: #51483e;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .order-form input {
+            border-color: #cfc3b4;
+            border-radius: 0;
+            background: #fffdf9;
+        }
+
+        .review-submit {
+            border-radius: 0;
+            color: #fff;
+            background: #29251f;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .review-submit:hover {
+            background: #8d6c4a;
+        }
 
         .service-highlights {
             margin: 0 calc((48px - 50vw)) 72px;
@@ -883,10 +946,22 @@
             background: #f1eadf;
         }
 
-        .service-highlight { color: #51483e; background: transparent; }
-        .service-highlight svg { stroke: #8d6c4a; }
-        .service-highlight strong { color: #29251f; }
-        .service-highlight span { color: #8d8376; }
+        .service-highlight {
+            color: #51483e;
+            background: transparent;
+        }
+
+        .service-highlight svg {
+            stroke: #8d6c4a;
+        }
+
+        .service-highlight strong {
+            color: #29251f;
+        }
+
+        .service-highlight span {
+            color: #8d8376;
+        }
 
         .editorial-story {
             display: grid;
@@ -906,24 +981,98 @@
             color: #29251f;
         }
 
-        .editorial-story-copy h2 { max-width: 320px; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 34px; font-weight: 400; line-height: 1; }
-        .editorial-story-copy p { max-width: 370px; margin: 18px 0 0; color: #5d4d47; font-size: 13px; line-height: 1.7; }
-        .editorial-story-visual { min-height: 310px; background: radial-gradient(circle at 70% 30%, #795c42, #211c18 65%); }
-        .editorial-story-visual::after { content: 'CRAFTED FOR THE EVERYDAY'; display: grid; height: 100%; place-items: center; color: rgba(248,244,237,.28); font-size: 11px; letter-spacing: .3em; transform: rotate(-12deg); }
+        .editorial-story-copy h2 {
+            max-width: 320px;
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 34px;
+            font-weight: 400;
+            line-height: 1;
+        }
 
-        .reviews-section, .related-section { padding-top: 0; }
-        .section-title h2, .reviews-section h2, .related-section h2 { color: #29251f; font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 400; }
-        .section-title p { color: #8d8376; }
-        .review-card, .review-form, .review-item, .related-card { border-color: #e2d9cd; border-radius: 0; background: #fffdf9; box-shadow: none; }
-        .review-score { color: #29251f; font-family: Georgia, 'Times New Roman', serif; }
+        .editorial-story-copy p {
+            max-width: 370px;
+            margin: 18px 0 0;
+            color: #5d4d47;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .editorial-story-visual {
+            min-height: 310px;
+            background: radial-gradient(circle at 70% 30%, #795c42, #211c18 65%);
+        }
+
+        .editorial-story-visual::after {
+            content: 'CRAFTED FOR THE EVERYDAY';
+            display: grid;
+            height: 100%;
+            place-items: center;
+            color: rgba(248, 244, 237, .28);
+            font-size: 11px;
+            letter-spacing: .3em;
+            transform: rotate(-12deg);
+        }
+
+        .reviews-section,
+        .related-section {
+            padding-top: 0;
+        }
+
+        .section-title h2,
+        .reviews-section h2,
+        .related-section h2 {
+            color: #29251f;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 32px;
+            font-weight: 400;
+        }
+
+        .section-title p {
+            color: #8d8376;
+        }
+
+        .review-card,
+        .review-form,
+        .review-item,
+        .related-card {
+            border-color: #e2d9cd;
+            border-radius: 0;
+            background: #fffdf9;
+            box-shadow: none;
+        }
+
+        .review-score {
+            color: #29251f;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
 
         @media (max-width: 760px) {
-            .product-profile { width: calc(100% - 28px); }
-            .product-main { gap: 28px; padding-bottom: 42px; }
-            .product-info { padding-top: 0; }
-            .service-highlights { margin-inline: -14px; padding-inline: 14px; }
-            .editorial-story { grid-template-columns: 1fr; }
-            .editorial-story-visual { min-height: 180px; }
+            .product-profile {
+                width: calc(100% - 28px);
+            }
+
+            .product-main {
+                gap: 28px;
+                padding-bottom: 42px;
+            }
+
+            .product-info {
+                padding-top: 0;
+            }
+
+            .service-highlights {
+                margin-inline: -14px;
+                padding-inline: 14px;
+            }
+
+            .editorial-story {
+                grid-template-columns: 1fr;
+            }
+
+            .editorial-story-visual {
+                min-height: 180px;
+            }
         }
     </style>
 </head>
@@ -932,7 +1081,7 @@
     @include('layouts.header')
     <main class="product-profile">
         @if (session('success'))
-        <div class="review-message" role="status">{{ session('success') }}</div>
+            <div class="review-message" role="status">{{ session('success') }}</div>
         @endif
 
         <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
@@ -942,11 +1091,11 @@
                 <div class="gallery-main">
                     <div class="gallery-track" data-gallery-track>
                         @forelse ($product->productImages as $index => $image)
-                        <img src="{{ asset('storage/' . $image->image_path) }}"
-                            alt="{{ $product->name }} view {{ $index + 1 }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}">
                         @empty
-                        <img src="{{ asset('images/product-placeholder.svg') }}"
-                            alt="{{ $product->name }} product image">
+                            <img src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} product image">
                         @endforelse
                     </div>
                     <button class="gallery-arrow previous" type="button" data-gallery-previous
@@ -956,17 +1105,16 @@
                 </div>
                 <div class="gallery-thumbs">
                     @foreach ($product->productImages as $index => $image)
-                    <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
-                        data-gallery-thumb="{{ $index }}">
-                        <img src="{{ asset('storage/' . $image->image_path) }}"
-                            alt="{{ $product->name }} view {{ $index + 1 }}">
-                    </button>
+                        <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
+                            data-gallery-thumb="{{ $index }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                        </button>
                     @endforeach
                     @if ($product->productImages->isEmpty())
-                    <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
-                        <img src="{{ asset('images/product-placeholder.svg') }}"
-                            alt="{{ $product->name }} placeholder">
-                    </button>
+                        <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
+                            <img src="{{ asset('images/product-placeholder.svg') }}" alt="{{ $product->name }} placeholder">
+                        </button>
                     @endif
                 </div>
             </div>
@@ -977,12 +1125,11 @@
                 <p class="product-subtitle">
                     {{ $product->description ?: 'A thoughtfully selected premium product for your business and shared spaces.' }}
                 </p>
-                <div class="rating-summary"><span
-                        class="stars"><?php $avgRating = (int) $product->reviews->avg('rating'); ?>
+                <div class="rating-summary"><span class="stars"><?php
+$avgRating = (int) $product->reviews->avg('rating'); ?>
                         {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span>{{ number_format((float) $product->reviews->avg('rating'), 1) }}
                         from {{ $product->reviews->count() }} reviews</span></div>
-                <div class="price-row"><span
-                        class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
+                <div class="price-row"><span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
                         class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{ $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently unavailable') }}</span>
                 </div>
                 <dl class="detail-list">
@@ -1000,26 +1147,27 @@
                     </div>
                 </dl>
                 @if (auth()->user()?->role === 'admin')
-                <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
-                    href="{{ route('products.edit', $product) }}">Edit product</a>
+                    <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
+                        href="{{ route('products.edit', $product) }}">Edit product</a>
                 @endif
                 @if ($product->is_available && $product->stock > 0)
-                @if (!auth()->check() || auth()->user()?->role === 'customer')
-                <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
-                    @csrf
-                    <label for="quantity">Quantity</label>
-                    <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
-                            max="{{ $product->stock }}" value="1"></div>
-                    @error('quantity', 'order')
-                    <span class="order-error" role="alert">{{ $message }}</span>
-                    @enderror
-                    <button class="review-submit" type="submit">Add to Order</button>
-                </form>
-                @endif
+                    @if (!auth()->check() || auth()->user()?->role === 'customer')
+                        <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
+                            @csrf
+                            <label for="quantity">Quantity</label>
+                            <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
+                                    max="{{ $product->stock }}" value="1"></div>
+                            @error('quantity', 'order')
+                                <span class="order-error" role="alert">{{ $message }}</span>
+                            @enderror
+                            <button class="review-submit" type="submit">Add to Order</button>
+                        </form>
+                    @endif
                 @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
-                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of stock</span>
+                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of stock</span>
                 @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
-                <span class="availability unavailable" style="display:inline-block;margin-top:18px">Currently unavailable</span>
+                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Currently
+                        unavailable</span>
                 @endif
             </div>
         </section>
@@ -1057,7 +1205,8 @@
             <div class="editorial-story-copy">
                 <p class="product-label">The CraveSupply standard</p>
                 <h2 id="story-title">Good choices, beautifully considered.</h2>
-                <p>We look for products that earn their place on the shelf: dependable quality, thoughtful details, and a little joy in every everyday moment.</p>
+                <p>We look for products that earn their place on the shelf: dependable quality, thoughtful details, and
+                    a little joy in every everyday moment.</p>
             </div>
             <div class="editorial-story-visual" aria-hidden="true"></div>
         </section>
@@ -1083,49 +1232,50 @@
                             review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
                     @auth
-                    @if (session('review_success'))
-                    <div class="review-message" role="status">{{ session('review_success') }}</div>
-                    @endif
-                    <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
-                        @csrf
-                        <h3>Share your experience</h3>
-                        <label for="rating">Your rating</label>
-                        <div class="input-wrapper"><select id="rating" name="rating" required>
-                                <option value="">Select a rating</option>
-                                <option value="5">★★★★★ Excellent</option>
-                                <option value="4">★★★★☆ Very good</option>
-                                <option value="3">★★★☆☆ Good</option>
-                                <option value="2">★★☆☆☆ Fair</option>
-                                <option value="1">★☆☆☆☆ Needs improvement</option>
-                            </select></div>
-                        <label for="comment">Review</label>
-                        <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000" placeholder="Tell us about the product..."></textarea></div>
-                        <button class="review-submit" type="submit">Submit review</button>
-                    </form>
+                        @if (session('review_success'))
+                            <div class="review-message" role="status">{{ session('review_success') }}</div>
+                        @endif
+                        <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
+                            @csrf
+                            <h3>Share your experience</h3>
+                            <label for="rating">Your rating</label>
+                            <div class="input-wrapper"><select id="rating" name="rating" required>
+                                    <option value="">Select a rating</option>
+                                    <option value="5">★★★★★ Excellent</option>
+                                    <option value="4">★★★★☆ Very good</option>
+                                    <option value="3">★★★☆☆ Good</option>
+                                    <option value="2">★★☆☆☆ Fair</option>
+                                    <option value="1">★☆☆☆☆ Needs improvement</option>
+                                </select></div>
+                            <label for="comment">Review</label>
+                            <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000"
+                                    placeholder="Tell us about the product..."></textarea></div>
+                            <button class="review-submit" type="submit">Submit review</button>
+                        </form>
                     @else
-                    <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
+                        <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
                     @endauth
                 </div>
                 <div class="review-list">
                     @forelse ($reviews as $review)
-                    <article class="review-item">
-                        <header>
-                            <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
-                        </header>
-                        <div class="stars">
-                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                        </div>
-                        @if ($review->comment)
-                        <p>{{ $review->comment }}</p>
-                        @endif
-                    </article>
+                        <article class="review-item">
+                            <header>
+                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
+                            </header>
+                            <div class="stars">
+                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                            </div>
+                            @if ($review->comment)
+                                <p>{{ $review->comment }}</p>
+                            @endif
+                        </article>
                     @empty
-                    <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
+                        <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
                     @endforelse
                     @if ($reviews->hasPages())
-                    <nav class="review-pagination" aria-label="Reviews pagination">
-                        {{ $reviews->links() }}
-                    </nav>
+                        <nav class="review-pagination" aria-label="Reviews pagination">
+                            {{ $reviews->links() }}
+                        </nav>
                     @endif
                 </div>
             </div>
@@ -1143,7 +1293,9 @@
                 @foreach ($relatedProducts as $relatedProduct)
                 <a class="related-card" href="{{ route('products.profile', $relatedProduct) }}">
                     @php($relatedImage = $relatedProduct->productImages->firstWhere('is_primary', true) ?: $relatedProduct->productImages->first())
-                    <img class="related-card-image" src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}" alt="{{ $relatedProduct->name }}">
+                    <img class="related-card-image"
+                        src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
+                        alt="{{ $relatedProduct->name }}">
                     <h3>{{ $relatedProduct->name }}</h3>
                     <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
                 </a>
@@ -1158,7 +1310,8 @@
         (() => {
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
-            const images = @json($product->productImages->map(fn($image) => asset('storage/'.$image->image_path))->values()->all() ? : [
+            const images = @json(
+                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
                     asset('images/product-placeholder.svg'),
                 ]
             );

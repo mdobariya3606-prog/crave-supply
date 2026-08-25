@@ -17,10 +17,10 @@ class OrderController extends Controller
         $status = $request->query('status');
 
         $orders = Order::with(['user', 'orderItems', 'orderStatusHistories.user'])
-            ->when($status && in_array($status, array_column(OrderStatus::cases(), 'value'), true), fn ($query) => $query->where('status', $status))
-            ->when($search, fn ($query) => $query->where(fn ($query) => $query
+            ->when($status && in_array($status, array_column(OrderStatus::cases(), 'value'), true), fn($query) => $query->where('status', $status))
+            ->when($search, fn($query) => $query->where(fn($query) => $query
                 ->where('order_number', 'like', "%{$search}%")
-                ->orWhereHas('user', fn ($query) => $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"))))
+                ->orWhereHas('user', fn($query) => $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"))))
             ->latest()
             ->paginate(20)
             ->withQueryString();
@@ -38,7 +38,7 @@ class OrderController extends Controller
         $this->admin($request);
         $currentStatus = $order->status;
         $allowedStatuses = array_map(
-            fn (OrderStatus $status) => $status->value,
+            fn(OrderStatus $status) => $status->value,
             [$currentStatus, ...$currentStatus->nextStatuses()]
         );
 

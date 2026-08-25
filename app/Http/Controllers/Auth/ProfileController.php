@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileRequest ;
+use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {

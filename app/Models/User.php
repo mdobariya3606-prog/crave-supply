@@ -72,7 +72,8 @@ class User extends Authenticatable implements CanResetPasswordContract
         return $this->hasMany(OrderStatusHistory::class, 'changed_by');
     }
 
-    protected function name(): Attribute {
+    protected function name(): Attribute
+    {
         return Attribute::make(
             set: fn(string $value) => Str::trim(Str::upper($value)),
             get: fn(string $value) => Str::upper($value),

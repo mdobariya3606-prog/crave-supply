@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function create() {
+    public function create()
+    {
         return view('user.register');
     }
 
-    public function store(RegisterRequest $request) {
+    public function store(RegisterRequest $request)
+    {
         $data = $request->validated();
         $user = User::create($data);
 
