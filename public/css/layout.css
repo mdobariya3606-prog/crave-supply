@@ -22,6 +22,7 @@ body {
 }
 
 .site-header {
+    /* Shared header shell; keep its height independent from open popups. */
     position: sticky;
     top: 0;
     z-index: 10;
@@ -30,10 +31,6 @@ body {
     border-bottom: 1px solid rgba(222, 212, 200, .9);
     background: rgba(255, 253, 249, .96);
     backdrop-filter: blur(14px);
-}
-
-.site-header:has(.profile-menu:not([hidden])) {
-    height: 154px;
 }
 
 .nav-wrap {
@@ -134,6 +131,7 @@ body {
 }
 
 .profile-menu {
+    /* Absolute positioning keeps the menu out of document layout flow. */
     position: absolute;
     top: calc(100% + 4px);
     right: 0;
@@ -216,17 +214,22 @@ a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }
 
 @media (max-width: 760px) {
-    .site-header,
-    .site-header:has(.profile-menu:not([hidden])) { height: auto; }
+    /* Mobile header uses two rows: branding and search. */
+    .site-header { height: 120px; }
     .nav-wrap {
-        height: auto;
-        min-height: 60px;
+        height: 120px;
         flex-wrap: wrap;
         gap: 10px;
         padding: 10px 0;
     }
     .nav-links { display: none; }
     .user-menu span:first-child { display: none; }
+    /* The avatar sits above the search row; keep its popup below both rows. */
+    .site-header .profile-menu {
+        position: fixed;
+        top: 114px;
+        right: 14px;
+    }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 18px; }
     .footer-brand { grid-column: 1 / -1; }
     .footer-bottom { display: block; }

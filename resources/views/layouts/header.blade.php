@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
 <header class="site-header">
     <nav class="nav-wrap" aria-label="Main navigation">
+        {{-- Brand and global search stay visible at every breakpoint. --}}
         <a class="brand" href="{{ route('home') }}">
             <span class="brand-mark">CS</span>
             <span>CraveSupply</span>
@@ -15,6 +16,7 @@
             </form>
             <div class="search-results" data-search-results hidden></div>
         </div>
+        {{-- Desktop navigation links; hidden on narrow screens. --}}
         <div class="nav-links">
             <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ? 'active' : '' }}>Home</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
@@ -41,6 +43,7 @@
             <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
             @endguest
         </div>
+        {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
             <div class="profile-dropdown">
@@ -66,6 +69,7 @@
     </nav>
 </header>
 
+{{-- Header-only styles are kept here because this partial owns these elements. --}}
 <style>
     .global-search {
         position: relative;
@@ -191,6 +195,7 @@
     }
 </style>
 
+{{-- Profile menu open/close behavior. --}}
 <script>
     (() => {
         const trigger = document.querySelector('.profile-trigger');
@@ -213,6 +218,7 @@
     })();
 </script>
 
+{{-- Debounced product/category search suggestions. --}}
 <script>
     (() => {
         const search = document.querySelector('[data-global-search]');
