@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
@@ -47,11 +49,21 @@ class OrderController extends Controller
         ]);
 
         if ($currentStatus->value !== $validated['status']) {
-            $order->update(['status' => $validated['status']]);
-            $order->orderStatusHistories()->create([
-                'status' => $validated['status'],
-                'changed_by' => $request->user()->id,
-            ]);
+            DB::transaction(function () use ($request, $order, $validated) {
+                $lockedOrder = Order::with('orderItems')->lockForUpdate()->findOrFail($order->id);
+
+                if ($validated['status'] === OrderStatus::CANCELLED->value) {
+                    foreach ($lockedOrder->orderItems as $item) {
+                        Product::whereKey($item->product_id)->increment('stock', $item->quantity);
+                    }
+                }
+
+                $lockedOrder->update(['status' => $validated['status']]);
+                $lockedOrder->orderStatusHistories()->create([
+                    'status' => $validated['status'],
+                    'changed_by' => $request->user()->id,
+                ]);
+            });
         }
 
         return back()->with('success', 'Order status updated.');
