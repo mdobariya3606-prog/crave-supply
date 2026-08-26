@@ -5,16 +5,23 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 
 class ProductProfileController extends Controller
 {
     public function show(Product $product)
     {
-        $product->load([
-            'category',
-            'productImages',
-            'reviews' => fn($query) => $query->where('is_approved', true)->with('user')->latest(),
-        ]);
+        $product = Cache::remember(
+            "product.{$product->id}",
+            now()->addMinutes(30),
+            function() use($product) {
+                return $product->load([
+                    'category',
+                    'productImages',
+                    // 'reviews' => fn($query) => $query->where('is_approved', true)->with('user')->latest(),
+                ]);
+            }
+        );
 
         $reviewsQuery = $product->reviews()->with('user')->latest();
 
@@ -24,16 +31,24 @@ class ProductProfileController extends Controller
 
         $reviews = $reviewsQuery->paginate(4)->withQueryString();
 
+        $relatedProducts = Cache::remember(
+            "product.{$product->id}.related",
+            now()->addMinutes(30),
+            function() use($product) {
+                return Product::where('category_id', $product->category_id)
+                    ->where('id', '!=', $product->id)
+                    ->where('is_available', true)
+                    ->with('productImages')
+                    ->latest()
+                    ->take(3)
+                    ->get();
+            }
+        );
+
         return view('product.profile', [
             'product' => $product,
             'reviews' => $reviews,
-            'relatedProducts' => Product::where('category_id', $product->category_id)
-                ->where('id', '!=', $product->id)
-                ->where('is_available', true)
-                ->with('productImages')
-                ->latest()
-                ->take(3)
-                ->get(),
+            'relatedProducts' => $relatedProducts,
         ]);
     }
 }

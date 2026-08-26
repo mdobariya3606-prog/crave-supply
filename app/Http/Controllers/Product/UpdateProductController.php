@@ -10,6 +10,7 @@ use App\Models\ProductImage;
 use App\Http\Requests\Product\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Product\AddProductController;
+use Illuminate\Support\Facades\Cache;
 
 class UpdateProductController extends Controller
 {
@@ -26,6 +27,9 @@ class UpdateProductController extends Controller
             $product->productImages()->update(['is_primary' => false]);
             $product->productImages()->whereKey($request->integer('primary_image'))->update(['is_primary' => true]);
         }
+
+        Cache::forget("product.{$product->id}");
+        Cache::forget("product.{$product->id}.related");
         return redirect()->route('products.profile', $product)->with('success', 'Product updated successfully.');
     }
 
