@@ -1,3 +1,10 @@
+<script>
+    (function() {
+        var savedTheme = localStorage.getItem('cravesupply-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    })();
+</script>
 <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
 <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
 <header class="site-header">

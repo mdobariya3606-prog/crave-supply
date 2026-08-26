@@ -1141,6 +1141,40 @@
             background: #29251f;
         }
 
+        html[data-theme="dark"] .review-card,
+        html[data-theme="dark"] .review-form,
+        html[data-theme="dark"] .review-item,
+        html[data-theme="dark"] .related-card {
+            background: #2a241f !important;
+            border-color: #4a4037 !important;
+            color: #f1e9df !important;
+        }
+
+        html[data-theme="dark"] .review-card h3,
+        html[data-theme="dark"] .review-form h3,
+        html[data-theme="dark"] .review-item strong,
+        html[data-theme="dark"] .section-title h2,
+        html[data-theme="dark"] .product-info h1 {
+            color: #f1e9df !important;
+        }
+
+        html[data-theme="dark"] .review-note,
+        html[data-theme="dark"] .section-title p,
+        html[data-theme="dark"] .product-subtitle {
+            color: #b9aa9b !important;
+        }
+
+        html[data-theme="dark"] .review-form input,
+        html[data-theme="dark"] .review-form select,
+        html[data-theme="dark"] .review-form textarea,
+        html[data-theme="dark"] .input-wrapper input,
+        html[data-theme="dark"] .input-wrapper select,
+        html[data-theme="dark"] .input-wrapper textarea {
+            background: #332b25 !important;
+            border-color: #51463c !important;
+            color: #f1e9df !important;
+        }
+
         html[data-theme="dark"] dt,
         html[data-theme="dark"] dd,
         html[data-theme="dark"] time,

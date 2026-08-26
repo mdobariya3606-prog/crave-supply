@@ -201,6 +201,10 @@ html[data-theme="dark"] .message-body {
 
 html[data-theme="dark"] .product-card,
 html[data-theme="dark"] .category-card,
+html[data-theme="dark"] .review-card,
+html[data-theme="dark"] .review-item,
+html[data-theme="dark"] .review-form,
+html[data-theme="dark"] .related-card,
 html[data-theme="dark"] .value,
 html[data-theme="dark"] .about-stat,
 html[data-theme="dark"] .contact-form,
@@ -277,8 +281,7 @@ html[data-theme="dark"] .cart-summary {
 }
 
 html[data-theme="dark"] .premium-proof,
-html[data-theme="dark"] .service-band
-{
+html[data-theme="dark"] .service-band {
     background: #4a4037 !important;
 }
 
@@ -709,7 +712,9 @@ html[data-theme="dark"] .guide-card:hover {
     font-size: 21px;
     font-weight: 700;
     line-height: 1;
-    transition: color .2s ease, transform .2s ease;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 .footer-social-links svg {
     width: 20px;
@@ -720,9 +725,18 @@ html[data-theme="dark"] .guide-card:hover {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.footer-social-links .social-fill { fill: currentColor; stroke: none; }
-.footer-social-links .social-cutout { fill: #120f0d; stroke: none; }
-.footer-social-links .social-dot { fill: currentColor; stroke: none; }
+.footer-social-links .social-fill {
+    fill: currentColor;
+    stroke: none;
+}
+.footer-social-links .social-cutout {
+    fill: #120f0d;
+    stroke: none;
+}
+.footer-social-links .social-dot {
+    fill: currentColor;
+    stroke: none;
+}
 .footer-social-links a:hover {
     color: #dba8a3;
     transform: translateY(-3px);
