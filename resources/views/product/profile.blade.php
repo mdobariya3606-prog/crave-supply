@@ -1307,10 +1307,10 @@
                 <p class="product-subtitle">
                     {{ $product->description ?: 'A thoughtfully selected premium product for your business and shared spaces.' }}
                 </p>
-                <div class="rating-summary"><span class="stars"><?php
+                <div class="rating-summary"><span class="stars top-rating-stars"><?php
 $avgRating = (int) $product->reviews->avg('rating'); ?>
-                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span>{{ number_format((float) $product->reviews->avg('rating'), 1) }}
-                        from {{ $product->reviews->count() }} reviews</span></div>
+                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1) }}
+                        from {{ $product->reviews->count() }} review{{ $product->reviews->count() === 1 ? '' : 's' }}</span></div>
                 <div class="price-row"><span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
                         class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{ $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently unavailable') }}</span>
                 </div>
@@ -1404,13 +1404,13 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 <div>
                     <article class="review-card">
                         <h3>Overall rating</h3>
-                        <div class="review-score">
+                        <div class="review-score main-review-score">
                             {{ $product->reviews->count() ? number_format((float) $product->reviews->avg('rating'), 1) : '—' }}
                         </div>
-                        <div class="stars">
+                        <div class="stars main-review-stars">
                             {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
                         </div>
-                        <p class="review-note">{{ $product->reviews->count() }} verified
+                        <p class="review-note main-review-note">{{ $product->reviews->count() }} verified
                             review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
                     @auth
@@ -1657,6 +1657,20 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                                 article.style.opacity = '0.75';
                                 article.style.border = '1px dashed #cbd5e1';
                             }
+                        }
+
+                        if (data.formatted_avg !== undefined) {
+                            const topStars = document.querySelector('.top-rating-stars');
+                            const topText = document.querySelector('.top-rating-text');
+                            const mainScore = document.querySelector('.main-review-score');
+                            const mainStars = document.querySelector('.main-review-stars');
+                            const mainNote = document.querySelector('.main-review-note');
+
+                            if (topStars) topStars.textContent = data.stars;
+                            if (topText) topText.textContent = data.top_summary;
+                            if (mainScore) mainScore.textContent = data.formatted_avg;
+                            if (mainStars) mainStars.textContent = data.stars;
+                            if (mainNote) mainNote.textContent = data.note;
                         }
                     }
                 } catch (err) {

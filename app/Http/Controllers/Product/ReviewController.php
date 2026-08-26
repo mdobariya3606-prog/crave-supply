@@ -27,10 +27,23 @@ class ReviewController extends Controller
         ]);
 
         if (request()->expectsJson() || request()->ajax()) {
+            $product = $review->product;
+            $approvedReviews = $product->reviews()->where('is_approved', true)->get();
+            $count = $approvedReviews->count();
+            $avgFloat = $count ? (float) $approvedReviews->avg('rating') : 0.0;
+            $formattedAvg = $count ? number_format($avgFloat, 1) : '—';
+            $avgInt = (int) round($avgFloat);
+            $stars = str_repeat('★', $avgInt) . str_repeat('☆', 5 - $avgInt);
+
             return response()->json([
                 'success' => true,
                 'is_approved' => (bool) $review->is_approved,
                 'message' => 'Review visibility updated.',
+                'approved_count' => $count,
+                'formatted_avg' => $formattedAvg,
+                'stars' => $stars,
+                'note' => $count . ' verified review' . ($count === 1 ? '' : 's') . ' shared so far.',
+                'top_summary' => $formattedAvg . ' from ' . $count . ' review' . ($count === 1 ? '' : 's'),
             ]);
         }
 
