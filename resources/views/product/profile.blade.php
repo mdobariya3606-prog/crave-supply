@@ -972,8 +972,8 @@
         }
 
         .service-highlights {
-            margin: 0 calc((48px - 50vw)) 72px;
-            padding: 34px max(24px, calc((100vw - 1240px) / 2));
+            margin: 46px 0 72px;
+            padding: 34px 24px;
             border-top: 1px solid #e2d9cd;
             border-bottom: 1px solid #e2d9cd;
             background: #f1eadf;
@@ -1174,6 +1174,12 @@
             stroke: #f1eadf;
         }
 
+        /* Keep all three service articles visible in a desktop row. */
+        .service-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
         @media (max-width: 760px) {
             .product-profile {
                 width: calc(100% - 28px);
@@ -1199,8 +1205,9 @@
             }
 
             .service-highlights {
-                margin-inline: -14px;
-                padding-inline: 14px;
+                margin: 28px 0 42px;
+                padding: 24px 14px;
+                grid-template-columns: 1fr;
             }
 
             .editorial-story {
