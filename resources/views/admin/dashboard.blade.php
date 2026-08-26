@@ -99,6 +99,15 @@
             line-height: 1.6
         }
 
+        .feature-card.has-unread-messages {
+            border-left: 4px solid #8d6c4a;
+            padding-left: 17px;
+        }
+
+        html[data-theme="dark"] .feature-card.has-unread-messages {
+            border-left-color: #d6a77b;
+        }
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1.25fr .75fr;
@@ -198,7 +207,7 @@
         </div>
         <section class="feature-section">
             <h2>Admin features</h2>
-            <div class="feature-grid"><a class="feature-card" href="{{ route('products.dashboard') }}"><strong>Catalogue</strong><span>Manage products, stock, and categories.</span></a><a class="feature-card" href="{{ route('products.add') }}"><strong>Add product</strong><span>Create a new catalogue product.</span></a><a class="feature-card" href="{{ route('categories.add') }}"><strong>Manage categories</strong><span>Add and organise product categories.</span></a><a class="feature-card" href="{{ route('admin.orders.index') }}"><strong>Orders</strong><span>Review orders and update statuses.</span></a><a class="feature-card" href="{{ route('admin.customers.index') }}"><strong>Customers</strong><span>Manage customer accounts and access.</span></a><a class="feature-card" href="{{ route('admin.customers.deleted') }}"><strong>Deleted customers</strong><span>Restore or permanently remove deleted accounts.</span></a><a class="feature-card" href="{{ route('admin.contact-messages.index') }}"><strong>Messages</strong><span>Read enquiries and send email replies.</span></a></div>
+            <div class="feature-grid"><a class="feature-card" href="{{ route('products.dashboard') }}"><strong>Catalogue</strong><span>Manage products, stock, and categories.</span></a><a class="feature-card" href="{{ route('products.add') }}"><strong>Add product</strong><span>Create a new catalogue product.</span></a><a class="feature-card" href="{{ route('categories.add') }}"><strong>Manage categories</strong><span>Add and organise product categories.</span></a><a class="feature-card{{ $receivedOrderCount ? ' has-unread-messages' : '' }}" href="{{ route('admin.orders.index') }}"><strong>Orders{{ $receivedOrderCount ? ' (' . $receivedOrderCount . ')' : '' }}</strong><span>Review orders and update statuses.</span></a><a class="feature-card" href="{{ route('admin.customers.index') }}"><strong>Customers</strong><span>Manage customer accounts and access.</span></a><a class="feature-card" href="{{ route('admin.customers.deleted') }}"><strong>Deleted customers</strong><span>Restore or permanently remove deleted accounts.</span></a><a class="feature-card{{ $unreadMessageCount ? ' has-unread-messages' : '' }}" href="{{ route('admin.contact-messages.index') }}"><strong>Messages{{ $unreadMessageCount ? ' (' . $unreadMessageCount . ')' : '' }}</strong><span>Read enquiries and send email replies.</span></a></div>
         </section>
         <div class="dashboard-grid">
             <section class="panel">
