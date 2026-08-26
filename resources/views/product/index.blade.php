@@ -321,7 +321,8 @@
             display: none;
         }
 
-        .product-scroller-track .product-card {
+        .product-scroller-track .product-card,
+        .product-scroller-track .category-card {
             flex: 0 0 calc(25% - 14px);
             min-width: 230px;
         }
@@ -337,7 +338,7 @@
 
         .scroller-progress-wrap {
             flex: 0 1 300px;
-            height: 4px;
+            height: 2px;
             background: #ded4c8;
             position: relative;
             border-radius: 2px;
@@ -361,7 +362,7 @@
         .scroller-btn {
             width: 38px;
             height: 38px;
-            border-radius: 50%;
+            border-radius: 15px !important;
             border: 1px solid #ded4c8;
             background: #fffdf9;
             color: #2c2722;
@@ -378,14 +379,6 @@
             width: 18px;
             height: 18px;
             transition: transform 0.15s ease;
-        }
-
-        .scroller-btn.prev:hover:not(:disabled) svg {
-            transform: translateX(-2px);
-        }
-
-        .scroller-btn.next:hover:not(:disabled) svg {
-            transform: translateX(2px);
         }
 
         .scroller-btn:hover:not(:disabled) {
@@ -425,17 +418,22 @@
         }
 
         @media (max-width: 900px) {
-            .product-scroller-track .product-card {
+
+            .product-scroller-track .product-card,
+            .product-scroller-track .category-card {
                 flex: 0 0 calc(33.333% - 12px);
-                min-width: 210px;
+                min-width: 200px;
             }
         }
 
         @media (max-width: 600px) {
-            .product-scroller-track .product-card {
+
+            .product-scroller-track .product-card,
+            .product-scroller-track .category-card {
                 flex: 0 0 calc(50% - 9px);
-                min-width: 170px;
+                min-width: 160px;
             }
+
             .scroller-progress-wrap {
                 flex: 0 1 160px;
             }
@@ -1001,10 +999,14 @@
                         </div>
                         <div class="scroller-nav-buttons">
                             <button type="button" class="scroller-btn prev" aria-label="Previous products">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
                             </button>
                             <button type="button" class="scroller-btn next" aria-label="Next products">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -1047,10 +1049,14 @@
                     </div>
                     <div class="scroller-nav-buttons">
                         <button type="button" class="scroller-btn prev" aria-label="Previous products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
                         </button>
                         <button type="button" class="scroller-btn next" aria-label="Next products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -1116,18 +1122,28 @@
                     if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 5;
                 };
 
-                track.addEventListener('scroll', update, { passive: true });
-                window.addEventListener('resize', update, { passive: true });
+                track.addEventListener('scroll', update, {
+                    passive: true
+                });
+                window.addEventListener('resize', update, {
+                    passive: true
+                });
 
                 if (prevBtn) {
                     prevBtn.addEventListener('click', () => {
-                        track.scrollBy({ left: -track.clientWidth * 0.75, behavior: 'smooth' });
+                        track.scrollBy({
+                            left: -track.clientWidth * 0.75,
+                            behavior: 'smooth'
+                        });
                     });
                 }
 
                 if (nextBtn) {
                     nextBtn.addEventListener('click', () => {
-                        track.scrollBy({ left: track.clientWidth * 0.75, behavior: 'smooth' });
+                        track.scrollBy({
+                            left: track.clientWidth * 0.75,
+                            behavior: 'smooth'
+                        });
                     });
                 }
 

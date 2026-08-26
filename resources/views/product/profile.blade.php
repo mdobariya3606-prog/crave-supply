@@ -571,6 +571,12 @@
             font-size: 12px;
         }
 
+        html[data-theme="dark"] .review-message {
+            color: #d1fae5;
+            background: #134e4a;
+            border-color: #2dd4bf;
+        }
+
         .order-error {
             display: block;
             margin: -4px 0 12px;
@@ -1343,8 +1349,10 @@
                 </p>
                 <div class="rating-summary"><span class="stars top-rating-stars"><?php
 $avgRating = (int) $product->reviews->avg('rating'); ?>
-                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1) }}
-                        from {{ $product->reviews->count() }} review{{ $product->reviews->count() === 1 ? '' : 's' }}</span></div>
+                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span
+                        class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1) }}
+                        from {{ $product->reviews->count() }}
+                        review{{ $product->reviews->count() === 1 ? '' : 's' }}</span></div>
                 <div class="price-row"><span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
                         class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{ $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently unavailable') }}</span>
                 </div>
@@ -1376,7 +1384,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                             @error('quantity', 'order')
                                 <span class="order-error" role="alert">{{ $message }}</span>
                             @enderror
-                            <button class="review-submit" type="submit">Add to Order</button>
+                            <button class="review-submit" type="submit">Add to Cart</button>
                         </form>
                     @endif
                 @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
@@ -1474,17 +1482,22 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 </div>
                 <div class="review-list">
                     @forelse ($reviews as $review)
-                        <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved) style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
+                        <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved)
+                        style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
                             <header style="display:flex;align-items:center;justify-content:space-between;">
                                 <div>
                                     <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
-                                    <span class="review-hidden-badge" style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
+                                    <span class="review-hidden-badge"
+                                        style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
                                 </div>
                                 @if (auth()->check() && auth()->user()->role === 'admin')
-                                    <form class="admin-review-toggle-form" action="{{ route('reviews.toggle-visibility', $review) }}" method="POST" style="margin:0;">
+                                    <form class="admin-review-toggle-form"
+                                        action="{{ route('reviews.toggle-visibility', $review) }}" method="POST"
+                                        style="margin:0;">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="admin-review-toggle-btn" style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
+                                        <button type="submit" class="admin-review-toggle-btn"
+                                            style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
                                             {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
                                         </button>
                                     </form>
@@ -1651,7 +1664,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         })();
 
         document.querySelectorAll('.admin-review-toggle-form').forEach(form => {
-            form.addEventListener('submit', async function(e) {
+            form.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const button = form.querySelector('.admin-review-toggle-btn');
                 if (!button) return;

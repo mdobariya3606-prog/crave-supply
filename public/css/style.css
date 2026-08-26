@@ -39,17 +39,6 @@ body::after {
     pointer-events: none;
 }
 
-body::before {
-    top: -130px;
-    right: -90px;
-    background: #dba8a3;
-}
-body::after {
-    bottom: -120px;
-    left: -80px;
-    background: #e4c28e;
-}
-
 .register-container {
     position: relative;
     z-index: 1;

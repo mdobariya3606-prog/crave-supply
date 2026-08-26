@@ -720,7 +720,7 @@
 
         .scroller-progress-wrap {
             flex: 0 1 300px;
-            height: 4px;
+            height: 2px;
             background: #ded4c8;
             position: relative;
             border-radius: 2px;
@@ -744,7 +744,7 @@
         .scroller-btn {
             width: 38px;
             height: 38px;
-            border-radius: 50%;
+            border-radius: 15px !important;
             border: 1px solid #ded4c8;
             background: #fffdf9;
             color: #2c2722;
@@ -761,14 +761,6 @@
             width: 18px;
             height: 18px;
             transition: transform 0.15s ease;
-        }
-
-        .scroller-btn.prev:hover:not(:disabled) svg {
-            transform: translateX(-2px);
-        }
-
-        .scroller-btn.next:hover:not(:disabled) svg {
-            transform: translateX(2px);
         }
 
         .scroller-btn:hover:not(:disabled) {

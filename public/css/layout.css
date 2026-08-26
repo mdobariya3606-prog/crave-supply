@@ -261,6 +261,15 @@ html[data-theme="dark"] .submit-order:hover {
     background: #8d6c4a !important;
 }
 
+/* The header menu control stays visually light and unobtrusive in dark mode. */
+html[data-theme="dark"] .profile-trigger,
+html[data-theme="dark"] .profile-trigger:hover,
+html[data-theme="dark"] .profile-trigger:focus-visible {
+    color: var(--layout-navy) !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
 html[data-theme="dark"] .review-section,
 html[data-theme="dark"] .quick-card,
 html[data-theme="dark"] .snack-card,

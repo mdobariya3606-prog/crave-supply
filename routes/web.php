@@ -44,6 +44,10 @@ Route::get('/dashboard', function () {
     );
 })->name('dashboard');
 
+Route::get('/cache/clear', function () {
+    Cache::clear();
+})->name('cache.clear');
+
 Route::get('/account-disabled', fn() => view('account-disabled'))->name('account.disabled');
 
 Route::view('/about', 'about')->name('about');

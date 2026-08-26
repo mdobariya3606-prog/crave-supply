@@ -29,18 +29,18 @@
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-                    <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                        Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
+            <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
+                Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
                 collect(session('cart', []))->sum('quantity')) . ')' : '' }}
-                    </a>
+            </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
+            <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
                                         }}>Orders</a>
             @endif
             @guest
-                <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
+            <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
+            <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
                                         }}>Register</a>
             @endguest
         </div>
@@ -63,19 +63,20 @@
                     <a href="{{ route('products.dashboard') }}">Products</a>
                     <a href="{{ route('about') }}">About us</a>
                     @auth
-                        <a href="{{ route('profile') }}">Profile</a>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" onclick='return confirm("Are you sure to logout?")'>
-                                Logout
-                            </button>
-                        </form>
+                    <a href="{{ route('profile') }}">Profile</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" onclick='return confirm("Are you sure to logout?")'>
+                            Logout
+                        </button>
+                    </form>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('login') }}">Login</a>
                     @endauth
                     <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
                         aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
                             mode</span></button>
+                    <a href="{{ route('cache.clear') }}">Clear cache</a>
                 </div>
             </div>
         </div>
@@ -273,7 +274,7 @@
             '>': '&gt;',
             '"': '&quot;',
             "'": '&#039;'
-        }[character]));
+        } [character]));
         const render = data => {
             const groups = [
                 ['Products', data.products || []],
