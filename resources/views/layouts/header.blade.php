@@ -5,7 +5,7 @@
         {{-- Brand and global search stay visible at every breakpoint. --}}
         <a class="brand" href="{{ route('home') }}">
             <span class="brand-mark">CS</span>
-            <span>CraveSupply</span>
+            <span class="cravesupply-title">CraveSupply</span>
         </a>
         <div class="global-search" data-global-search>
             <form action="{{ route('products.dashboard') }}" method="GET" role="search">
@@ -17,28 +17,32 @@
         </div>
         {{-- Desktop navigation links; hidden on narrow screens. --}}
         <div class="nav-links">
-            <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ? 'active' : '' }}>Home</a>
+            <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ?
+    'active' : '' }}>Home</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-                <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                    Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}
-                </a>
+                    <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
+                        Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
+                collect(session('cart', []))->sum('quantity')) . ')' : '' }}
+                    </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : '' }}>Orders</a>
+                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
+                                        }}>Orders</a>
             @endif
             @guest
                 <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : '' }}>Register</a>
+                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
+                                        }}>Register</a>
             @endguest
         </div>
         {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
             <div class="profile-dropdown">
-                <button type="button" class="avatar profile-trigger" aria-label="Open navigation menu" aria-expanded="false"
-                    aria-controls="profileMenu">
+                <button type="button" class="avatar profile-trigger" aria-label="Open navigation menu"
+                    aria-expanded="false" aria-controls="profileMenu">
                     <svg class="menu-icon" viewBox="0 0 20 20" aria-hidden="true">
                         <path class="menu-bar menu-bar-one" d="M2 4h16" />
                         <path class="menu-bar menu-bar-two" d="M2 10h16" />
@@ -52,18 +56,19 @@
                     <a href="{{ route('products.dashboard') }}">Products</a>
                     <a href="{{ route('about') }}">About us</a>
                     @auth
-                    <a href="{{ route('profile') }}">Profile</a>
-                    <form action="{{ route('logout') }}" method="POST">
+                        <a href="{{ route('profile') }}">Profile</a>
+                        <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" onclick='return confirm("Are you sure to logout?")'>
                                 Logout
                             </button>
                         </form>
                     @else
-                    <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
                     @endauth
                     <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
-                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark mode</span></button>
+                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
+                            mode</span></button>
                 </div>
             </div>
         </div>
@@ -98,6 +103,7 @@
 
     .global-search input {
         min-width: 0;
+        height: 100%;
         flex: 1;
         padding: 0 11px;
         border: 0;
@@ -124,7 +130,7 @@
 
     .nav-cta {
         padding: 8px 12px;
-        border-radius: 0;
+        border-radius: 15px;
         color: #fff !important;
         background: #2c2722;
     }

@@ -324,18 +324,32 @@ body::after {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    padding: 5px 7px;
+    width: 34px;
+    height: 34px;
+    padding: 7px;
     border: 0;
     border-radius: 7px;
-    color: var(--blue);
-    background: transparent;
-    font:
-        600 12px "Inter",
-        sans-serif;
+    color: var(--blue) !important;
+    background: transparent !important;
     cursor: pointer;
 }
+
+.pass-toggle .eye-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.pass-toggle .eye-closed { display: none; }
+.pass-toggle.is-visible .eye-open { display: none; }
+.pass-toggle.is-visible .eye-closed { display: block; }
 .pass-toggle:hover {
-    background: #eff6ff;
+    color: #4a808d !important;
+    background: transparent !important;
 }
 .error-text {
     display: flex;

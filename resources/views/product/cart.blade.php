@@ -265,8 +265,14 @@
             box-shadow: 0 12px 30px rgba(15, 23, 42, .04);
         }
 
+        html[data-theme='dark'] .cart-empty,
+        html[data-theme='dark'] .continue-shopping {
+            color: #cdbfb1;
+            background: #4a4037;
+        }
+
         .cart-empty a {
-            color: #3b82f6;
+            color: #133458;
             font-weight: 700;
         }
 
@@ -416,11 +422,11 @@
                 <div class="summary-line"><span>Delivery</span><strong data-delivery>{{ $total >= 2000 ? 'FREE' : '₹100.00' }}</strong></div>
                 <div class="summary-total"><span>Total</span><strong data-cart-total>₹{{ number_format($total + ($total >= 2000 ? 0 : 100), 2) }}</strong></div>
                 @auth
-                    <form action="{{ route('cart.review') }}" method="GET">
-                        <button class="cart-checkout" type="submit">Review order</button>
-                    </form>
+                <form action="{{ route('cart.review') }}" method="GET">
+                    <button class="cart-checkout" type="submit">Review order</button>
+                </form>
                 @else
-                    <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none" href="{{ route('login') }}">Log in to submit order</a>
+                <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none" href="{{ route('login') }}">Log in to submit order</a>
                 @endauth
                 <form action="{{ route('cart.clear') }}" method="POST" style="margin-top:12px;text-align:center">
                     @csrf @method('DELETE')

@@ -280,6 +280,25 @@
             animation: catalogueFocus 1.1s ease;
         }
 
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+
         @keyframes catalogueFocus {
             0% {
                 transform: translateY(8px);
@@ -349,7 +368,8 @@
             line-height: 1.5;
         }
 
-        .explore-section {
+        .explore-section,
+        .guide-section {
             margin-top: 56px;
         }
 
@@ -573,10 +593,6 @@
             width: 20px;
             border-radius: 8px;
             background: var(--blue);
-        }
-
-        .guide-section {
-            margin-top: 56px;
         }
 
         .guide-grid {
@@ -830,7 +846,7 @@
                             src="http://127.0.0.1:8000/storage/products/jwwKuoUM0ybse44TBLGFB8JYRY5VzMWHvOs9SJyp.jpg"
                             alt="Freshly baked cookies">
                         <div class="snack-body">
-                            <p class="snack-label">Sweet treats</p>
+                            <p class="snack-label">Premium Beverages</p>
                             <h3>Artisan Beverages</h3>
                             <p>Small-batch coffees, teas, and refreshments for every setting.</p>
                         </div>
@@ -858,7 +874,7 @@
                             src="http://127.0.0.1:8000/storage/products/jazIFilyTjQos1e5IzNpaxDolOOFqLPL9lnOzEpd.jpg"
                             alt="Crispy savoury snack bites">
                         <div class="snack-body">
-                            <p class="snack-label">Savoury snacks</p>
+                            <p class="snack-label">Premium Pantry Essentials</p>
                             <h3>Gourmet Pantry</h3>
                             <p>Premium staples and ingredients for considered kitchens.
                             </p>
@@ -942,64 +958,91 @@
         </section>
 
         @if (auth()->user()?->role !== 'admin')
-            <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
-                <div>
-                    <p class="eyebrow">Have a question?</p>
-                    <h2 id="contact-title">Let’s make your next restock easier.</h2>
-                    <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
-                </div>
-                <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
-            </section>
+        <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
+            <div>
+                <p class="eyebrow">Have a question?</p>
+                <h2 id="contact-title">Let’s make your next restock easier.</h2>
+                <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
+            </div>
+            <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
+        </section>
         @endif
 
         @if ($topReviews->isNotEmpty())
-            <section class="review-section" aria-labelledby="reviews-title">
-                <div class="section-heading">
-                    <div>
-                        <h2 id="reviews-title">What businesses are saying</h2>
-                        <p>Real routines, made a little easier.</p>
-                    </div>
+        <section class="review-section" aria-labelledby="reviews-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="reviews-title">What businesses are saying</h2>
+                    <p>Real routines, made a little easier.</p>
                 </div>
+            </div>
 
-                <div class="review-slider" aria-live="polite">
-                    <div class="review-track" id="reviewTrack">
-                        @foreach ($topReviews as $review)
-                            <article class="review-card">
-                                <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">
-                                    {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                                </div>
-                                <blockquote>“{{ $review->comment }}”</blockquote>
-                                <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
-                                @if ($review->product)
-                                    <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed:
-                                        {{ $review->product->name }}</a>
-                                @endif
-                            </article>
-                        @endforeach
-                    </div>
+            <div class="review-slider" aria-live="polite">
+                <div class="review-track" id="reviewTrack">
+                    @foreach ($topReviews as $review)
+                    <article class="review-card">
+                        <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">
+                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                        </div>
+                        <blockquote>“{{ $review->comment }}”</blockquote>
+                        <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
+                        @if ($review->product)
+                        <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed:
+                            {{ $review->product->name }}</a>
+                        @endif
+                    </article>
+                    @endforeach
                 </div>
+            </div>
 
-                <div class="review-controls">
-                    <div class="review-dots" aria-label="Choose a review">
-                        @foreach ($topReviews as $index => $review)
-                            <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
-                                aria-label="Show review {{ $index + 1 }}"
-                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
-                        @endforeach
-                    </div>
-                    <div class="review-buttons">
-                        <button class="review-button" id="reviewPrevious" type="button"
-                            aria-label="Previous review">←</button>
-                        <button class="review-button" id="reviewNext" type="button" aria-label="Next review">→</button>
-                    </div>
+            <div class="review-controls">
+                <div class="review-dots" aria-label="Choose a review">
+                    @foreach ($topReviews as $index => $review)
+                    <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
+                        aria-label="Show review {{ $index + 1 }}"
+                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
+                    @endforeach
                 </div>
-            </section>
+                <div class="review-buttons">
+                    <button class="review-button" id="reviewPrevious" type="button"
+                        aria-label="Previous review">←</button>
+                    <button class="review-button" id="reviewNext" type="button" aria-label="Next review">→</button>
+                </div>
+            </div>
+        </section>
         @endif
     </main>
 
     @include('layouts.footer')
 
     <script>
+        (() => {
+            const sections = document.querySelectorAll(
+                '.dashboard > section:not(.welcome), .dashboard > .welcome'
+            );
+            if (!sections.length) return;
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                sections.forEach((section) => section.classList.add('is-visible'));
+                return;
+            }
+
+            sections.forEach((section) => section.classList.add('scroll-reveal'));
+
+            const observer = new IntersectionObserver((entries, revealObserver) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px'
+            });
+
+            sections.forEach((section) => observer.observe(section));
+        })();
+
         (() => {
             document.querySelectorAll('a[href="#catalogue"]').forEach((link) => {
                 link.addEventListener('click', (event) => {

@@ -169,7 +169,7 @@
                                 <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                             </svg>
                             <button type="button" class="pass-toggle" onclick="togglePassword('password', this)"
-                                aria-label="Show password">Show</button>
+                                aria-label="Show password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A10.8 10.8 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3.1 3.8M6.5 6.7C3.9 8.4 2.5 12 2.5 12s3.5 6 9.5 6c1.1 0 2.1-.2 3-.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>
                         </div>
                         <div id="passwordError" class="error-text{{ $errors->has('password') ? ' is-visible' : '' }}"
                             role="alert"><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -199,7 +199,7 @@
                             {{-- Password toggle button --}}
                             <button type="button" class="pass-toggle"
                                 onclick="togglePassword('password_confirmation', this)"
-                                aria-label="Show password">Show</button>
+                                aria-label="Show password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A10.8 10.8 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3.1 3.8M6.5 6.7C3.9 8.4 2.5 12 2.5 12s3.5 6 9.5 6c1.1 0 2.1-.2 3-.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>
                         </div>
                         <div id="password_confirmationError" class="error-text" role="alert"><svg
                                 viewBox="0 0 24 24" aria-hidden="true">
@@ -334,7 +334,7 @@
             const input = document.getElementById(fieldId);
             const visible = input.type === 'text';
             input.type = visible ? 'password' : 'text';
-            button.textContent = visible ? 'Show' : 'Hide';
+            button.classList.toggle('is-visible', !visible);
             button.setAttribute('aria-label', visible ? 'Show password' : 'Hide password');
         }
     </script>

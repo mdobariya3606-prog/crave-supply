@@ -1080,7 +1080,60 @@
             font-family: Georgia, 'Times New Roman', serif;
         }
 
-        .manual-review-pagination{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:24px}.review-page-numbers{display:flex;gap:7px}.review-page-button{display:inline-flex;min-width:34px;height:34px;align-items:center;justify-content:center;padding:0 9px;border:1px solid #e2d9cd;border-radius:0;color:#51483e;background:#fffdf9;font-size:12px;text-decoration:none}.review-page-button:hover{border-color:#8d6c4a;color:#8d6c4a}.review-page-button.active{border-color:#2c2722;color:#fff;background:#2c2722}.review-page-button.disabled{color:#b9aa9b;background:#f1e9df}@media(max-width:520px){.manual-review-pagination{flex-wrap:wrap}.review-page-numbers{flex-wrap:wrap;justify-content:center}}
+        .manual-review-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 24px
+        }
+
+        .review-page-numbers {
+            display: flex;
+            gap: 7px
+        }
+
+        .review-page-button {
+            display: inline-flex;
+            min-width: 34px;
+            height: 34px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 9px;
+            border: 1px solid #e2d9cd;
+            border-radius: 0;
+            color: #51483e;
+            background: #fffdf9;
+            font-size: 12px;
+            text-decoration: none
+        }
+
+        .review-page-button:hover {
+            border-color: #8d6c4a;
+            color: #8d6c4a
+        }
+
+        .review-page-button.active {
+            border-color: #2c2722;
+            color: #fff;
+            background: #2c2722
+        }
+
+        .review-page-button.disabled {
+            color: #b9aa9b;
+            background: #f1e9df
+        }
+
+        @media(max-width:520px) {
+            .manual-review-pagination {
+                flex-wrap: wrap
+            }
+
+            .review-page-numbers {
+                flex-wrap: wrap;
+                justify-content: center
+            }
+        }
 
         html[data-theme="dark"] .gallery-main,
         html[data-theme="dark"] .related-card-image {
