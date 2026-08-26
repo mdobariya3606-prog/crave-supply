@@ -74,6 +74,12 @@
             align-items: start;
         }
 
+        html[data-theme='dark'] .cart-card {
+            border: 1px solid #4a4037;
+            background: #2c2722;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .06);
+        }
+
         .cart-card {
             padding: 8px 24px 24px;
             border: 1px solid #e2e8f0;
@@ -146,9 +152,9 @@
             display: flex;
             align-items: center;
             overflow: hidden;
-            border: 2px solid #facc15;
+            border: 1px solid #000;
             border-radius: 18px;
-            background: #fff;
+            background: transparent;
         }
 
         .cart-stepper button {
@@ -383,9 +389,11 @@
                 <p>Review and adjust your products before placing an order.</p>
             </div><a class="continue-shopping" href="{{ route('products.dashboard') }}">Continue shopping</a>
         </div>
-        @if(session('success'))<div class="cart-alert" role="status">{{ session('success') }}</div>@endif
+        @if(session('success'))
+        <div class="cart-alert" role="status">{{ session('success') }}</div>@endif
         @if(empty($cart))
-        <div class="cart-empty">Your cart is empty. <a href="{{ route('products.dashboard') }}">Browse products</a>.</div>
+        <div class="cart-empty">Your cart is empty. <a href="{{ route('products.dashboard') }}">Browse products</a>.
+        </div>
         @else
         <div class="cart-layout">
             <section class="cart-card" aria-label="Cart items">
@@ -393,23 +401,32 @@
                 <div class="cart-row" data-cart-row data-price="{{ $item['current_price'] ?? $item['price'] }}">
                     <div class="cart-product">
                         <div class="cart-product-image">
-                            <img src="{{ !empty($item['image_path']) ? asset('storage/'.$item['image_path']) : asset('images/product-placeholder.svg') }}" alt="{{ $item['name'] }}">
+                            <img src="{{ !empty($item['image_path']) ? asset('storage/' . $item['image_path']) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $item['name'] }}">
                         </div>
-                        <div><a class="cart-name" href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{ $item['name'] }}</a><span class="cart-price">₹{{ number_format($item['current_price'] ?? $item['price'], 2) }} each</span></div>
+                        <div><a class="cart-name"
+                                href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{ $item['name'] }}</a><span
+                                class="cart-price">₹{{ number_format($item['current_price'] ?? $item['price'], 2) }}
+                                each</span></div>
                     </div>
-                    <form class="cart-quantity" action="{{ route('cart.update', $item['slug'] ?? $item['product_id']) }}" method="POST">
+                    <form class="cart-quantity"
+                        action="{{ route('cart.update', $item['slug'] ?? $item['product_id']) }}" method="POST">
                         @csrf @method('PUT')
-                        <label class="sr-only" for="quantity-{{ $item['product_id'] }}">Quantity</label>
+                        <label class="sr-only" for="quantity-{{ $item['product_id'] }}" style="margin-right: 10px;">Quantity</label>
                         <div class="cart-stepper">
                             <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
-                            <input id="quantity-{{ $item['product_id'] }}" name="quantity" type="number" min="1" value="{{ $item['quantity'] }}" data-quantity>
+                            <input id="quantity-{{ $item['product_id'] }}" name="quantity" type="number" min="1"
+                                value="{{ $item['quantity'] }}" data-quantity>
                             <button type="button" data-step="1" aria-label="Increase quantity">+</button>
                         </div>
                         <button class="cart-button" type="submit">Update</button>
                         @error('quantity', 'cart')<span class="cart-error" role="alert">{{ $message }}</span>@enderror
                     </form>
-                    <form action="{{ route('cart.remove', $item['slug'] ?? $item['product_id']) }}" method="POST"><input type="hidden" name="_token" value="{{ csrf_token() }}"> @method('DELETE')<button class="cart-remove" type="submit">Remove</button></form>
-                    <strong data-line-total>₹{{ number_format(($item['current_price'] ?? $item['price']) * $item['quantity'], 2) }}</strong>
+                    <form action="{{ route('cart.remove', $item['slug'] ?? $item['product_id']) }}" method="POST"><input
+                            type="hidden" name="_token" value="{{ csrf_token() }}"> @method('DELETE')<button
+                            class="cart-remove" type="submit">Remove</button></form>
+                    <strong
+                        data-line-total>₹{{ number_format(($item['current_price'] ?? $item['price']) * $item['quantity'], 2) }}</strong>
                 </div>
                 @endforeach
             </section>
@@ -418,15 +435,19 @@
                 <p class="delivery-note" data-delivery-note>
                     {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 - $total, 2) . ' more for free delivery.' }}
                 </p>
-                <div class="summary-line"><span>Subtotal</span><strong data-cart-subtotal>₹{{ number_format($total, 2) }}</strong></div>
-                <div class="summary-line"><span>Delivery</span><strong data-delivery>{{ $total >= 2000 ? 'FREE' : '₹100.00' }}</strong></div>
-                <div class="summary-total"><span>Total</span><strong data-cart-total>₹{{ number_format($total + ($total >= 2000 ? 0 : 100), 2) }}</strong></div>
+                <div class="summary-line"><span>Subtotal</span><strong
+                        data-cart-subtotal>₹{{ number_format($total, 2) }}</strong></div>
+                <div class="summary-line"><span>Delivery</span><strong
+                        data-delivery>{{ $total >= 2000 ? 'FREE' : '₹100.00' }}</strong></div>
+                <div class="summary-total"><span>Total</span><strong
+                        data-cart-total>₹{{ number_format($total + ($total >= 2000 ? 0 : 100), 2) }}</strong></div>
                 @auth
                 <form action="{{ route('cart.review') }}" method="GET">
                     <button class="cart-checkout" type="submit">Review order</button>
                 </form>
                 @else
-                <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none" href="{{ route('login') }}">Log in to submit order</a>
+                <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none"
+                    href="{{ route('login') }}">Log in to submit order</a>
                 @endauth
                 <form action="{{ route('cart.clear') }}" method="POST" style="margin-top:12px;text-align:center">
                     @csrf @method('DELETE')
