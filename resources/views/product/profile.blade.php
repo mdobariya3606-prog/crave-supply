@@ -539,6 +539,7 @@
             color: var(--profile-ink);
             font: inherit;
             font-size: 13px;
+            outline: none;
         }
 
         .review-form textarea {
@@ -1439,9 +1440,21 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 </div>
                 <div class="review-list">
                     @forelse ($reviews as $review)
-                        <article class="review-item">
-                            <header>
-                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
+                        <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved) style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
+                            <header style="display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{ $review->created_at->format('M j, Y') }}</time>
+                                    <span class="review-hidden-badge" style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
+                                </div>
+                                @if (auth()->check() && auth()->user()->role === 'admin')
+                                    <form class="admin-review-toggle-form" action="{{ route('reviews.toggle-visibility', $review) }}" method="POST" style="margin:0;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="admin-review-toggle-btn" style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
+                                            {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
+                                        </button>
+                                    </form>
+                                @endif
                             </header>
                             <div class="stars">
                                 {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
@@ -1602,6 +1615,57 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             gallery.tabIndex = 0;
             restart();
         })();
+
+        document.querySelectorAll('.admin-review-toggle-form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const button = form.querySelector('.admin-review-toggle-btn');
+                if (!button) return;
+                button.disabled = true;
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]')?.value || ''
+                        },
+                        body: new FormData(form)
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const article = form.closest('.review-item');
+                        const badge = article ? article.querySelector('.review-hidden-badge') : null;
+
+                        if (data.is_approved) {
+                            button.textContent = 'Turn off visibility';
+                            button.style.background = '#fee2e2';
+                            button.style.color = '#991b1b';
+                            if (badge) badge.style.display = 'none';
+                            if (article) {
+                                article.style.opacity = '1';
+                                article.style.border = '';
+                            }
+                        } else {
+                            button.textContent = 'Turn on visibility';
+                            button.style.background = '#dcfce7';
+                            button.style.color = '#166534';
+                            if (badge) badge.style.display = 'inline-block';
+                            if (article) {
+                                article.style.opacity = '0.75';
+                                article.style.border = '1px dashed #cbd5e1';
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error updating review visibility:', err);
+                } finally {
+                    button.disabled = false;
+                }
+            });
+        });
     </script>
 </body>
 

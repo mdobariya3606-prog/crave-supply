@@ -16,12 +16,13 @@ class ProductProfileController extends Controller
             'reviews' => fn($query) => $query->where('is_approved', true)->with('user')->latest(),
         ]);
 
-        $reviews = $product->reviews()
-            ->where('is_approved', true)
-            ->with('user')
-            ->latest()
-            ->paginate(4)
-            ->withQueryString();
+        $reviewsQuery = $product->reviews()->with('user')->latest();
+
+        if (!auth()->check() || auth()->user()?->role !== 'admin') {
+            $reviewsQuery->where('is_approved', true);
+        }
+
+        $reviews = $reviewsQuery->paginate(4)->withQueryString();
 
         return view('product.profile', [
             'product' => $product,

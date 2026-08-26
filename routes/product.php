@@ -22,6 +22,7 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
         Route::put('/products/{product:slug}', [UpdateProductController::class, 'update'])->name('products.update');
         Route::delete('/products/{product:slug}', [UpdateProductController::class, 'destroy'])->name('products.destroy');
         Route::delete('/product-images/{image}', [UpdateProductController::class, 'destroyImage'])->name('products.images.destroy');
+        Route::patch('/reviews/{review}/toggle-visibility', [ReviewController::class, 'toggleVisibility'])->name('reviews.toggle-visibility');
     });
 
     Route::post('/products/{product:slug}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
