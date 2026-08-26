@@ -82,10 +82,6 @@
             text-decoration: none
         }
 
-        .feature-card:hover {
-            background: #f1e9df
-        }
-
         .feature-card strong {
             display: block;
             margin-bottom: 8px;
@@ -142,6 +138,8 @@
         }
 
         .badge {
+            display: flex;
+            align-items: center;
             padding: 5px 8px;
             color: #49603b;
             background: #e8eddf;
@@ -184,9 +182,96 @@
                 grid-template-columns: 1fr 1fr
             }
         }
-        @media(max-width:900px){.admin-page{width:calc(100% - 32px)}.stat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}}
-        @media(max-width:600px){.admin-page{width:calc(100% - 28px);padding:34px 0 56px}.admin-head{margin-bottom:22px}.admin-head h1{font-size:34px;line-height:1.05}.admin-head p:last-child{line-height:1.6}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:15px}.stat strong{font-size:25px}.feature-grid{grid-template-columns:1fr;gap:8px}.feature-card{padding:16px}.dashboard-grid{gap:12px;margin-top:22px}.panel{padding:17px;overflow:hidden}.order-row,.stock-row{align-items:flex-start}.order-row span,.stock-row strong{flex-shrink:0}}
-        @media(max-width:380px){.stat-grid{grid-template-columns:1fr}.admin-head h1{font-size:30px}}
+
+        @media(max-width:900px) {
+            .admin-page {
+                width: calc(100% - 32px)
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:600px) {
+            .admin-page {
+                width: calc(100% - 28px);
+                padding: 34px 0 56px
+            }
+
+            .admin-head {
+                margin-bottom: 22px
+            }
+
+            .admin-head h1 {
+                font-size: 34px;
+                line-height: 1.05
+            }
+
+            .admin-head p:last-child {
+                line-height: 1.6
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px
+            }
+
+            .stat {
+                padding: 15px
+            }
+
+            .stat strong {
+                font-size: 25px
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 8px
+            }
+
+            .feature-card {
+                padding: 16px
+            }
+
+            .dashboard-grid {
+                gap: 12px;
+                margin-top: 22px
+            }
+
+            .panel {
+                padding: 17px;
+                overflow: hidden
+            }
+
+            .order-row,
+            .stock-row {
+                align-items: flex-start
+            }
+
+            .order-row span,
+            .stock-row strong {
+                flex-shrink: 0
+            }
+        }
+
+        @media(max-width:380px) {
+            .stat-grid {
+                grid-template-columns: 1fr
+            }
+
+            .admin-head h1 {
+                font-size: 30px
+            }
+        }
     </style>
 </head>
 

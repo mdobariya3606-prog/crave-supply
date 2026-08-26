@@ -81,6 +81,31 @@
             text-transform: uppercase;
         }
 
+        .download-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #2563eb !important;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        html[data-theme="dark"] .download-link {
+            color: #60A5FA !important;
+        }
+
+        html[data-theme="dark"] th {
+            color: #f8fafc !important;
+            background-color: #64748b;
+        }
+
+        html[data-theme="dark"] li,
+        html[data-theme="dark"] .total,
+        html[data-theme="dark"] .history,
+        html[data-theme="dark"] input::placeholder {
+            color: #f8fafc;
+        }
+
         .order-table a {
             color: #8d6c4a;
             font-weight: 700;
@@ -178,8 +203,8 @@
             <input name="q" value="{{ $search }}" placeholder="Search order or customer">
             <select name="status">
                 <option value="">All statuses</option>@foreach($statuses as $status)
-                    <option value="{{ $status->value }}" @selected($selectedStatus === $status->value)>
-                        {{ ucwords(str_replace('_', ' ', $status->value)) }}
+                <option value="{{ $status->value }}" @selected($selectedStatus===$status->value)>
+                    {{ ucwords(str_replace('_', ' ', $status->value)) }}
                 </option>@endforeach
             </select>
             <button type="submit">Filter</button>
@@ -197,51 +222,50 @@
                 </thead>
                 <tbody>
                     @forelse($orders as $order)
-                        <tr> {{-- Aug 24, 2026 8:11 AM --}}
-                            <td><strong>{{ $order->order_number }}</strong><br><small>{{ $order->created_at->format('M j, Y g:i A') }}</small>
-                            </td>
-                            <td><a
-                                    href="{{ route('admin.customers.show', $order->user) }}">{{ $order->user?->name ?: 'Customer' }}</a><br><small>{{ $order->user?->email }}</small>
-                            </td>
-                            <td>
-                                <ul class="item-list">@foreach($order->orderItems as $item)
+                    <tr> {{-- Aug 24, 2026 8:11 AM --}}
+                        <td><strong><a href="{{ route('orders.confirmation',$order) }}">{{ $order->order_number }}</a></strong><br><small>{{ $order->created_at->format('M j, Y g:i A') }}</small>
+                        </td>
+                        <td><a
+                                href="{{ route('admin.customers.show', $order->user) }}">{{ $order->user?->name ?: 'Customer' }}</a><br><small>{{ $order->user?->email }}</small>
+                        </td>
+                        <td>
+                            <ul class="item-list">@foreach($order->orderItems as $item)
                                 <li>{{ $item->product_name }} × {{ $item->quantity }}</li>@endforeach
+                            </ul>
+                        </td>
+                        <td class="total">₹{{ number_format($order->total_amount, 2) }}</td>
+                        <td>
+                            <form class="status-form" action="{{ route('admin.orders.status', $order) }}" method="POST">
+                                @csrf @method('PUT')
+                                <select name="status">
+                                    <option value="{{ $order->status->value }}">
+                                        {{ ucwords(str_replace('_', ' ', $order->status->value)) }}
+                                    </option>
+                                    @foreach($order->status->nextStatuses() as $status)
+                                    <option value="{{ $status->value }}">
+                                        {{ ucwords(str_replace('_', ' ', $status->value)) }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn-save">Save</button>
+                            </form>
+                            <details>
+                                <summary class="history">History</summary>
+                                <ul class="history">
+                                    @foreach($order->orderStatusHistories->sortBy('created_at') as $history)
+                                    <li>{{ $history->created_at->format('M j, g:i A') }} —
+                                        {{ ucwords(str_replace('_', ' ', $history->status->value)) }}
+                                    </li>@endforeach
                                 </ul>
-                            </td>
-                            <td>₹{{ number_format($order->total_amount, 2) }}</td>
-                            <td>
-                                <form class="status-form" action="{{ route('admin.orders.status', $order) }}" method="POST">
-                                    @csrf @method('PUT')
-                                    <select name="status">
-                                        <option value="{{ $order->status->value }}">
-                                            {{ ucwords(str_replace('_', ' ', $order->status->value)) }}
-                                        </option>
-                                        @foreach($order->status->nextStatuses() as $status)
-                                            <option value="{{ $status->value }}">
-                                                {{ ucwords(str_replace('_', ' ', $status->value)) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn-save">Save</button>
-                                </form>
-                                <details>
-                                    <summary>History</summary>
-                                    <ul class="history">
-                                        @foreach($order->orderStatusHistories->sortBy('created_at') as $history)
-                                            <li>{{ $history->created_at->format('M j, g:i A') }} —
-                                                {{ ucwords(str_replace('_', ' ', $history->status->value)) }}
-                                        </li>@endforeach
-                                    </ul>
-                                </details>
-                                <a href="{{ route('orders.bill', $order) }}"
-                                    style="display:inline-block;margin-top:8px;color:#2563eb;font-size:12px;font-weight:700;text-decoration:none">Download
-                                    bill (PDF)</a>
-                            </td>
-                        </tr>
+                            </details>
+                            <a href="{{ route('orders.bill', $order) }}" class="download-link">Download
+                                bill (PDF)</a>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="5">No orders have been submitted yet.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="5">No orders have been submitted yet.</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
