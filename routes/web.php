@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Review;
+use App\Models\Product;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,12 @@ Route::get('/dashboard', function () {
                 ->orderByDesc('rating')
                 ->latest()
                 ->take(6)
+                ->get(),
+            'randomProducts' => Product::query()
+                ->where('is_available', true)
+                ->with(['productImages', 'category'])
+                ->inRandomOrder()
+                ->take(10)
                 ->get(),
         ]
     );

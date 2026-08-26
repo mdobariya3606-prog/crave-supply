@@ -595,6 +595,249 @@
             background: var(--blue);
         }
 
+        .product-scroller-wrap {
+            position: relative;
+            width: 100%;
+            margin-top: 18px;
+        }
+
+        .product-scroller-track {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 6px 2px 14px;
+        }
+
+        .product-scroller-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-scroller-track .product-card {
+            flex: 0 0 calc(25% - 14px);
+            min-width: 230px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #ded4c8;
+            border-radius: 14px;
+            background: #fffdf9;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .04);
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+
+        .product-scroller-track .product-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, .09);
+            transform: translateY(-2px);
+        }
+
+        .product-card-image {
+            width: 100%;
+            aspect-ratio: 1 / .8;
+            object-fit: cover;
+            background: #eef4f8;
+        }
+
+        .product-card-body {
+            display: flex;
+            min-height: 190px;
+            flex: 1;
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .product-card-category {
+            margin: 0 0 7px;
+            color: #8d6c4a;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .product-card-name {
+            color: #2c2722;
+            font-size: 14px;
+            font-weight: 750;
+            line-height: 1.35;
+            text-decoration: none;
+        }
+
+        .product-card-description {
+            display: -webkit-box;
+            margin: 8px 0 12px;
+            overflow: hidden;
+            color: #8d8376;
+            font-size: 12px;
+            line-height: 1.45;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .product-card-price {
+            color: #2c2722;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .product-card-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 999px;
+            color: #166534;
+            background: #dcfce7;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .product-card-status.unavailable {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .scroller-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-top: 14px;
+            padding: 0 4px;
+        }
+
+        .scroller-progress-wrap {
+            flex: 0 1 300px;
+            height: 4px;
+            background: #ded4c8;
+            position: relative;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .scroller-progress-bar {
+            height: 100%;
+            width: 25%;
+            background: #2c2722;
+            border-radius: 2px;
+            transition: width 0.12s ease-out;
+        }
+
+        .scroller-nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scroller-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid #ded4c8;
+            background: #fffdf9;
+            color: #2c2722;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+            user-select: none;
+        }
+
+        .scroller-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.15s ease;
+        }
+
+        .scroller-btn.prev:hover:not(:disabled) svg {
+            transform: translateX(-2px);
+        }
+
+        .scroller-btn.next:hover:not(:disabled) svg {
+            transform: translateX(2px);
+        }
+
+        .scroller-btn:hover:not(:disabled) {
+            border-color: #8d6c4a;
+            background: #2c2722;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(44, 39, 34, .15);
+        }
+
+        .scroller-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            box-shadow: none;
+            background: #f8f4ed;
+            border-color: #ded4c8;
+        }
+
+        html[data-theme="dark"] .product-scroller-track .product-card {
+            background: #2a241f;
+            border-color: #51463c;
+        }
+
+        html[data-theme="dark"] .product-card-name,
+        html[data-theme="dark"] .product-card-price {
+            color: #f1e9df;
+        }
+
+        html[data-theme="dark"] .product-card-description {
+            color: #b9aa9b;
+        }
+
+        html[data-theme="dark"] .scroller-progress-wrap {
+            background: #4a4037;
+        }
+
+        html[data-theme="dark"] .scroller-progress-bar {
+            background: #e8c66f;
+        }
+
+        html[data-theme="dark"] .scroller-btn {
+            background: #2a241f;
+            border-color: #51463c;
+            color: #f1e9df;
+        }
+
+        html[data-theme="dark"] .scroller-btn:hover:not(:disabled) {
+            background: #e8c66f;
+            border-color: #e8c66f;
+            color: #17362a;
+        }
+
+        @media (max-width: 900px) {
+            .product-scroller-track .product-card {
+                flex: 0 0 calc(33.333% - 12px);
+                min-width: 210px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-scroller-track .product-card {
+                flex: 0 0 calc(50% - 9px);
+                min-width: 170px;
+            }
+            .scroller-progress-wrap {
+                flex: 0 1 160px;
+            }
+        }
+
         .guide-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -881,8 +1124,59 @@
                         </div>
                     </a>
                 </article>
+        </section>
+
+        @if (!empty($randomProducts) && $randomProducts->isNotEmpty())
+        <section class="products-section" aria-labelledby="featured-products-title" style="margin-top: 48px;">
+            <div class="section-heading">
+                <div>
+                    <h2 id="featured-products-title">Featured <span>products</span></h2>
+                    <p>Randomly selected items for your everyday supply needs.</p>
+                </div>
+                <a class="text-link" href="{{ route('products.dashboard') }}">View all products →</a>
+            </div>
+
+            <div class="product-scroller-wrap">
+                <div class="product-scroller-track">
+                    @foreach ($randomProducts as $product)
+                    <article class="product-card">
+                        <a href="{{ route('products.profile', $product) }}">
+                            <img class="product-card-image"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }}">
+                        </a>
+                        <div class="product-card-body">
+                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                            <a class="product-card-name"
+                                href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                            <p class="product-card-description">
+                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                            </p>
+                            <div class="product-card-footer">
+                                <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
+                                <span
+                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+                <div class="scroller-controls">
+                    <div class="scroller-progress-wrap">
+                        <div class="scroller-progress-bar"></div>
+                    </div>
+                    <div class="scroller-nav-buttons">
+                        <button type="button" class="scroller-btn prev" aria-label="Previous products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        </button>
+                        <button type="button" class="scroller-btn next" aria-label="Next products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
+        @endif
 
         <section class="premium-callout" aria-label="Premium supply call to action">
             <div>
@@ -1118,6 +1412,58 @@
             });
             startAutoplay();
         })();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const initScroller = (wrap) => {
+                const track = wrap.querySelector('.product-scroller-track');
+                const bar = wrap.querySelector('.scroller-progress-bar');
+                const prevBtn = wrap.querySelector('.scroller-btn.prev');
+                const nextBtn = wrap.querySelector('.scroller-btn.next');
+
+                if (!track || !bar) return;
+
+                const update = () => {
+                    const scrollLeft = track.scrollLeft;
+                    const maxScroll = track.scrollWidth - track.clientWidth;
+
+                    if (maxScroll <= 0) {
+                        bar.style.width = '100%';
+                        if (prevBtn) prevBtn.disabled = true;
+                        if (nextBtn) nextBtn.disabled = true;
+                        return;
+                    }
+
+                    const currentRight = scrollLeft + track.clientWidth;
+                    const progressRatio = currentRight / track.scrollWidth;
+                    const fillPercent = Math.min(100, Math.max(15, progressRatio * 100));
+
+                    bar.style.width = fillPercent + '%';
+
+                    if (prevBtn) prevBtn.disabled = scrollLeft <= 5;
+                    if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 5;
+                };
+
+                track.addEventListener('scroll', update, { passive: true });
+                window.addEventListener('resize', update, { passive: true });
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        track.scrollBy({ left: -track.clientWidth * 0.75, behavior: 'smooth' });
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        track.scrollBy({ left: track.clientWidth * 0.75, behavior: 'smooth' });
+                    });
+                }
+
+                update();
+            };
+
+            document.querySelectorAll('.product-scroller-wrap').forEach(initScroller);
+        });
     </script>
 </body>
 
