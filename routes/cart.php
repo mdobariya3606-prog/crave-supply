@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Cart\DeleteCartController;
+use App\Http\Controllers\Cart\UpdateCartController;
 use App\Http\Controllers\Product\CartController;
 use App\Http\Controllers\Product\CheckoutController;
 use App\Http\Middleware\EnsureAccountIsActive;
@@ -12,6 +14,6 @@ Route::middleware(['auth', EnsureAccountIsActive::class])
     });
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::put('/cart/{product:slug}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
-Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
+Route::put('/cart/{product:slug}', [UpdateCartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{product:slug}', [DeleteCartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart', [DeleteCartController::class, 'clear'])->name('cart.clear');
