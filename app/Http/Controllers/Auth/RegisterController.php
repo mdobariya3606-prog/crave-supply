@@ -19,7 +19,11 @@ class RegisterController extends Controller
         $data = $request->validated();
         $user = User::create($data);
 
+        $guestCart = $request->session()->get('cart', []);
         Auth::login($user);
+        if ($guestCart) {
+            $request->session()->put('cart', $guestCart);
+        }
 
         return redirect()->route('dashboard');
     }

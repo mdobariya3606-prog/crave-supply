@@ -233,17 +233,22 @@
         }
 
         .cart-clear {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 9px 12px;
-            border: 1px solid #fecaca;
+            border: 1px solid #dc8b82 !important;
             border-radius: 8px;
-            color: #991b1b;
-            background: #fff;
+            color: #991b1b !important;
+            background: #fff !important;
             font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
         }
 
         .cart-clear:hover {
-            background: #fef2f2;
+            color: #991b1b !important;
+            background: #fef2f2 !important;
         }
 
         .cart-alert {
@@ -324,6 +329,12 @@
             color: #133458;
             font-size: 18px;
             font-weight: 800;
+        }
+
+        .checkout {
+            display: flex;
+            align-items: center;
+            text-align: center;
         }
 
         .cart-checkout {
@@ -433,7 +444,7 @@
             <aside class="cart-summary" aria-label="Order summary">
                 <h2>Order summary</h2>
                 <p class="delivery-note" data-delivery-note>
-                    {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 - $total, 2) . ' more for free delivery.' }}
+                    {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 - $total, 2) . ' worth more products for free delivery.' }}
                 </p>
                 <div class="summary-line"><span>Subtotal</span><strong
                         data-cart-subtotal>₹{{ number_format($total, 2) }}</strong></div>
@@ -446,12 +457,14 @@
                     <button class="cart-checkout" type="submit">Review order</button>
                 </form>
                 @else
-                <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none"
-                    href="{{ route('login') }}">Log in to submit order</a>
+                <div class="checkout">
+                    <a class="cart-checkout" style="display:block;text-align:center;text-decoration:none"
+                        href="{{ route('login') }}">Log in to submit order</a>
+                </div>
                 @endauth
                 <form action="{{ route('cart.clear') }}" method="POST" style="margin-top:12px;text-align:center">
                     @csrf @method('DELETE')
-                    <button class="cart-remove" type="submit">Clear cart</button>
+                    <button class="cart-clear" type="submit">Clear cart</button>
                 </form>
             </aside>
         </div>

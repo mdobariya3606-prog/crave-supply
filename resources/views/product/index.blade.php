@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Products — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         :root {
@@ -467,6 +467,11 @@
             background: #eef4f8;
         }
 
+        .product-card-image-wrap { position: relative; display: block; overflow: hidden; aspect-ratio: 1 / .8; background: #f1eee9; }
+        .product-card-image-wrap .product-card-image { height: 100%; transition: filter .2s ease; }
+        .product-card-image-wrap.is-out-of-stock .product-card-image { filter: blur(4px) grayscale(.25); transform: scale(1.04); }
+        .product-card-image-wrap.is-out-of-stock::after { content: 'Out of stock'; position: absolute; top: 50%; left: 50%; padding: 8px 13px; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; color: #fff; background: rgba(44,39,34,.78); font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; transform: translate(-50%, -50%); white-space: nowrap; }
+
         .product-card-body {
             display: flex;
             min-height: 205px;
@@ -518,6 +523,14 @@
             font-size: 14px;
             font-weight: 800;
         }
+        .product-cart-control { display:inline-flex; align-items:center; overflow:hidden; min-height:34px; border:0; border-radius:8px; color:#fff !important; background:#238b20 !important; font-weight:800; }
+        .product-cart-control button { width:30px; height:34px; padding:0; border:0 !important; color:#fff !important; background:#238b20 !important; font-size:18px; line-height:1; cursor:pointer; }
+        .product-cart-control button:hover { background:#1d761b !important; }
+        .product-cart-control input { width:34px; height:34px; padding:0; border:0; color:#fff !important; background:#238b20 !important; font-size:13px; font-weight:800; text-align:center; }
+        .product-cart-control input:focus { outline:0; background:#1d761b !important; }
+        .product-cart-control input::-webkit-outer-spin-button, .product-cart-control input::-webkit-inner-spin-button { margin:0; appearance:none; }
+        .product-cart-control input[type=number] { appearance:textfield; }
+        .product-add-button { width:auto !important; padding:0 16px !important; font-size:12px !important; letter-spacing:.04em; text-transform:uppercase; }
 
         .product-card-status {
             padding: 4px 7px;
@@ -965,7 +978,7 @@
                             <div class="product-scroller-track">
                                 @foreach ($categoryItems as $product)
                                     <article class="product-card">
-                                        <a href="{{ route('products.profile', $product) }}"><img class="product-card-image"
+                                        <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}" href="{{ route('products.profile', $product) }}"><img class="product-card-image"
                                                 src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
                                                 alt="{{ $product->name }}"></a>
                                         <div class="product-card-body">
@@ -978,6 +991,10 @@
                                             <div class="product-card-footer"><strong
                                                     class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong><span
                                                     class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                                @if ($product->is_available && $product->stock > 0)
+                                                @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
+                                                <div class="product-cart-control" data-product-cart data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}" data-update-url="{{ route('cart.update', $product->slug) }}">@if ($cartQuantity)<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity aria-label="Quantity for {{ $product->name }}"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>@else<button type="button" class="product-add-button" data-cart-add>Add</button>@endif</div>
+                                                @endif
                                             </div>
                                         </div>
                                     </article>
@@ -1014,7 +1031,7 @@
                     <div class="product-scroller-track">
                         @foreach ($products as $product)
                             <article class="product-card">
-                                <a href="{{ route('products.profile', $product) }}">
+                                <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}" href="{{ route('products.profile', $product) }}">
                                     <img class="product-card-image"
                                         src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
                                         alt="{{ $product->name }}">
@@ -1031,6 +1048,10 @@
                                             class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
                                         <span
                                             class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                                        @if ($product->is_available && $product->stock > 0)
+                                        @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
+                                        <div class="product-cart-control" data-product-cart data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}" data-update-url="{{ route('cart.update', $product->slug) }}">@if ($cartQuantity)<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity aria-label="Quantity for {{ $product->name }}"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>@else<button type="button" class="product-add-button" data-cart-add>Add</button>@endif</div>
+                                        @endif
                                     </div>
                                 </div>
                             </article>
@@ -1086,6 +1107,27 @@
         </section>
     </main>
     @include('layouts.footer')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+            const setCartCount = count => { const node = document.querySelector('[data-cart-count]'); if (node) node.textContent = count ? `(${count})` : ''; };
+            const render = (control, quantity) => { control.innerHTML = quantity ? `<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="${control.dataset.stock}" value="${quantity}" data-cart-quantity aria-label="Product quantity"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>` : '<button type="button" class="product-add-button" data-cart-add>Add</button>'; };
+            document.querySelectorAll('[data-product-cart]').forEach(control => {
+                const update = quantity => {
+                    const previous = Number(control.querySelector('[data-cart-quantity]')?.value || 0);
+                    const currentCount = Number(document.querySelector('[data-cart-count]')?.textContent.replace(/\D/g, '') || 0);
+                    render(control, quantity);
+                    setCartCount(Math.max(0, currentCount + quantity - previous));
+                    fetch(control.dataset.updateUrl, { method:'PUT', headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':csrf,'X-Requested-With':'XMLHttpRequest'}, body:JSON.stringify({quantity}) })
+                        .then(response => response.json().then(data => { if (!response.ok) throw new Error(data.message); return data; }))
+                        .then(data => { render(control, data.quantity); setCartCount(data.cart_count); })
+                        .catch(error => { render(control, previous); setCartCount(currentCount); window.alert(error.message || 'Unable to update cart.'); });
+                };
+                control.addEventListener('click', event => { const quantity = Number(control.querySelector('[data-cart-quantity]')?.value || 0); if (event.target.matches('[data-cart-add]')) update(1); if (event.target.matches('[data-cart-step]')) { const next = quantity + Number(event.target.dataset.cartStep); if (next >= 0) update(Math.min(next, Number(control.dataset.stock))); } });
+                control.addEventListener('change', event => { if (!event.target.matches('[data-cart-quantity]')) return; const quantity = Math.max(0, Math.min(Number(control.dataset.stock), Number(event.target.value) || 0)); update(quantity); });
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const initScroller = (wrap) => {

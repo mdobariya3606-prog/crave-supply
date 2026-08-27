@@ -21,7 +21,12 @@ class LoginController extends Controller
                 ->withErrors(['email' => 'These credentials do not match our records.']);
         }
 
+        // Preserve a guest cart while rotating the session ID after login.
+        $guestCart = $request->session()->get('cart', []);
         $request->session()->regenerate();
+        if ($guestCart) {
+            $request->session()->put('cart', $guestCart);
+        }
 
         return redirect()->intended(route('dashboard'));
     }

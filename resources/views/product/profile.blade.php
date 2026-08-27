@@ -115,7 +115,7 @@
             width: 38px;
             height: 38px;
             border: 0;
-            border-radius: 50%;
+            border-radius: 40% !important;
             color: var(--profile-navy);
             background: rgba(255, 255, 255, .9);
             box-shadow: 0 5px 15px rgba(15, 23, 42, .12);
@@ -217,6 +217,10 @@
         .rating-summary span:last-child {
             color: var(--profile-muted);
             font-size: 13px;
+        }
+
+        html[data-theme='dark'] .rating-summary span:last-child {
+            color: var(--layout-muted);
         }
 
         .price-row {
@@ -583,10 +587,14 @@
             padding: 10px 12px;
             border: 1px solid #fecaca;
             border-radius: 9px;
-            color: #991b1b;
+            color: #991b1b !important;
             background: #fef2f2;
             font-size: 12px;
             line-height: 1.45;
+        }
+
+        .order-error {
+            color: #991b1b !important;
         }
 
         .related-grid {
@@ -1306,6 +1314,10 @@
             <div class="review-message" role="status">{{ session('success') }}</div>
         @endif
 
+        @error('quantity', 'order')
+            <span class="order-error" role="alert">{{ $message }}</span>
+        @enderror
+
         <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
 
         <section class="product-main" aria-labelledby="product-title">
@@ -1347,7 +1359,8 @@
                 <p class="product-subtitle">
                     {{ $product->description ?: 'A thoughtfully selected premium product for your business and shared spaces.' }}
                 </p>
-                <div class="rating-summary"><span class="stars top-rating-stars"><?php
+                <div class="rating-summary"><span
+                        class="stars top-rating-stars"><?php
 $avgRating = (int) $product->reviews->avg('rating'); ?>
                         {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}</span><span
                         class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1) }}
@@ -1376,14 +1389,12 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 @endif
                 @if ($product->is_available && $product->stock > 0)
                     @if (!auth()->check() || auth()->user()?->role === 'customer')
-                        <form class="order-form" action="{{ route('products.order.store', $product) }}" method="POST">
+                        <form class="order-form" action="{{ route('cart.update', $product->slug) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <label for="quantity">Quantity</label>
                             <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
                                     max="{{ $product->stock }}" value="1"></div>
-                            @error('quantity', 'order')
-                                <span class="order-error" role="alert">{{ $message }}</span>
-                            @enderror
                             <button class="review-submit" type="submit">Add to Cart</button>
                         </form>
                     @endif
@@ -1572,10 +1583,10 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
             const images = @json(
-                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
-                    asset('images/product-placeholder.svg'),
-                ]
-            );
+    $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
+        asset('images/product-placeholder.svg'),
+    ]
+);
             const track = gallery.querySelector('[data-gallery-track]');
             const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
             let current = 0;

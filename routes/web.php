@@ -5,7 +5,6 @@ use App\Models\Product;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 require_once 'auth.php';
@@ -44,9 +43,11 @@ Route::get('/dashboard', function () {
     );
 })->name('dashboard');
 
-Route::get('/cache/clear', function () {
-    Cache::clear();
-    return redirect()->back();
+Route::middleware('auth')->get('/cache/clear', function (Request $request) {
+    // Clear only this user's session-backed data; never flush the shared application cache.
+    $request->session()->forget('cart');
+
+    return redirect()->back()->with('success', 'Your personal cache was cleared.');
 })->name('cache.clear');
 
 Route::get('/account-disabled', fn() => view('account-disabled'))->name('account.disabled');

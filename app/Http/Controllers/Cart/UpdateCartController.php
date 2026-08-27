@@ -17,10 +17,10 @@ class UpdateCartController extends Controller
     {
         $this->canUseCart($request);
         $validated = $request->validateWithBag('cart', [
-            'quantity' => ['required', 'integer', 'min:1'],
+            'quantity' => ['required', 'integer', 'min:0'],
         ]);
 
-        if (!$product->is_available || $product->stock < 1 || $validated['quantity'] > $product->stock) {
+        if ($validated['quantity'] > 0 && (!$product->is_available || $product->stock < 1 || $validated['quantity'] > $product->stock)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Only ' . max(0, $product->stock) . ' item(s) are available.'], 422);
             }
@@ -28,18 +28,26 @@ class UpdateCartController extends Controller
         }
 
         $cart = $request->session()->get('cart', []);
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] = $validated['quantity'];
-            $cart[$product->id]['price'] = (float) $product->price;
-            $cart[$product->id]['current_price'] = (float) $product->price;
-            $cart[$product->id]['name'] = $product->name;
-            $cart[$product->id]['slug'] = $product->slug;
-            $cart[$product->id]['image_path'] = $product->productImages()->value('image_path');
+        if ($validated['quantity'] === 0) {
+            unset($cart[$product->id]);
             $request->session()->put('cart', $cart);
+            return $request->expectsJson()
+                ? response()->json(['success' => true, 'quantity' => 0, 'cart_count' => collect($cart)->sum('quantity')])
+                : back()->with('success', 'Cart updated.');
         }
+        $cart[$product->id] = array_merge($cart[$product->id] ?? [], [
+            'product_id' => $product->id,
+            'quantity' => $validated['quantity'],
+            'price' => (float) $product->price,
+            'current_price' => (float) $product->price,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'image_path' => $product->productImages()->value('image_path'),
+        ]);
+        $request->session()->put('cart', $cart);
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'quantity' => $validated['quantity']]);
+            return response()->json(['success' => true, 'quantity' => $validated['quantity'], 'cart_count' => collect($cart)->sum('quantity')]);
         }
         return back()->with('success', 'Cart updated.');
     }
