@@ -1,5 +1,5 @@
 <script>
-    (function() {
+    (function () {
         var savedTheme = localStorage.getItem('cravesupply-theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
@@ -7,6 +7,7 @@
 </script>
 <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
 <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
+@php($headerCategories = \App\Models\Category::query()->orderBy('name')->get())
 <header class="site-header">
     <nav class="nav-wrap" aria-label="Main navigation">
         {{-- Brand and global search stay visible at every breakpoint. --}}
@@ -27,21 +28,39 @@
             <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ?
     'active' : '' }}>Home</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
+            <div class="nav-category-menu">
+                <button type="button"
+                    class="nav-category-trigger{{ request()->routeIs('products.category') || request()->routeIs('categories.*') ? ' active' : '' }}"
+                    aria-expanded="false">
+                    Categories
+                    <svg class="nav-category-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m4 6 4 4 4-4" />
+                    </svg>
+                </button>
+                <div class="nav-category-dropdown">
+                    @forelse ($headerCategories as $category)
+                        <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                    @empty
+                        <span class="nav-category-empty">No categories yet</span>
+                    @endforelse
+                </div>
+            </div>
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-            <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
-                collect(session('cart', []))->sum('quantity')) . ')' : '' }}
-            </a>
+                    <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
+                        Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
+        collect(session('cart', []))->sum('quantity')) . ')' : '' }}
+                    </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-            <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
-                                        }}>Orders</a>
+                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
+                                            }}>Orders</a>
             @endif
             @guest
-            <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-            <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
-                                        }}>Register</a>
+                <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
+                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
+                                            }}>Register</a>
             @endguest
         </div>
         {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
@@ -61,17 +80,29 @@
                 <div id="profileMenu" class="profile-menu" hidden>
                     <a href="{{ route('home') }}">Dashboard</a>
                     <a href="{{ route('products.dashboard') }}">Products</a>
+                    <div class="profile-category-menu">
+                        <button type="button" class="profile-category-trigger" aria-expanded="false">Categories <svg
+                                viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m4 6 4 4 4-4" />
+                            </svg></button>
+                        <div class="profile-category-list">
+                            @foreach ($headerCategories as $category)
+                                <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                     <a href="{{ route('about') }}">About us</a>
                     @auth
-                    <a href="{{ route('profile') }}">Profile</a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" onclick='return confirm("Are you sure to logout?")'>
-                            Logout
-                        </button>
-                    </form>
+                        <a href="{{ route('profile') }}">Profile</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" onclick='return confirm("Are you sure to logout?")'>
+                                Logout
+                            </button>
+                        </form>
                     @else
-                    <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
                     @endauth
                     <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
                         aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
@@ -83,12 +114,230 @@
     </nav>
 </header>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.nav-category-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const menu = trigger.closest('.nav-category-menu');
+                const open = menu.classList.toggle('is-open');
+                trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+        });
+        document.addEventListener('click', event => {
+            document.querySelectorAll('.nav-category-menu.is-open').forEach(menu => {
+                if (!menu.contains(event.target)) {
+                    menu.classList.remove('is-open');
+                    menu.querySelector('.nav-category-trigger')?.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            document.querySelectorAll('.nav-category-menu.is-open').forEach(menu => {
+                menu.classList.remove('is-open');
+                menu.querySelector('.nav-category-trigger')?.setAttribute('aria-expanded', 'false');
+            });
+        });
+    });
+</script>
+
 {{-- Header-only styles are kept here because this partial owns these elements. --}}
 <style>
     .global-search {
         position: relative;
         flex: 0 1 300px;
         order: 1;
+    }
+
+    .nav-category-menu {
+        position: relative;
+    }
+
+    .nav-category-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0;
+        border: 0;
+        color: inherit !important;
+        background: transparent !important;
+        font: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+        cursor: pointer;
+    }
+
+    html[data-theme="dark"] .nav-category-trigger,
+    html[data-theme="dark"] .nav-category-trigger:hover {
+        color: inherit !important;
+        background: transparent !important;
+    }
+
+    .nav-category-chevron {
+        width: 13px;
+        height: 13px;
+        transition: transform .2s ease;
+    }
+
+    .nav-category-trigger:hover,
+    .nav-category-trigger.active {
+        color: var(--layout-blue);
+        background: transparent !important;
+    }
+
+    .nav-category-menu.is-open .nav-category-chevron {
+        transform: rotate(180deg);
+    }
+
+    .profile-category-menu {
+        position: relative;
+    }
+
+    .profile-category-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 8px !important;
+        color: var(--layout-ink) !important;
+        background: transparent !important;
+        font: inherit;
+        font-size: 13px;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .profile-category-trigger:hover,
+    .profile-category-menu.is-open .profile-category-trigger {
+        color: var(--layout-navy) !important;
+        background: #f1e9df !important;
+    }
+
+    .profile-category-trigger svg {
+        width: 13px;
+        height: 13px;
+        transform: rotate(90deg);
+        transition: transform .2s ease;
+    }
+
+    .profile-category-menu.is-open .profile-category-trigger svg {
+        transform: rotate(270deg);
+    }
+
+    .profile-category-list {
+        position: absolute;
+        z-index: 30;
+        top: -7px;
+        right: calc(100% + 8px);
+        display: none;
+        width: 210px;
+        max-width: calc(100vw - 44px);
+        max-height: min(70vh, 420px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 6px;
+        border: 1px solid var(--layout-line);
+        border-radius: 12px;
+        background: var(--layout-surface);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, .14);
+    }
+
+    .profile-category-menu.is-open .profile-category-list {
+        display: block;
+    }
+
+    .profile-category-list a {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+        .profile-category-list {
+            top: -7px;
+            right: calc(100% + 8px);
+            max-width: calc(100vw - 44px);
+            max-height: calc(100vh - 150px);
+        }
+    }
+
+    .nav-category-dropdown {
+        position: absolute;
+        z-index: 20;
+        top: calc(100% + 10px);
+        left: 50%;
+        display: grid;
+        min-width: 210px;
+        padding: 8px;
+        border: 1px solid #ded4c8;
+        border-radius: 12px;
+        background: #fffdf9;
+        box-shadow: 0 14px 30px rgba(44, 39, 34, .14);
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -6px);
+        transition: opacity .18s ease, transform .18s ease;
+    }
+
+    html[data-theme="dark"] .nav-category-dropdown {
+        background: #1d1916 !important;
+    }
+
+    .nav-category-menu.is-open .nav-category-dropdown {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, 0);
+    }
+
+    .nav-category-dropdown a,
+    .nav-category-empty {
+        padding: 9px 11px;
+        border-radius: 7px;
+        color: #51483e;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+    .nav-category-dropdown a:hover {
+        color: #17362a;
+        background: #f3eee6;
+    }
+
+    html[data-theme='dark'] .nav-category-dropdown a:hover {
+        color: #f3eee6;
+        background: #17362a;
+    }
+
+    .nav-category-empty {
+        color: #8d8376;
+    }
+
+    @media (max-width: 760px) {
+        .nav-category-menu {
+            width: 100%;
+        }
+
+        .nav-category-trigger {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-category-dropdown {
+            position: static;
+            display: none;
+            width: 100%;
+            margin-top: 4px;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-category-menu.is-open .nav-category-dropdown {
+            display: grid;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+        }
     }
 
     .global-search form {
@@ -176,6 +425,10 @@
         background: #f1e9df;
     }
 
+    html[data-theme='dark'] .search-result:hover {
+        background: #503c20;
+    }
+
     .search-result strong {
         display: block;
         font-size: 12px;
@@ -218,16 +471,29 @@
 
         if (!trigger || !menu) return;
 
+        document.querySelector('.profile-category-trigger')?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const categoryMenu = event.currentTarget.closest('.profile-category-menu');
+            const isOpen = categoryMenu.classList.toggle('is-open');
+            event.currentTarget.setAttribute('aria-expanded', String(isOpen));
+        });
+
         trigger.addEventListener('click', () => {
             const isOpen = !menu.hidden;
             menu.hidden = isOpen;
             trigger.setAttribute('aria-expanded', String(!isOpen));
+            if (isOpen) {
+                menu.querySelector('.profile-category-menu')?.classList.remove('is-open');
+                menu.querySelector('.profile-category-trigger')?.setAttribute('aria-expanded', 'false');
+            }
         });
 
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.profile-dropdown')) {
                 menu.hidden = true;
                 trigger.setAttribute('aria-expanded', 'false');
+                menu.querySelector('.profile-category-menu')?.classList.remove('is-open');
+                menu.querySelector('.profile-category-trigger')?.setAttribute('aria-expanded', 'false');
             }
         });
     })();
@@ -274,7 +540,7 @@
             '>': '&gt;',
             '"': '&quot;',
             "'": '&#039;'
-        } [character]));
+        }[character]));
         const render = data => {
             const groups = [
                 ['Products', data.products || []],
