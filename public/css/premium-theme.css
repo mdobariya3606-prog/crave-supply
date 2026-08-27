@@ -59,9 +59,9 @@ textarea:focus {
 .submit-order,
 .button,
 button[type="submit"] {
-    border-radius: 0 !important;
-    color: #fffdf9 !important;
-    background: var(--premium-brown) !important;
+    border-radius: 0;
+    color: #fffdf9;
+    background: var(--premium-brown);
 }
 .btn-submit:hover,
 .review-submit:hover,
@@ -69,7 +69,7 @@ button[type="submit"] {
 .submit-order:hover,
 .button:hover,
 button[type="submit"]:hover {
-    background: var(--premium-accent) !important;
+    background: var(--premium-accent);
 }
 
 .availability,

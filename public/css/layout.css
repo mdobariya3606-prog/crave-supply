@@ -164,10 +164,12 @@ html[data-theme="dark"] .profile-menu form button {
     color: var(--layout-ink);
 }
 
+html[data-theme="dark"] .btn-logout:hover,
 html[data-theme="dark"] .profile-menu a:hover,
+html[data-theme="dark"] .profile-category-trigger:hover,
 html[data-theme="dark"] .profile-menu form button:hover {
-    color: #fff;
-    background: #493b30;
+    color: #fff !important;
+    background: #493b30 !important;
 }
 
 html[data-theme="dark"] .theme-toggle {
@@ -244,9 +246,9 @@ html[data-theme="dark"] .btn-submit,
 html[data-theme="dark"] .button,
 html[data-theme="dark"] .cart-checkout,
 html[data-theme="dark"] .submit-order {
-    color: #fff8ef !important;
-    background: #604a35 !important;
-    border-color: #806348 !important;
+    color: #fff8ef;
+    background: #604a35;
+    border-color: #806348;
 }
 
 html[data-theme="dark"] button:hover,

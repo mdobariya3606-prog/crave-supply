@@ -1,5 +1,5 @@
 <script>
-    (function () {
+    (function() {
         var savedTheme = localStorage.getItem('cravesupply-theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
@@ -40,26 +40,26 @@
                 </button>
                 <div class="nav-category-dropdown">
                     @forelse ($headerCategories as $category)
-                        <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                    <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
                     @empty
-                        <span class="nav-category-empty">No categories yet</span>
+                    <span class="nav-category-empty">No categories yet</span>
                     @endforelse
                 </div>
             </div>
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-                    <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                        Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
+            <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
+                Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
         collect(session('cart', []))->sum('quantity')) . ')' : '' }}
-                    </a>
+            </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-                <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
+            <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
                                             }}>Orders</a>
             @endif
             @guest
-                <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-                <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
+            <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
+            <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
                                             }}>Register</a>
             @endguest
         </div>
@@ -88,26 +88,26 @@
                             </svg></button>
                         <div class="profile-category-list">
                             @foreach ($headerCategories as $category)
-                                <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                            <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
                             @endforeach
                         </div>
                     </div>
                     <a href="{{ route('about') }}">About us</a>
+                    <a href="{{ route('cache.clear') }}">Clear cache</a>
                     @auth
-                        <a href="{{ route('profile') }}">Profile</a>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" onclick='return confirm("Are you sure to logout?")'>
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                    @endauth
+                    <a href="{{ route('profile') }}">Profile</a>
                     <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
                         aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
                             mode</span></button>
-                    <a href="{{ route('cache.clear') }}">Clear cache</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="btn-logout" type="submit" onclick='return confirm("Are you sure to logout?")' style="border-radius: 8px !important;">
+                            Logout
+                        </button>
+                    </form>
+                    @else
+                    <a href="{{ route('login') }}">Login</a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -211,7 +211,7 @@
 
     .profile-category-trigger:hover,
     .profile-category-menu.is-open .profile-category-trigger {
-        color: var(--layout-navy) !important;
+        color: var(--layout-navy);
         background: #f1e9df !important;
     }
 
@@ -540,7 +540,7 @@
             '>': '&gt;',
             '"': '&quot;',
             "'": '&#039;'
-        }[character]));
+        } [character]));
         const render = data => {
             const groups = [
                 ['Products', data.products || []],

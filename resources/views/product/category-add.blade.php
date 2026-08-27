@@ -7,6 +7,56 @@
     <title>{{ $category ? 'Edit category' : 'Add category' }} — CraveSupply</title>
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        .category-form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .category-submit-button,
+        .category-delete-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+        }
+
+        .category-submit-button {
+            border: 1px solid #17362a !important;
+            border-radius: 18px !important;
+            color: #fffdf9 !important;
+            background: #17362a !important;
+            box-shadow: 0 6px 14px rgba(23, 54, 42, .15);
+        }
+
+        .category-submit-button:hover {
+            background: #2f5a45 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 9px 18px rgba(23, 54, 42, .2);
+        }
+
+        .category-delete-button {
+            border: 1px solid #c66a5d !important;
+            border-radius: 18px !important;
+            color: #a33d32 !important;
+            background: #fff8f6 !important;
+        }
+
+        .category-delete-button:hover {
+            color: #fff !important;
+            background: #b94d42 !important;
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 
 <body>
@@ -72,20 +122,21 @@
                         <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <button type="submit"
-                        class="btn-submit">{{ $category ? 'Update category' : 'Add category' }}</button>
+                    <div class="category-form-actions"><button type="submit"
+                            class="category-submit-button">{{ $category ? 'Update category' : 'Add category' }}</button></div>
                 </div>
             </form>
 
-            @if($category->products()->count() === 0)
+            @if($category)
             <form
                 action="{{ route('categories.destroy', $category) }}"
                 method="POST">
                 @csrf
                 @method('DELETE')
 
-                <div class="full-width" style="display:flex;gap:10px;flex-wrap:wrap">
+                <div class="category-form-actions">
                     <button type="submit"
+                        class="category-delete-button"
                         onclick="return confirm('Delete this category?')">
                         Delete category
                     </button>

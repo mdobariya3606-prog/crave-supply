@@ -88,6 +88,7 @@
         }
 
         .manage-actions a.secondary {
+            border-radius: 18px;
             color: #fff;
             background: rgba(255, 255, 255, .14);
             border: 1px solid rgba(255, 255, 255, .28);
