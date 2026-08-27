@@ -38,4 +38,17 @@ class AddCategoryController extends Controller
         return redirect()->route('products.category', $category->slug)
             ->with('success', 'Category updated successfully.');
     }
+
+    public function destroy(Category $category)
+    {
+        if ($category->products()->count() > 0) {
+            return redirect()->back()->with([
+                'error' => 'Deletion not allowed: This category contains active products.',
+            ]);
+        }
+
+        $category->delete();
+
+        return redirect()->route('products.dashboard');
+    }
 }

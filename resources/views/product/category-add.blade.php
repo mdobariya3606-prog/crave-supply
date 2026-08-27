@@ -20,14 +20,14 @@
                 <p>{{ $category ? 'Update the information for this category.' : 'Create a clear grouping for your products.' }}
                 </p>
             </header>
-            @if ($errors->any())
-                <div class="alert-error" role="alert">Please correct the highlighted fields and try again.</div>
+            @if (session('error'))
+            <div class="alert-error" role="alert">{{ session('error') }}</div>
             @endif
             <form action="{{ $category ? route('categories.update', $category) : route('categories.add') }}"
                 method="POST">
                 @csrf
                 @if ($category)
-                    @method('PUT')
+                @method('PUT')
                 @endif
                 <div class="login-fields">
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -41,7 +41,7 @@
                                 <path d="M8 9h8M8 13h6" />
                             </svg></div>
                         @error('name')
-                            <div class="error-text is-visible"><span>{{ $message }}</span></div>
+                        <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                     <div class="form-group{{ $errors->has('slug') ? ' has-error' : '' }}">
@@ -55,7 +55,7 @@
                                 <path d="M14 11a5 5 0 0 0-7.1-.1l-2 2a5 5 0 0 0 7.1 7.1l1.2-1.2" />
                             </svg></div>
                         @error('slug')
-                            <div class="error-text is-visible"><span>{{ $message }}</span></div>
+                        <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                     <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
@@ -69,24 +69,30 @@
                                 <path d="M8 8h8M8 12h8M8 16h5" />
                             </svg></div>
                         @error('description')
-                            <div class="error-text is-visible"><span>{{ $message }}</span></div>
+                        <div class="error-text is-visible"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                     <button type="submit"
                         class="btn-submit">{{ $category ? 'Update category' : 'Add category' }}</button>
+                </div>
+            </form>
 
-                    @if($category)
-                        <div class="full-width" style="display:flex;gap:10px;flex-wrap:wrap">
-                            <button type="submit" form="delete-category"
-                                onclick="return confirm('Delete this category?')">Delete category</button>
-                        </div>
-                        <form action="delete-category" action="{{ route('categories.destroy', $category) }}" method="post">
-                            @method('DELETE')
-                        </form>
-                    @endif
+            @if($category->products()->count() === 0)
+            <form
+                action="{{ route('categories.destroy', $category) }}"
+                method="POST">
+                @csrf
+                @method('DELETE')
+
+                <div class="full-width" style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button type="submit"
+                        onclick="return confirm('Delete this category?')">
+                        Delete category
+                    </button>
                 </div>
 
             </form>
+            @endif
         </section>
     </main>
     @include('layouts.footer')
