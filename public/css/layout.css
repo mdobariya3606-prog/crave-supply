@@ -76,7 +76,7 @@ textarea,
     width: 100%;
     padding: 10px 12px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 8px !important;
     color: var(--layout-ink) !important;
     background: transparent !important;
     font: inherit;
@@ -290,6 +290,8 @@ html[data-theme="dark"] .cart-summary {
 }
 
 html[data-theme="dark"] .premium-proof,
+html[data-theme="dark"] .about-values,
+html[data-theme="dark"] .about-stat-grid,
 html[data-theme="dark"] .service-band {
     background: #4a4037 !important;
 }

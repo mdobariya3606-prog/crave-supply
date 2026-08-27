@@ -336,10 +336,19 @@ body::after {
 .pass-toggle .eye-closed { display: none; }
 .pass-toggle.is-visible .eye-open { display: none; }
 .pass-toggle.is-visible .eye-closed { display: block; }
-.pass-toggle:hover {
+.pass-toggle:hover,
+html[data-theme='dark'] .pass-toggle:hover
+ {
     color: #4a808d !important;
     background: transparent !important;
+    transition: 0.5s;
 }
+
+html[data-theme='dark'] .pass-toggle {
+    background: transparent !important;
+    color: var(--blue) !important;
+}
+
 .error-text {
     display: flex;
     align-items: center;

@@ -397,9 +397,15 @@
             </div>
             <div>
                 <ul class="about-list">
-                    <li><strong>Reliable quality</strong>Products people enjoy today and are happy to choose again tomorrow.</li>
-                    <li><strong>Everyday usefulness</strong>Snacks and drinks that work for real teams, counters, meetings, and breaks.</li>
-                    <li><strong>Clear value</strong>Thoughtful choices that make sense for your shelves and your routine.</li>
+                    <li><strong>Reliable quality</strong>
+                        <p>Products people enjoy today and are happy to choose again tomorrow.</p>
+                    </li>
+                    <li><strong>Everyday usefulness</strong>
+                        <p>Snacks and drinks that work for real teams, counters, meetings, and breaks.</p>
+                    </li>
+                    <li><strong>Clear value</strong>
+                       <p> Thoughtful choices that make sense for your shelves and your routine.</p>
+                    </li>
                 </ul>
             </div>
         </section>

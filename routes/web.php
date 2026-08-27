@@ -46,6 +46,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/cache/clear', function () {
     Cache::clear();
+    return redirect()->back();
 })->name('cache.clear');
 
 Route::get('/account-disabled', fn() => view('account-disabled'))->name('account.disabled');

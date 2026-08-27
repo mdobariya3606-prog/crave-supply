@@ -9,5 +9,5 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/categories/{category}/edit', [AddCategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{category}', [AddCategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category}', [AddCategoryController::class, 'update'])->name('categories.destroy');
+    Route::delete('/categories/{category}', [AddCategoryController::class, 'destroy'])->name('categories.destroy');
 });

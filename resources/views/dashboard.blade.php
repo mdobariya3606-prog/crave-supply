@@ -36,6 +36,100 @@
             font-family: 'DM Sans', sans-serif;
         }
 
+        .login-popup {
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            display: grid;
+            padding: 20px;
+            place-items: center;
+            background: rgba(23, 54, 42, .48);
+        }
+
+        .login-popup[hidden] {
+            display: none;
+        }
+
+        .login-popup-card {
+            position: relative;
+            width: min(100%, 430px);
+            padding: 34px;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: #fffdf9;
+            box-shadow: 0 24px 70px rgba(23, 54, 42, .24);
+        }
+
+        html[data-theme='dark'] .login-popup-card {
+            background: #1d1916 !important;
+
+        }
+
+        .login-popup-card h2 {
+            margin: 0 0 10px;
+            color: var(--ink);
+            font-size: 28px;
+            letter-spacing: -.05em;
+        }
+
+        .login-popup-card p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .login-popup-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /*
+        .login-popup-actions a {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px !important;
+            color: var(--layout-ink);
+            background: #2c2722 !important;
+            font: inherit;
+            font-size: 13px;
+            text-align: left;
+            text-decoration: none;
+            cursor: pointer;
+        } */
+
+        .text-link {
+            border-radius: 8px !important;
+        }
+
+        .login-popup-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 50% !important;
+            color: var(--muted) !important;
+            background: transparent !important;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .login-popup-close:hover {
+            background: transparent !important;
+        }
+
+        html[data-theme="dark"] .login-popup-close {
+            color: #fff8ef !important;
+            background: transparent !important;
+        }
+
+        html[data-theme="dark"] .login-popup-close:hover {
+            background: transparent !important;
+        }
+
         a {
             color: inherit;
             text-decoration: none;
@@ -234,12 +328,6 @@
             transform: translateY(-3px);
             border-color: #bfdbfe;
             box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
-        }
-
-        .text-link {
-            color: var(--blue);
-            font-size: 13px;
-            font-weight: 700;
         }
 
         .section-heading {
@@ -495,6 +583,13 @@
 
         .review-slider {
             overflow: hidden;
+            touch-action: pan-y;
+            cursor: grab;
+        }
+
+        .review-slider.is-dragging {
+            cursor: grabbing;
+            user-select: none;
         }
 
         .review-track {
@@ -549,25 +644,6 @@
             margin-top: 18px;
         }
 
-        .review-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-
-        .review-button {
-            width: 28px;
-            height: 28px;
-            padding: 0;
-            border: 0;
-            border-radius: 8px;
-            color: var(--muted);
-            background: transparent;
-            font-size: 16px;
-            line-height: 1;
-            cursor: pointer;
-            transition: color .2s ease, background .2s ease;
-        }
 
         .review-button:hover {
             color: var(--forest);
@@ -704,6 +780,11 @@
             font-weight: 700;
         }
 
+        html[data-theme="dark"] .product-card-status {
+            color: #dcfce7;
+            background: #166534;
+        }
+
         .product-card-status.unavailable {
             color: #991b1b;
             background: #fee2e2;
@@ -741,7 +822,8 @@
             gap: 10px;
         }
 
-        .scroller-btn {
+        .scroller-btn,
+        .review-button {
             width: 38px;
             height: 38px;
             border-radius: 15px !important;
@@ -757,13 +839,15 @@
             user-select: none;
         }
 
-        .scroller-btn svg {
+        .scroller-btn svg,
+        .review-button svg {
             width: 18px;
             height: 18px;
             transition: transform 0.15s ease;
         }
 
-        .scroller-btn:hover:not(:disabled) {
+        .scroller-btn:hover:not(:disabled),
+        .review-button:hover:not(:disabled) {
             border-color: #8d6c4a;
             background: #2c2722;
             color: #fff;
@@ -825,6 +909,7 @@
                 flex: 0 0 calc(50% - 9px);
                 min-width: 170px;
             }
+
             .scroller-progress-wrap {
                 flex: 0 1 160px;
             }
@@ -1079,7 +1164,7 @@
                     <a href="{{ route('products.category', 'artisan-beverages') }}">
                         <img class="snack-image" loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jwwKuoUM0ybse44TBLGFB8JYRY5VzMWHvOs9SJyp.jpg"
-                            alt="Freshly baked cookies">
+                            alt="Cold Brew Concentrate">
                         <div class="snack-body">
                             <p class="snack-label">Premium Beverages</p>
                             <h3>Artisan Beverages</h3>
@@ -1092,7 +1177,7 @@
                     <a href="{{ route('products.category', 'premium-confectionery') }}">
                         <img class="snack-image" loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/mF1EsVw31FzgdpSnFRmpJHave0BOt8xuC6jMq6sl.webp"
-                            alt="Chocolate pieces">
+                            alt="Godiva Milk Chocolate Assortment">
                         <div class="snack-body">
                             <p class="snack-label">Confectionery</p>
                             <h3>Premium Confectionery</h3>
@@ -1107,7 +1192,7 @@
                     <a href="{{ route('products.category', 'gourmet-pantry') }}">
                         <img class="snack-image" loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jazIFilyTjQos1e5IzNpaxDolOOFqLPL9lnOzEpd.jpg"
-                            alt="Crispy savoury snack bites">
+                            alt="Wild Orchard Preserve">
                         <div class="snack-body">
                             <p class="snack-label">Premium Pantry Essentials</p>
                             <h3>Gourmet Pantry</h3>
@@ -1117,6 +1202,21 @@
                     </a>
                 </article>
         </section>
+
+        @guest
+        <div class="login-popup" id="catalogueLoginPopup" role="dialog" aria-modal="true"
+            aria-labelledby="catalogue-login-title" hidden>
+            <div class="login-popup-card">
+                <button class="login-popup-close" type="button" aria-label="Close login popup">&times;</button>
+                <p class="snack-label">Welcome to CraveSupply</p>
+                <h2 id="catalogue-login-title">Sign in for a smoother restock.</h2>
+                <p>You can continue browsing as a guest, or log in to keep your catalogue and ordering experience close at hand.</p>
+                <div class="login-popup-actions">
+                    <a class="nav-cta" href="{{ route('login') }}" style="border-radius: 20px !important; padding: 6px 9px; width: 50%; text-align: center;">Log in</a>
+                </div>
+            </div>
+        </div>
+        @endguest
 
         @if (!empty($randomProducts) && $randomProducts->isNotEmpty())
         <section class="products-section" aria-labelledby="featured-products-title" style="margin-top: 48px;">
@@ -1159,10 +1259,14 @@
                     </div>
                     <div class="scroller-nav-buttons">
                         <button type="button" class="scroller-btn prev" aria-label="Previous products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
                         </button>
                         <button type="button" class="scroller-btn next" aria-label="Next products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -1291,8 +1395,15 @@
                 </div>
                 <div class="review-buttons">
                     <button class="review-button" id="reviewPrevious" type="button"
-                        aria-label="Previous review">←</button>
-                    <button class="review-button" id="reviewNext" type="button" aria-label="Next review">→</button>
+                        aria-label="Previous review">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                        </svg></button>
+                    <button class="review-button" id="reviewNext" type="button" aria-label="Next review">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
@@ -1301,6 +1412,35 @@
 
     @include('layouts.footer')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const section = document.getElementById('catalogue');
+            const popup = document.getElementById('catalogueLoginPopup');
+            if (!section || !popup) return;
+            const close = () => {
+                popup.hidden = true;
+                document.body.style.overflow = '';
+            };
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    popup.hidden = false;
+                    document.body.style.overflow = 'hidden';
+                    observer.disconnect();
+                }
+            }, {
+                threshold: 0.2
+            });
+            observer.observe(section);
+            popup.querySelector('.login-popup-close').addEventListener('click', close);
+            popup.querySelector('.login-popup-continue').addEventListener('click', close);
+            popup.addEventListener('click', event => {
+                if (event.target === popup) close();
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && !popup.hidden) close();
+            });
+        });
+    </script>
     <script>
         (() => {
             const sections = document.querySelectorAll(
@@ -1356,6 +1496,12 @@
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let current = 0;
             let autoplay = null;
+            let pointerStartX = 0;
+            let pointerStartY = 0;
+            let pointerActive = false;
+            let draggingHorizontally = false;
+
+            const slider = reviewSection.querySelector('.review-slider');
 
             function showReview(index) {
                 current = (index + dots.length) % dots.length;
@@ -1396,6 +1542,43 @@
                 showReview(index);
                 restartAutoplay();
             }));
+            slider.addEventListener('pointerdown', (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                pointerStartX = event.clientX;
+                pointerStartY = event.clientY;
+                pointerActive = true;
+                draggingHorizontally = false;
+                track.setPointerCapture?.(event.pointerId);
+                stopAutoplay();
+            });
+            slider.addEventListener('pointermove', (event) => {
+                if (!pointerActive) return;
+                const deltaX = event.clientX - pointerStartX;
+                const deltaY = event.clientY - pointerStartY;
+                if (!draggingHorizontally && Math.abs(deltaX) < 8) return;
+                if (!draggingHorizontally && Math.abs(deltaX) <= Math.abs(deltaY)) return;
+                draggingHorizontally = true;
+                event.preventDefault();
+                slider.classList.add('is-dragging');
+                track.style.transition = 'none';
+                track.style.transform = `translateX(calc(-${current * 100}% + ${deltaX}px))`;
+            });
+            const finishPointer = (event) => {
+                if (!pointerActive) return;
+                const deltaX = event.clientX - pointerStartX;
+                pointerActive = false;
+                slider.classList.remove('is-dragging');
+                track.style.transition = '';
+                if (draggingHorizontally && Math.abs(deltaX) > 45) {
+                    showReview(current + (deltaX < 0 ? 1 : -1));
+                } else {
+                    showReview(current);
+                }
+                draggingHorizontally = false;
+                restartAutoplay();
+            };
+            slider.addEventListener('pointerup', finishPointer);
+            slider.addEventListener('pointercancel', finishPointer);
             reviewSection.addEventListener('mouseenter', stopAutoplay);
             reviewSection.addEventListener('mouseleave', startAutoplay);
             reviewSection.addEventListener('focusin', stopAutoplay);
@@ -1436,18 +1619,28 @@
                     if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 5;
                 };
 
-                track.addEventListener('scroll', update, { passive: true });
-                window.addEventListener('resize', update, { passive: true });
+                track.addEventListener('scroll', update, {
+                    passive: true
+                });
+                window.addEventListener('resize', update, {
+                    passive: true
+                });
 
                 if (prevBtn) {
                     prevBtn.addEventListener('click', () => {
-                        track.scrollBy({ left: -track.clientWidth * 0.75, behavior: 'smooth' });
+                        track.scrollBy({
+                            left: -track.clientWidth * 0.75,
+                            behavior: 'smooth'
+                        });
                     });
                 }
 
                 if (nextBtn) {
                     nextBtn.addEventListener('click', () => {
-                        track.scrollBy({ left: track.clientWidth * 0.75, behavior: 'smooth' });
+                        track.scrollBy({
+                            left: track.clientWidth * 0.75,
+                            behavior: 'smooth'
+                        });
                     });
                 }
 
