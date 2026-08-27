@@ -122,7 +122,7 @@ html[data-theme="dark"] span,
 html[data-theme="dark"] .intro,
 html[data-theme="dark"] .product-subtitle,
 html[data-theme="dark"] .section-title p {
-    color: var(--premium-muted) !important;
+    color: var(--premium-muted) ;
 }
 
 html[data-theme="dark"] .global-search form,
@@ -184,7 +184,7 @@ html[data-theme="dark"] .product-card-image,
 html[data-theme="dark"] .related-card-image {
     background: #332b25 !important;
     opacity: 1 !important;
-    filter: none !important;
+    filter: none;
     mix-blend-mode: normal !important;
 }
 

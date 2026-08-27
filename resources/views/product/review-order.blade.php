@@ -48,6 +48,10 @@
             box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
         }
 
+        html[data-theme='dark'] .review-summary {
+            background: #2c2722;
+        }
+
         .review-card {
             padding: 8px 20px;
         }
@@ -81,6 +85,10 @@
             font-size: 14px;
             font-weight: 800;
             white-space: nowrap;
+        }
+
+        html[data-theme='dark'] .review-item-price {
+            color: #9bcfff;
         }
 
         .review-summary {
@@ -164,7 +172,7 @@
     <main class="review-page">
         <h1>Review your order</h1>
         <p>Check your products and quantities, then submit your order. No payment is required.</p>
-        @if($errors->has('cart'))<p style="padding:12px;border-radius:9px;color:#991b1b;background:#fef2f2">{{ $errors->first('cart') }}</p>@endif
+        @if($errors->has('cart'))<p style="padding:12px;border-radius:9px;color:#991b1b !important;background:#fef2f2">{{ $errors->first('cart') }}</p>@endif
         <div class="review-layout">
             <section class="review-card" aria-label="Order items">
                 @foreach($items as $item)

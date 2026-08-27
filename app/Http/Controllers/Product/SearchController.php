@@ -18,7 +18,8 @@ class SearchController extends Controller
 
         return response()->json([
             'products' => Product::where('name', 'like', "%{$term}%")
-                ->orWhere('sku', 'like', "%{$term}%")->orderBy('name')->limit(6)->get()
+                ->orWhere('sku', 'like', "%{$term}%")->orderBy('name')->limit(6)
+                ->orWhere('slug', 'like', "%{$term}%")->orderBy('name')->limit(6)->get()
                 ->map(fn($product) => ['label' => $product->name, 'meta' => 'Product · ₹' . number_format((float) $product->price, 2), 'url' => route('products.profile', $product)]),
             'categories' => Category::where('name', 'like', "%{$term}%")->orderBy('name')->limit(4)->get()
                 ->map(fn($category) => ['label' => $category->name, 'meta' => 'Category', 'url' => route('products.category', $category)]),
