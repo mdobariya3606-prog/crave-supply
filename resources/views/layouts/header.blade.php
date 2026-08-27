@@ -49,8 +49,7 @@
             <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
             <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                Cart{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? ' (' . ($cartCount ??
-        collect(session('cart', []))->sum('quantity')) . ')' : '' }}
+                Cart <span data-cart-count>{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span>
             </a>
             @endif
             @if (auth()->user()?->role === 'customer')
@@ -96,9 +95,6 @@
                     <a href="{{ route('cache.clear') }}">Clear cache</a>
                     @auth
                     <a href="{{ route('profile') }}">Profile</a>
-                    <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
-                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
-                            mode</span></button>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="btn-logout" type="submit" onclick='return confirm("Are you sure to logout?")' style="border-radius: 8px !important;">
@@ -108,6 +104,9 @@
                     @else
                     <a href="{{ route('login') }}">Login</a>
                     @endauth
+                    <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
+                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
+                            mode</span></button>
                 </div>
             </div>
         </div>
