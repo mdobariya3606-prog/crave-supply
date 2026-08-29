@@ -66,7 +66,9 @@ class CheckoutController extends Controller
                     ]);
                 }
 
-                $unitPrice = (float) $product->price;
+                $unitPrice = array_key_exists('price', $cartItem)
+                    ? (float) $cartItem['price']
+                    : (float) $product->price;
                 $subtotal += $unitPrice * $quantity;
                 $items[] = compact('product', 'quantity', 'unitPrice');
             }
@@ -137,7 +139,9 @@ class CheckoutController extends Controller
                 continue;
             }
 
-            $unitPrice = (float) $product->price;
+            $unitPrice = array_key_exists('price', $cartItem)
+                ? (float) $cartItem['price']
+                : (float) $product->price;
             $subtotal += $unitPrice * $quantity;
             $items[] = compact('product', 'quantity', 'unitPrice');
         }

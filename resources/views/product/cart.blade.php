@@ -1,3 +1,4 @@
+<?php var_dump($cart); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -409,21 +410,22 @@
         <div class="cart-layout">
             <section class="cart-card" aria-label="Cart items">
                 @foreach($cart as $item)
-                <div class="cart-row" data-cart-row data-price="{{ $item['current_price'] ?? $item['price'] }}">
+                <div class="cart-row" data-cart-row data-price="{{ $item['price'] }}">
                     <div class="cart-product">
                         <div class="cart-product-image">
                             <img src="{{ !empty($item['image_path']) ? asset('storage/' . $item['image_path']) : asset('images/product-placeholder.svg') }}"
                                 alt="{{ $item['name'] }}">
                         </div>
                         <div><a class="cart-name"
-                                href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{ $item['name'] }}</a><span
-                                class="cart-price">₹{{ number_format($item['current_price'] ?? $item['price'], 2) }}
+                                href="{{ route('products.profile', $item['slug'] ?? $item['product_id']) }}">{{
+                                $item['name'] }}</a><span class="cart-price">₹{{ number_format($item['price'], 2) }}
                                 each</span></div>
                     </div>
                     <form class="cart-quantity"
                         action="{{ route('cart.update', $item['slug'] ?? $item['product_id']) }}" method="POST">
                         @csrf @method('PUT')
-                        <label class="sr-only" for="quantity-{{ $item['product_id'] }}" style="margin-right: 10px;">Quantity</label>
+                        <label class="sr-only" for="quantity-{{ $item['product_id'] }}"
+                            style="margin-right: 10px;">Quantity</label>
                         <div class="cart-stepper">
                             <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
                             <input id="quantity-{{ $item['product_id'] }}" name="quantity" type="number" min="1"
@@ -436,22 +438,22 @@
                     <form action="{{ route('cart.remove', $item['slug'] ?? $item['product_id']) }}" method="POST"><input
                             type="hidden" name="_token" value="{{ csrf_token() }}"> @method('DELETE')<button
                             class="cart-remove" type="submit">Remove</button></form>
-                    <strong
-                        data-line-total>₹{{ number_format(($item['current_price'] ?? $item['price']) * $item['quantity'], 2) }}</strong>
+                    <strong data-line-total>₹{{ number_format($item['price'] * $item['quantity'], 2) }}</strong>
                 </div>
                 @endforeach
             </section>
             <aside class="cart-summary" aria-label="Order summary">
                 <h2>Order summary</h2>
                 <p class="delivery-note" data-delivery-note>
-                    {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 - $total, 2) . ' worth more products for free delivery.' }}
+                    {{ $total >= 2000 ? '✓ Your order is eligible for free delivery.' : 'Add ₹' . number_format(2000 -
+                    $total, 2) . ' worth more products for free delivery.' }}
                 </p>
-                <div class="summary-line"><span>Subtotal</span><strong
-                        data-cart-subtotal>₹{{ number_format($total, 2) }}</strong></div>
-                <div class="summary-line"><span>Delivery</span><strong
-                        data-delivery>{{ $total >= 2000 ? 'FREE' : '₹100.00' }}</strong></div>
-                <div class="summary-total"><span>Total</span><strong
-                        data-cart-total>₹{{ number_format($total + ($total >= 2000 ? 0 : 100), 2) }}</strong></div>
+                <div class="summary-line"><span>Subtotal</span><strong data-cart-subtotal>₹{{ number_format($total, 2)
+                        }}</strong></div>
+                <div class="summary-line"><span>Delivery</span><strong data-delivery>{{ $total >= 2000 ? 'FREE' :
+                        '₹100.00' }}</strong></div>
+                <div class="summary-total"><span>Total</span><strong data-cart-total>₹{{ number_format($total + ($total
+                        >= 2000 ? 0 : 100), 2) }}</strong></div>
                 @auth
                 <form action="{{ route('cart.review') }}" method="GET">
                     <button class="cart-checkout" type="submit">Review order</button>
@@ -490,7 +492,7 @@
                         'X-Requested-With': 'XMLHttpRequest',
                         'X-CSRF-TOKEN': csrf
                     }
-                }).catch(() => {});
+                }).catch(() => { });
             };
             const refresh = (input) => {
                 const row = input.closest('[data-cart-row]');

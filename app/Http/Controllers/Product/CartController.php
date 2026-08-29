@@ -33,7 +33,6 @@ class CartController extends Controller
             $item['slug'] = $product->slug;
             $item['name'] = $product->name;
             $item['current_price'] = (float) $product->price;
-            $item['price'] = $item['current_price'];
             $item['image_path'] = $product->productImages->first()?->image_path;
         }
         unset($item);
@@ -41,7 +40,7 @@ class CartController extends Controller
 
         return view('product.cart', [
             'cart' => $cart,
-            'total' => collect($cart)->sum(fn($item) => $item['current_price'] * $item['quantity']),
+            'total' => collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']),
         ]);
     }
 }

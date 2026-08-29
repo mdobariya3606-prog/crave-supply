@@ -32,11 +32,14 @@ class OrderController extends Controller
 
         $quantity = $validated['quantity'];
         $cart = $request->session()->get('cart', []);
+        $cartPrice = array_key_exists('price', $cart[$product->id] ?? [])
+            ? (float) $cart[$product->id]['price']
+            : (float) $product->price;
         $cart[$product->id] = [
             'product_id' => $product->id,
             'slug' => $product->slug,
             'name' => $product->name,
-            'price' => (float) $product->price,
+            'price' => $cartPrice,
             'current_price' => (float) $product->price,
             'image_path' => $product->productImages()->value('image_path'),
             'quantity' => $existingQuantity + $quantity,

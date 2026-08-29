@@ -467,10 +467,41 @@
             background: #eef4f8;
         }
 
-        .product-card-image-wrap { position: relative; display: block; overflow: hidden; aspect-ratio: 1 / .8; background: #f1eee9; }
-        .product-card-image-wrap .product-card-image { height: 100%; transition: filter .2s ease; }
-        .product-card-image-wrap.is-out-of-stock .product-card-image { filter: blur(4px) grayscale(.25); transform: scale(1.04); }
-        .product-card-image-wrap.is-out-of-stock::after { content: 'Out of stock'; position: absolute; top: 50%; left: 50%; padding: 8px 13px; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; color: #fff; background: rgba(44,39,34,.78); font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; transform: translate(-50%, -50%); white-space: nowrap; }
+        .product-card-image-wrap {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            aspect-ratio: 1 / .8;
+            background: #f1eee9;
+        }
+
+        .product-card-image-wrap .product-card-image {
+            height: 100%;
+            transition: filter .2s ease;
+        }
+
+        .product-card-image-wrap.is-out-of-stock .product-card-image {
+            filter: blur(4px) grayscale(.25);
+            transform: scale(1.04);
+        }
+
+        .product-card-image-wrap.is-out-of-stock::after {
+            content: 'Out of stock';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 8px 13px;
+            border: 1px solid rgba(255, 255, 255, .8);
+            border-radius: 999px;
+            color: #fff;
+            background: rgba(44, 39, 34, .78);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+        }
 
         .product-card-body {
             display: flex;
@@ -523,14 +554,82 @@
             font-size: 14px;
             font-weight: 800;
         }
-        .product-cart-control { display:inline-flex; align-items:center; overflow:hidden; min-height:34px; border:0; border-radius:8px; color:#fff !important; background:#238b20 !important; font-weight:800; }
-        .product-cart-control button { width:30px; height:34px; padding:0; border:0 !important; color:#fff !important; background:#238b20 !important; font-size:18px; line-height:1; cursor:pointer; }
-        .product-cart-control button:hover { background:#1d761b !important; }
-        .product-cart-control input { width:34px; height:34px; padding:0; border:0; color:#fff !important; background:#238b20 !important; font-size:13px; font-weight:800; text-align:center; }
-        .product-cart-control input:focus { outline:0; background:#1d761b !important; }
-        .product-cart-control input::-webkit-outer-spin-button, .product-cart-control input::-webkit-inner-spin-button { margin:0; appearance:none; }
-        .product-cart-control input[type=number] { appearance:textfield; }
-        .product-add-button { width:auto !important; padding:0 16px !important; font-size:12px !important; letter-spacing:.04em; text-transform:uppercase; }
+
+        .product-cart-control {
+            display: inline-flex;
+            align-items: center;
+            overflow: hidden;
+            min-height: 34px;
+            border: 0;
+            border-radius: 8px;
+            color: #fff !important;
+            background: #238b20 !important;
+            font-weight: 800;
+        }
+
+        .product-cart-control button {
+            width: 30px;
+            height: 34px;
+            padding: 0;
+            border: 0 !important;
+            color: #fff !important;
+            background: #238b20 !important;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .product-cart-control button:hover {
+            background: #1d761b !important;
+        }
+
+        .product-cart-control input {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 0;
+            color: #fff !important;
+            background: #238b20 !important;
+            font-size: 13px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .product-cart-control input:focus {
+            outline: 0;
+            background: #1d761b !important;
+        }
+
+        .product-cart-control input::-webkit-outer-spin-button,
+        .product-cart-control input::-webkit-inner-spin-button {
+            margin: 0;
+            appearance: none;
+        }
+
+        .product-cart-control input[type=number] {
+            appearance: textfield;
+        }
+
+        .product-add-button {
+            width: auto !important;
+            padding: 0 16px !important;
+            font-size: 12px !important;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .product-cart-error {
+            display: block;
+            flex-basis: 100%;
+            margin-top: 6px;
+            color: #991b1b;
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        .product-cart-error:not(.is-visible) {
+            display: none;
+        }
 
         .product-card-status {
             padding: 4px 7px;
@@ -907,7 +1006,7 @@
     @include('layouts.header')
     <main class="products-page">
         @if (session('success'))
-            <div class="alert-success" role="status">{{ session('success') }}</div>
+        <div class="alert-success" role="status">{{ session('success') }}</div>
         @endif
 
         <section class="products-hero" aria-labelledby="products-title">
@@ -915,44 +1014,45 @@
                 <p class="products-eyebrow">CraveSupply catalogue</p>
                 <h1 id="products-title">{{ $selectedCategory ? $selectedCategory->name : 'Products, made manageable.' }}
                 </h1>
-                <p>{{ $selectedCategory ? 'Explore the premium products in this category.' : 'Browse your supply catalogue by category and keep the essentials easy to find.' }}
+                <p>{{ $selectedCategory ? 'Explore the premium products in this category.' : 'Browse your supply
+                    catalogue by category and keep the essentials easy to find.' }}
                 </p>
             </div>
             @if (auth()->user()?->role === 'admin')
-                <div class="manage-actions" aria-label="Product management actions">
-                    <a class="secondary"
-                        href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
-                        product</a>
+            <div class="manage-actions" aria-label="Product management actions">
+                <a class="secondary"
+                    href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add
+                    product</a>
 
-                    @if($selectedCategory)
-                        <a class="secondary" href="{{ route('categories.edit', $selectedCategory) }}">
-                            Edit category
-                        </a>
-                    @endif
-                </div>
+                @if($selectedCategory)
+                <a class="secondary" href="{{ route('categories.edit', $selectedCategory) }}">
+                    Edit category
+                </a>
+                @endif
+            </div>
             @endif
         </section>
 
         @if (!$selectedCategory && $categories->isNotEmpty())
-            <section class="products-section top-categories-section" aria-labelledby="top-categories-title">
-                <div class="products-section-heading">
-                    <div>
-                        <h2 id="top-categories-title">Top categories</h2>
-                        <p>Browse our four most popular collections.</p>
-                    </div>
-                    {{-- <a class="text-link" href="{{ route('categories.index') }}">View all categories →</a> --}}
+        <section class="products-section top-categories-section" aria-labelledby="top-categories-title">
+            <div class="products-section-heading">
+                <div>
+                    <h2 id="top-categories-title">Top categories</h2>
+                    <p>Browse our four most popular collections.</p>
                 </div>
-                <div class="category-grid">
-                    @foreach ($categories as $category)
-                        <article class="category-card"><a href="{{ route('products.category', $category->slug) }}">
-                                <span>{{ $category->products_count }}
-                                    {{ Str::plural('product', $category->products_count) }}</span>
-                                <h3>{{ $category->name }}</h3>
-                                <p>{{ $category->description ?: 'A curated CraveSupply collection.' }}</p>
-                            </a></article>
-                    @endforeach
-                </div>
-            </section>
+                {{-- <a class="text-link" href="{{ route('categories.index') }}">View all categories →</a> --}}
+            </div>
+            <div class="category-grid">
+                @foreach ($categories as $category)
+                <article class="category-card"><a href="{{ route('products.category', $category->slug) }}">
+                        <span>{{ $category->products_count }}
+                            {{ Str::plural('product', $category->products_count) }}</span>
+                        <h3>{{ $category->name }}</h3>
+                        <p>{{ $category->description ?: 'A curated CraveSupply collection.' }}</p>
+                    </a></article>
+                @endforeach
+            </div>
+        </section>
         @endif
 
         <section class="products-section" aria-labelledby="catalogue-title">
@@ -961,100 +1061,57 @@
                     <h2 id="catalogue-title">
                         {{ $selectedCategory ? $selectedCategory->name . ' products' : 'Catalogue' }}
                     </h2>
-                    <p>{{ $selectedCategory ? 'Premium products in this collection.' : 'Current products and stock levels.' }}
+                    <p>{{ $selectedCategory ? 'Premium products in this collection.' : 'Current products and stock
+                        levels.' }}
                     </p>
                 </div>
             </div>
             @if (!$selectedCategory)
             @foreach ($categories as $category)
             @php($categoryItems = $categoryProducts->get($category->id, collect()))
-                <section class="category-product-section" aria-labelledby="cat  egory-products-{{ $category->id }}">
-                    <div class="category-product-heading">
-                        <h3 id="category-products-{{ $category->id }}">{{ $category->name }}</h3>
-                        <a href="{{ route('products.category', $category->slug) }}">View all products →</a>
-                    </div>
-                    @if ($categoryItems->isNotEmpty())
-                        <div class="product-scroller-wrap">
-                            <div class="product-scroller-track">
-                                @foreach ($categoryItems as $product)
-                                    <article class="product-card">
-                                        <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}" href="{{ route('products.profile', $product) }}"><img class="product-card-image"
-                                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                                alt="{{ $product->name }}"></a>
-                                        <div class="product-card-body">
-                                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                                            <a class="product-card-name"
-                                                href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                                            <p class="product-card-description">
-                                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                                            </p>
-                                            <div class="product-card-footer"><strong
-                                                    class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong><span
-                                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                                                @if ($product->is_available && $product->stock > 0)
-                                                @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
-                                                <div class="product-cart-control" data-product-cart data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}" data-update-url="{{ route('cart.update', $product->slug) }}">@if ($cartQuantity)<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity aria-label="Quantity for {{ $product->name }}"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>@else<button type="button" class="product-add-button" data-cart-add>Add</button>@endif</div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </article>
-                                @endforeach
-                            </div>
-                            <div class="scroller-controls">
-                                <div class="scroller-progress-wrap">
-                                    <div class="scroller-progress-bar"></div>
-                                </div>
-                                <div class="scroller-nav-buttons">
-                                    <button type="button" class="scroller-btn prev" aria-label="Previous products">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M19 12H5M12 19l-7-7 7-7" />
-                                        </svg>
-                                    </button>
-                                    <button type="button" class="scroller-btn next" aria-label="Next products">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14M12 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="empty-state">No products in this category yet.</div>
-                    @endif
-                </section>
-                @endforeach
-            @else
-            @if ($products->isNotEmpty())
+            <section class="category-product-section" aria-labelledby="cat  egory-products-{{ $category->id }}">
+                <div class="category-product-heading">
+                    <h3 id="category-products-{{ $category->id }}">{{ $category->name }}</h3>
+                    <a href="{{ route('products.category', $category->slug) }}">View all products →</a>
+                </div>
+                @if ($categoryItems->isNotEmpty())
                 <div class="product-scroller-wrap">
                     <div class="product-scroller-track">
-                        @foreach ($products as $product)
-                            <article class="product-card">
-                                <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}" href="{{ route('products.profile', $product) }}">
-                                    <img class="product-card-image"
-                                        src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                        alt="{{ $product->name }}">
-                                </a>
-                                <div class="product-card-body">
-                                    <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                                    <a class="product-card-name"
-                                        href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                                    <p class="product-card-description">
-                                        {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                                    </p>
-                                    <div class="product-card-footer">
-                                        <strong
-                                            class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
-                                        <span
-                                            class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                                        @if ($product->is_available && $product->stock > 0)
-                                        @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
-                                        <div class="product-cart-control" data-product-cart data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}" data-update-url="{{ route('cart.update', $product->slug) }}">@if ($cartQuantity)<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity aria-label="Quantity for {{ $product->name }}"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>@else<button type="button" class="product-add-button" data-cart-add>Add</button>@endif</div>
-                                        @endif
-                                    </div>
+                        @foreach ($categoryItems as $product)
+                        <article class="product-card">
+                            <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}"
+                                href="{{ route('products.profile', $product) }}"><img class="product-card-image"
+                                    src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                    alt="{{ $product->name }}"></a>
+                            <div class="product-card-body">
+                                <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                                <a class="product-card-name" href="{{ route('products.profile', $product) }}">{{
+                                    $product->name }}</a>
+                                <p class="product-card-description">
+                                    {{ $product->description ?: 'A carefully selected CraveSupply product for your
+                                    everyday needs.' }}
+                                </p>
+                                <div class="product-card-footer"><strong class="product-card-price">₹{{
+                                        number_format((float) $product->price, 2) }}</strong><span
+                                        class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
+                                        $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
+                                        }}</span>
+                                    @if ($product->is_available && $product->stock > 0)
+                                    @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
+                                    <div class="product-cart-control" data-product-cart
+                                        data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}"
+                                        data-update-url="{{ route('cart.update', $product->slug) }}">
+                                        @if ($cartQuantity)<button type="button" data-cart-step="-1"
+                                            aria-label="Decrease quantity">−</button><input type="number" min="0"
+                                            max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity
+                                            aria-label="Quantity for {{ $product->name }}"><button type="button"
+                                            data-cart-step="1" aria-label="Increase quantity">+</button>@else<button
+                                            type="button" class="product-add-button" data-cart-add>Add</button>@endif
+                                    </div><span class="product-cart-error" data-cart-error role="alert"></span>
+                                    @endif
                                 </div>
-                            </article>
+                            </div>
+                        </article>
                         @endforeach
                     </div>
                     <div class="scroller-controls">
@@ -1077,31 +1134,102 @@
                         </div>
                     </div>
                 </div>
-                @if ($products->hasPages())
-                    <nav class="manual-pagination" aria-label="Product pagination">
-                        @if ($products->onFirstPage())
-                            <span class="manual-pagination-button disabled" aria-disabled="true">‹</span>
-                        @else
-                            <a class="manual-pagination-button" href="{{ $products->previousPageUrl() }}" rel="prev">‹</a>
-                        @endif
-                        <div class="manual-pagination-pages">
-                            @for ($page = 1; $page <= $products->lastPage(); $page++)
-                                @if ($page === $products->currentPage())
-                                    <span class="manual-pagination-button active" aria-current="page">{{ $page }}</span>
-                                @else
-                                    <a class="manual-pagination-button" href="{{ $products->url($page) }}">{{ $page }}</a>
-                                @endif
-                            @endfor
-                        </div>
-                        @if ($products->hasMorePages())
-                            <a class="manual-pagination-button" href="{{ $products->nextPageUrl() }}" rel="next">›</a>
-                        @else
-                            <span class="manual-pagination-button disabled" aria-disabled="true">›</span>
-                        @endif
-                    </nav>
+                @else
+                <div class="empty-state">No products in this category yet.</div>
                 @endif
+            </section>
+            @endforeach
             @else
-                <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
+            @if ($products->isNotEmpty())
+            <div class="product-scroller-wrap">
+                <div class="product-scroller-track">
+                    @foreach ($products as $product)
+                    <article class="product-card">
+                        <a class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}"
+                            href="{{ route('products.profile', $product) }}">
+                            <img class="product-card-image"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }}">
+                        </a>
+                        <div class="product-card-body">
+                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                            <a class="product-card-name" href="{{ route('products.profile', $product) }}">{{
+                                $product->name }}</a>
+                            <p class="product-card-description">
+                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday
+                                needs.' }}
+                            </p>
+                            <div class="product-card-footer">
+                                <strong class="product-card-price">₹{{ number_format((float) $product->price, 2)
+                                    }}</strong>
+                                <span
+                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
+                                    $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
+                                    }}</span>
+                                @if ($product->is_available && $product->stock > 0)
+                                @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
+                                <div class="product-cart-control" data-product-cart
+                                    data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}"
+                                    data-update-url="{{ route('cart.update', $product->slug) }}">
+                                    @if ($cartQuantity)<button type="button" data-cart-step="-1"
+                                        aria-label="Decrease quantity">−</button><input type="number" min="0"
+                                        max="{{ $product->stock }}" value="{{ $cartQuantity }}" data-cart-quantity
+                                        aria-label="Quantity for {{ $product->name }}"><button type="button"
+                                        data-cart-step="1" aria-label="Increase quantity">+</button>@else<button
+                                        type="button" class="product-add-button" data-cart-add>Add</button>@endif
+                                </div>
+                                <span class="product-cart-error" data-cart-error role="alert"></span>
+                                @endif
+                            </div>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+                <div class="scroller-controls">
+                    <div class="scroller-progress-wrap">
+                        <div class="scroller-progress-bar"></div>
+                    </div>
+                    <div class="scroller-nav-buttons">
+                        <button type="button" class="scroller-btn prev" aria-label="Previous products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="button" class="scroller-btn next" aria-label="Next products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @if ($products->hasPages())
+            <nav class="manual-pagination" aria-label="Product pagination">
+                @if ($products->onFirstPage())
+                <span class="manual-pagination-button disabled" aria-disabled="true">‹</span>
+                @else
+                <a class="manual-pagination-button" href="{{ $products->previousPageUrl() }}" rel="prev">‹</a>
+                @endif
+                <div class="manual-pagination-pages">
+                    @for ($page = 1; $page <= $products->lastPage(); $page++)
+                        @if ($page === $products->currentPage())
+                        <span class="manual-pagination-button active" aria-current="page">{{ $page }}</span>
+                        @else
+                        <a class="manual-pagination-button" href="{{ $products->url($page) }}">{{ $page }}</a>
+                        @endif
+                        @endfor
+                </div>
+                @if ($products->hasMorePages())
+                <a class="manual-pagination-button" href="{{ $products->nextPageUrl() }}" rel="next">›</a>
+                @else
+                <span class="manual-pagination-button disabled" aria-disabled="true">›</span>
+                @endif
+            </nav>
+            @endif
+            @else
+            <div class="empty-state">No products have been added yet. Admins can start by adding a product.</div>
             @endif
             @endif
         </section>
@@ -1110,21 +1238,74 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
-            const setCartCount = count => { const node = document.querySelector('[data-cart-count]'); if (node) node.textContent = count ? `(${count})` : ''; };
-            const render = (control, quantity) => { control.innerHTML = quantity ? `<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="${control.dataset.stock}" value="${quantity}" data-cart-quantity aria-label="Product quantity"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>` : '<button type="button" class="product-add-button" data-cart-add>Add</button>'; };
+            const setCartCount = count => {
+                const node = document.querySelector('[data-cart-count]');
+                if (node) node.textContent = count ? `(${count})` : '';
+            };
+            const render = (control, quantity) => {
+                control.innerHTML = quantity ? `<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="${control.dataset.stock}" value="${quantity}" data-cart-quantity aria-label="Product quantity"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>` : '<button type="button" class="product-add-button" data-cart-add>Add</button>';
+            };
             document.querySelectorAll('[data-product-cart]').forEach(control => {
                 const update = quantity => {
+                    const errorNode = control.parentElement.querySelector('[data-cart-error]');
                     const previous = Number(control.querySelector('[data-cart-quantity]')?.value || 0);
                     const currentCount = Number(document.querySelector('[data-cart-count]')?.textContent.replace(/\D/g, '') || 0);
+                    if (errorNode) {
+                        errorNode.textContent = '';
+                        errorNode.classList.remove('is-visible');
+                    }
                     render(control, quantity);
                     setCartCount(Math.max(0, currentCount + quantity - previous));
-                    fetch(control.dataset.updateUrl, { method:'PUT', headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':csrf,'X-Requested-With':'XMLHttpRequest'}, body:JSON.stringify({quantity}) })
-                        .then(response => response.json().then(data => { if (!response.ok) throw new Error(data.message); return data; }))
-                        .then(data => { render(control, data.quantity); setCartCount(data.cart_count); })
-                        .catch(error => { render(control, previous); setCartCount(currentCount); window.alert(error.message || 'Unable to update cart.'); });
+                    fetch(control.dataset.updateUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrf,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({
+                            quantity
+                        })
+                    })
+                        .then(response => response.json().then(data => {
+                            if (!response.ok) {
+                                const error = new Error(data.message || 'Unable to update cart.');
+                                error.status = response.status;
+                                throw error;
+                            }
+                            return data;
+                        }))
+                        .then(data => {
+                            render(control, data.quantity);
+                            setCartCount(data.cart_count);
+                            if (errorNode) {
+                                errorNode.textContent = '';
+                                errorNode.classList.remove('is-visible');
+                            }
+                        })
+                        .catch(error => {
+                            render(control, previous);
+                            setCartCount(currentCount);
+                            if (errorNode) {
+                                errorNode.textContent = error.status === 422 ? error.message : (error.message || 'Unable to update cart.');
+                                errorNode.classList.add('is-visible');
+                            }
+                        });
                 };
-                control.addEventListener('click', event => { const quantity = Number(control.querySelector('[data-cart-quantity]')?.value || 0); if (event.target.matches('[data-cart-add]')) update(1); if (event.target.matches('[data-cart-step]')) { const next = quantity + Number(event.target.dataset.cartStep); if (next >= 0) update(Math.min(next, Number(control.dataset.stock))); } });
-                control.addEventListener('change', event => { if (!event.target.matches('[data-cart-quantity]')) return; const quantity = Math.max(0, Math.min(Number(control.dataset.stock), Number(event.target.value) || 0)); update(quantity); });
+                control.addEventListener('click', event => {
+                    const quantity = Number(control.querySelector('[data-cart-quantity]')?.value || 0);
+                    if (event.target.matches('[data-cart-add]')) update(1);
+                    if (event.target.matches('[data-cart-step]')) {
+                        const next = quantity + Number(event.target.dataset.cartStep);
+                        if (next >= 0) update(Math.min(next, Number(control.dataset.stock)));
+                    }
+                });
+                control.addEventListener('change', event => {
+                    if (!event.target.matches('[data-cart-quantity]')) return;
+                    const quantity = Math.max(0, Math.min(Number(control.dataset.stock), Number(event.target.value) || 0));
+                    update(quantity);
+                });
             });
         });
     </script>
