@@ -17,7 +17,13 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request)
     {
         $data = $request->validated();
-        $user = User::create($data);
+        $user = User::withTrashed()->where('email', $data['email'])->first();
+        if ($user && $user->trashed() && $user->deleted_at->addDays(15)->isPast()) {
+            $user->restore();
+            $user->update(array_merge($data, ['is_active' => true]));
+        } else {
+            $user = User::create($data);
+        }
 
         $guestCart = $request->session()->get('cart', []);
         Auth::login($user);

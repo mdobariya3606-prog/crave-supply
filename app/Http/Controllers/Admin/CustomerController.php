@@ -14,7 +14,7 @@ class CustomerController extends Controller
 
         $customers = User::where('role', 'customer')
             ->withCount('orders')
-            ->when($search, fn ($query) => $query->where(fn ($query) => $query
+            ->when($search, fn($query) => $query->where(fn($query) => $query
                 ->where('name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%")
                 ->orWhere('business_name', 'like', "%{$search}%")))
@@ -28,7 +28,7 @@ class CustomerController extends Controller
     public function show(Request $request, User $user)
     {
         abort_unless($user->role === 'customer', 404);
-        $user->load(['orders' => fn ($query) => $query->with('orderItems')->latest()]);
+        $user->load(['orders' => fn($query) => $query->with('orderItems')->latest()]);
 
         return view('admin.customers.show', compact('user'));
     }
@@ -57,7 +57,14 @@ class CustomerController extends Controller
 
     public function restore(Request $request, int $userId)
     {
-        User::onlyTrashed()->where('role', 'customer')->findOrFail($userId)->restore();
+        $user = User::onlyTrashed()
+            ->where('role', 'customer')
+            ->findOrFail($userId);
+
+        $user->restore();
+        $user->update([
+            'is_active' => true,
+        ]);
         return back()->with('success', 'Customer account restored.');
     }
 
@@ -78,5 +85,4 @@ class CustomerController extends Controller
         User::onlyTrashed()->where('role', 'customer')->forceDelete();
         return back()->with('success', 'All deleted customer accounts permanently deleted.');
     }
-
 }

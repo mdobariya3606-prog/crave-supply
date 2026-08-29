@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class RegisterRequest extends FormRequest
 {
@@ -32,7 +33,17 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'business_name' => ['nullable', 'string', 'max:255'],
             'business_address' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
+            'email' => ['required', 'email', 'max:255', function (string $attribute, mixed $value, \Closure $fail): void {
+                $user = User::withTrashed()->where('email', $value)->first();
+                if (!$user) return;
+
+                if ($user->trashed() && $user->deleted_at->addDays(15)->isFuture()) {
+                    $fail('You cannot register with this email until ' . $user->deleted_at->addDays(15)->format('d M Y, H:i') . '.');
+                    return;
+                }
+
+                if (!$user->trashed()) $fail('This email is already registered.');
+            }],
             'phone' => ['nullable', 'regex:/^[6-9][0-9]{9}$/', Rule::unique('users', 'phone')],
             'password' => [
                 'required',

@@ -15,6 +15,7 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');

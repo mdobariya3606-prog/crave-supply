@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -16,6 +17,11 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
+        if (User::withTrashed()->where('email', $request->input('email'))->whereNotNull('deleted_at')->exists()) {
+            return back()
+                ->withErrors(['email' => 'These credentials do not match our records.']);
+        }
+
         $emailKey = 'login-email:' . strtolower($request->string('email')->toString());
         $ipKey = 'login-ip:' . $request->ip();
 

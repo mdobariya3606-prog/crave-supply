@@ -112,6 +112,11 @@
             </form>
             <footer class="form-footer">Need to update something else? <a href="mailto:hello@cravesupply.test">Contact
                     support</a></footer>
+            <form action="{{ route('profile.destroy') }}" method="POST" style="margin-top:24px;text-align:center" onsubmit="return confirm('Are you sure you want to delete your profile?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="secondary-btn">Delete profile</button>
+            </form>
         </section>
     </main>
     @include('layouts.footer')
