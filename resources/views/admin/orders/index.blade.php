@@ -50,6 +50,16 @@
             font-size: 13px;
         }
 
+        html[data-theme='dark'] .notice {
+            color: #86efac;
+            background: #052e16;
+        }
+
+        html[data-theme='dark'] .error-notice {
+            color: #fca5a5;
+            background: #450a0a;
+        }
+
         .orders-table-wrap {
             overflow-x: auto;
             border: 1px solid #e2e8f0;
@@ -96,7 +106,7 @@
 
         html[data-theme="dark"] th {
             color: #f8fafc !important;
-            background-color: #64748b;
+            background-color: #111827;
         }
 
         html[data-theme="dark"] li,
