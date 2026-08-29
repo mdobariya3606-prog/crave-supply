@@ -52,10 +52,6 @@
                 </div>
             </div>
 
-            @if (session('status'))
-            <div class="alert-success" role="status">{{ session('status') }}</div>
-            @endif
-
             <form action="{{ route('password.email') }}" method="POST" id="forgotForm" novalidate>
                 @csrf
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -67,7 +63,12 @@
                             <polyline points="3,7 12,13 21,7" />
                         </svg>
                     </div>
-                    @include('user.partials.field-error', ['field' => 'email'])
+                    @php($message = session('status') ?: $errors->first('email'))
+                    <div id="emailError" class="error-text{{ $message ? ' is-visible' : '' }}" role="alert"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg><span>{{ $message }}</span></div>
                 </div>
                 <button type="submit" class="btn-submit">Send reset link</button>
             </form>

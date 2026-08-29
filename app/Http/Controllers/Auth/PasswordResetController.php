@@ -22,7 +22,7 @@ class PasswordResetController extends Controller
 
     public function email(ForgotPasswordRequest $request)
     {
-        $token = DB::table('password_reset_tokens')->where('email', $request->only('email'))->first();
+        $token = DB::table('password_reset_tokens')->where('email', $request->input('email'))->first();
 
         if ($token) {
             $expiresAt = Carbon::parse($token->created_at)->addMinutes(60);
@@ -33,11 +33,15 @@ class PasswordResetController extends Controller
 
         $status = Password::sendResetLink($request->only('email'));
 
+        if ($status === Password::INVALID_USER) {
+            return back()->with('status', 'If this email exists, a reset link was sent.');
+        }
+
         if ($status !== Password::RESET_LINK_SENT) {
             return back()->withInput()->withErrors(['email' => __($status)]);
         }
 
-        return back()->with('status', 'We sent a password reset link to your email address.');
+        return back()->with('status', 'If this email exists, a reset link was sent.');
     }
 
     public function resetForm(string $token)
