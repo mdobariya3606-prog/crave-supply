@@ -551,6 +551,13 @@
             resize: vertical;
         }
 
+        .review-field-error {
+            display: block;
+            margin: -6px 0 12px;
+            color: #b42318;
+            font-size: 12px;
+        }
+
         .review-submit {
             padding: 10px 15px;
             border: 0;
@@ -1315,11 +1322,11 @@
     @include('layouts.header')
     <main class="product-profile">
         @if (session('success'))
-        <div class="review-message" role="status">{{ session('success') }}</div>
+            <div class="review-message" role="status">{{ session('success') }}</div>
         @endif
 
         @error('quantity', 'order')
-        <span class="order-error" role="alert">{{ $message }}</span>
+            <span class="order-error" role="alert">{{ $message }}</span>
         @enderror
 
         <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
@@ -1329,11 +1336,11 @@
                 <div class="gallery-main">
                     <div class="gallery-track" data-gallery-track>
                         @forelse ($product->productImages as $index => $image)
-                        <img src="{{ asset('storage/' . $image->image_path) }}"
-                            alt="{{ $product->name }} view {{ $index + 1 }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}">
                         @empty
-                        <img src="{{ asset('images/product-placeholder.svg') }}"
-                            alt="{{ $product->name }} product image">
+                            <img src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} product image">
                         @endforelse
                     </div>
                     <button class="gallery-arrow previous" type="button" data-gallery-previous
@@ -1343,16 +1350,16 @@
                 </div>
                 <div class="gallery-thumbs">
                     @foreach ($product->productImages as $index => $image)
-                    <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
-                        data-gallery-thumb="{{ $index }}">
-                        <img src="{{ asset('storage/' . $image->image_path) }}"
-                            alt="{{ $product->name }} view {{ $index + 1 }}">
-                    </button>
+                        <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
+                            data-gallery-thumb="{{ $index }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                        </button>
                     @endforeach
                     @if ($product->productImages->isEmpty())
-                    <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
-                        <img src="{{ asset('images/product-placeholder.svg') }}" alt="{{ $product->name }} placeholder">
-                    </button>
+                        <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
+                            <img src="{{ asset('images/product-placeholder.svg') }}" alt="{{ $product->name }} placeholder">
+                        </button>
                     @endif
                 </div>
             </div>
@@ -1374,7 +1381,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         review{{ $product->reviews->count() === 1 ? '' : 's' }}</span></div>
                 <div class="price-row"><span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
                         class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{
-                        $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently
+    $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently
                             unavailable') }}</span>
                 </div>
                 <dl class="detail-list">
@@ -1392,28 +1399,28 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                     </div>
                 </dl>
                 @if (auth()->user()?->role === 'admin')
-                <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
-                    href="{{ route('products.edit', $product) }}">Edit product</a>
+                    <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
+                        href="{{ route('products.edit', $product) }}">Edit product</a>
                 @endif
                 @if ($product->is_available && $product->stock > 0)
-                @if (!auth()->check() || auth()->user()?->role === 'customer')
-                <form class="order-form" action="{{ route('cart.update', $product->slug) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <label for="quantity">Quantity</label>
-                    <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
-                            max="{{ $product->stock }}" value="1"></div>
-                    <button class="review-submit" type="submit">Add to Cart</button>
-                    <span class="order-error" data-order-error role="alert" hidden></span>
-                </form>
-                @endif
+                    @if (!auth()->check() || auth()->user()?->role === 'customer')
+                        <form class="order-form" action="{{ route('cart.update', $product->slug) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <label for="quantity">Quantity</label>
+                            <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
+                                    max="{{ $product->stock }}" value="1"></div>
+                            <button class="review-submit" type="submit">Add to Cart</button>
+                            <span class="order-error" data-order-error role="alert" hidden></span>
+                        </form>
+                    @endif
                 @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
                     <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
                         stock</span>
-                    @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
+                @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
                     <span class="availability unavailable" style="display:inline-block;margin-top:18px">Currently
                         unavailable</span>
-                    @endif
+                @endif
             </div>
         </section>
 
@@ -1469,7 +1476,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         <h3>Overall rating</h3>
                         <div class="review-score main-review-score">
                             {{ $product->reviews->count() ? number_format((float) $product->reviews->avg('rating'), 1) :
-                            '—' }}
+    '—' }}
                         </div>
                         <div class="stars main-review-stars">
                             {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
@@ -1478,86 +1485,88 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                             review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
                     @auth
-                    @if (session('review_success'))
-                    <div class="review-message" role="status">{{ session('review_success') }}</div>
-                    @endif
-                    <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
-                        @csrf
-                        <h3>Share your experience</h3>
-                        <label for="rating">Your rating</label>
-                        <div class="input-wrapper"><select id="rating" name="rating" required>
-                                <option value="">Select a rating</option>
-                                <option value="5">★★★★★ Excellent</option>
-                                <option value="4">★★★★☆ Very good</option>
-                                <option value="3">★★★☆☆ Good</option>
-                                <option value="2">★★☆☆☆ Fair</option>
-                                <option value="1">★☆☆☆☆ Needs improvement</option>
-                            </select></div>
-                        <label for="comment">Review</label>
-                        <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000"
-                                placeholder="Tell us about the product..."></textarea></div>
-                        <button class="review-submit" type="submit">Submit review</button>
-                    </form>
+                        @if (session('review_success'))
+                            <div class="review-message" role="status">{{ session('review_success') }}</div>
+                        @endif
+                        <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
+                            @csrf
+                            <h3>Share your experience</h3>
+                            <label for="rating">Your rating</label>
+                            <div class="input-wrapper"><select id="rating" name="rating" required>
+                                    <option value="">Select a rating</option>
+                                    <option value="5" @selected(old('rating') == 5)>★★★★★ Excellent</option>
+                                    <option value="4" @selected(old('rating') == 4)>★★★★☆ Very good</option>
+                                    <option value="3" @selected(old('rating') == 3)>★★★☆☆ Good</option>
+                                    <option value="2" @selected(old('rating') == 2)>★★☆☆☆ Fair</option>
+                                    <option value="1" @selected(old('rating') == 1)>★☆☆☆☆ Needs improvement</option>
+                                </select></div>
+                            @error('rating')<small class="review-field-error">{{ $message }}</small>@enderror
+                            <label for="comment">Review</label>
+                            <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000"
+                                    placeholder="Tell us about the product...">{{ old('comment') }}</textarea></div>
+                            @error('comment')<small class="review-field-error">{{ $message }}</small>@enderror
+                            <button class="review-submit" type="submit">Submit review</button>
+                        </form>
                     @else
-                    <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
+                        <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
                     @endauth
                 </div>
                 <div class="review-list">
                     @forelse ($reviews as $review)
-                    <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved)
-                        style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
-                        <header style="display:flex;align-items:center;justify-content:space-between;">
-                            <div>
-                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{
-                                    $review->created_at->format('M j, Y') }}</time>
-                                <span class="review-hidden-badge"
-                                    style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
-                            </div>
-                            @if (auth()->check() && auth()->user()->role === 'admin')
-                            <form class="admin-review-toggle-form"
-                                action="{{ route('reviews.toggle-visibility', $review) }}" method="POST"
-                                style="margin:0;">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="admin-review-toggle-btn"
-                                    style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
-                                    {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
-                                </button>
-                            </form>
-                            @endif
-                        </header>
-                        <div class="stars">
-                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                        </div>
-                        @if ($review->comment)
-                        <p>{{ $review->comment }}</p>
-                        @endif
-                    </article>
+                                    <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved)
+                                    style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
+                                        <header style="display:flex;align-items:center;justify-content:space-between;">
+                                            <div>
+                                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{
+                        $review->created_at->format('M j, Y') }}</time>
+                                                <span class="review-hidden-badge"
+                                                    style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
+                                            </div>
+                                            @if (auth()->check() && auth()->user()->role === 'admin')
+                                                <form class="admin-review-toggle-form"
+                                                    action="{{ route('reviews.toggle-visibility', $review) }}" method="POST"
+                                                    style="margin:0;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="admin-review-toggle-btn"
+                                                        style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
+                                                        {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </header>
+                                        <div class="stars">
+                                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                        </div>
+                                        @if ($review->comment)
+                                            <p>{{ $review->comment }}</p>
+                                        @endif
+                                    </article>
                     @empty
-                    <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
+                        <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
                     @endforelse
                     @if ($reviews->hasPages())
-                    <nav class="review-pagination manual-review-pagination" aria-label="Reviews pagination">
-                        @if ($reviews->onFirstPage())
-                        <span class="review-page-button disabled" aria-disabled="true">‹</span>
-                        @else
-                        <a class="review-page-button" href="{{ $reviews->previousPageUrl() }}" rel="prev">‹</a>
-                        @endif
-                        <div class="review-page-numbers">
-                            @for ($page = 1; $page <= $reviews->lastPage(); $page++)
-                                @if ($page === $reviews->currentPage())
-                                <span class="review-page-button active" aria-current="page">{{ $page }}</span>
-                                @else
-                                <a class="review-page-button" href="{{ $reviews->url($page) }}">{{ $page }}</a>
-                                @endif
+                        <nav class="review-pagination manual-review-pagination" aria-label="Reviews pagination">
+                            @if ($reviews->onFirstPage())
+                                <span class="review-page-button disabled" aria-disabled="true">‹</span>
+                            @else
+                                <a class="review-page-button" href="{{ $reviews->previousPageUrl() }}" rel="prev">‹</a>
+                            @endif
+                            <div class="review-page-numbers">
+                                @for ($page = 1; $page <= $reviews->lastPage(); $page++)
+                                    @if ($page === $reviews->currentPage())
+                                        <span class="review-page-button active" aria-current="page">{{ $page }}</span>
+                                    @else
+                                        <a class="review-page-button" href="{{ $reviews->url($page) }}">{{ $page }}</a>
+                                    @endif
                                 @endfor
-                        </div>
-                        @if ($reviews->hasMorePages())
-                        <a class="review-page-button" href="{{ $reviews->nextPageUrl() }}" rel="next">›</a>
-                        @else
-                        <span class="review-page-button disabled" aria-disabled="true">›</span>
-                        @endif
-                    </nav>
+                            </div>
+                            @if ($reviews->hasMorePages())
+                                <a class="review-page-button" href="{{ $reviews->nextPageUrl() }}" rel="next">›</a>
+                            @else
+                                <span class="review-page-button disabled" aria-disabled="true">›</span>
+                            @endif
+                        </nav>
                     @endif
                 </div>
             </div>
@@ -1596,10 +1605,10 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             const gallery = document.querySelector('[data-gallery]');
             if (!gallery) return;
             const images = @json(
-                $product -> productImages -> map(fn($image) => asset('storage/'.$image -> image_path)) -> values() -> all() ?: [
+                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
                     asset('images/product-placeholder.svg'),
                 ]
-);
+            );
             const track = gallery.querySelector('[data-gallery-track]');
             const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
             let current = 0;
