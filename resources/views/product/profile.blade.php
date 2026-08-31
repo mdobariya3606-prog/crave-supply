@@ -1490,22 +1490,27 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         @endif
                         <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
                             @csrf
-                            <h3>Share your experience</h3>
+                            <h3>{{ $myReview ? 'Edit your review' : 'Share your experience' }}</h3>
                             <label for="rating">Your rating</label>
                             <div class="input-wrapper"><select id="rating" name="rating" required>
                                     <option value="">Select a rating</option>
-                                    <option value="5" @selected(old('rating') == 5)>★★★★★ Excellent</option>
-                                    <option value="4" @selected(old('rating') == 4)>★★★★☆ Very good</option>
-                                    <option value="3" @selected(old('rating') == 3)>★★★☆☆ Good</option>
-                                    <option value="2" @selected(old('rating') == 2)>★★☆☆☆ Fair</option>
-                                    <option value="1" @selected(old('rating') == 1)>★☆☆☆☆ Needs improvement</option>
+                                    <option value="5" @selected(old('rating', $myReview?->rating) == 5)>★★★★★ Excellent
+                                    </option>
+                                    <option value="4" @selected(old('rating', $myReview?->rating) == 4)>★★★★☆ Very good
+                                    </option>
+                                    <option value="3" @selected(old('rating', $myReview?->rating) == 3)>★★★☆☆ Good</option>
+                                    <option value="2" @selected(old('rating', $myReview?->rating) == 2)>★★☆☆☆ Fair</option>
+                                    <option value="1" @selected(old('rating', $myReview?->rating) == 1)>★☆☆☆☆ Needs
+                                        improvement</option>
                                 </select></div>
                             @error('rating')<small class="review-field-error">{{ $message }}</small>@enderror
                             <label for="comment">Review</label>
                             <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000"
-                                    placeholder="Tell us about the product...">{{ old('comment') }}</textarea></div>
+                                    placeholder="Tell us about the product...">{{ old('comment', $myReview?->comment) }}</textarea>
+                            </div>
                             @error('comment')<small class="review-field-error">{{ $message }}</small>@enderror
-                            <button class="review-submit" type="submit">Submit review</button>
+                            <button class="review-submit"
+                                type="submit">{{ $myReview ? 'Update review' : 'Submit review' }}</button>
                         </form>
                     @else
                         <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
