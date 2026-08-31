@@ -77,12 +77,14 @@
         .disabled {
             color: #a04338
         }
+
+        .customer-error { color: #a04338 }
     </style>
 </head>
 
 <body>@include('layouts.header')<main class="customer-page">
         <h1>Customers</h1>
-        <p>Search registered customers and manage their accounts.</p>@if(session('success'))<p class="active">{{ session('success') }}</p>@endif<form class="customer-filter"><input name="q" value="{{ $search }}" placeholder="Search name, email, or business"><button>Search</button></form>
+        <p>Search registered customers and manage their accounts.</p>@if(session('success'))<p class="active">{{ session('success') }}</p>@endif @if(session('error'))<p class="customer-error" role="alert">{{ session('error') }}</p>@endif<form class="customer-filter"><input name="q" value="{{ $search }}" placeholder="Search name, email, or business"><button>Search</button></form>
         <div class="customer-table">
             <table>
                 <thead>

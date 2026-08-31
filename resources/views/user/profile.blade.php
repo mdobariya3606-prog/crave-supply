@@ -24,6 +24,9 @@
             @if (session('status'))
                 <div class="alert-success" role="status">{{ session('status') }}</div>
             @endif
+            @if (session('error'))
+                <div class="alert-error" role="alert">{{ session('error') }}</div>
+            @endif
 
             <form action="{{ route('profile.update') }}" method="POST" id="profileForm" novalidate>
                 @csrf

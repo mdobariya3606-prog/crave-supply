@@ -76,11 +76,17 @@
         .actions .danger {
             background: #a04338
         }
+
+        .customer-error {
+            color: #a04338;
+            font-size: 13px
+        }
     </style>
 </head>
 
 <body>@include('layouts.header')<main class="customer-detail">
         <h1>{{ $user->name }}</h1>
+        @if(session('error'))<p class="customer-error" role="alert">{{ session('error') }}</p>@endif
         <div class="profile-box">
             <p><strong>Email:</strong> {{ $user->email }}<br><strong>Phone:</strong> {{ $user->phone ?: '—' }}<br><strong>Business:</strong> {{ $user->business_name ?: '—' }}<br><strong>Address:</strong> {{ $user->business_address ?: '—' }}<br><strong>Account:</strong> {{ $user->is_active ? 'Active' : 'Disabled' }}</p>
             <div class="actions">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,12 @@ class ProfileController extends Controller
 
     public function destroy(Request $request)
     {
+        if ($request->user()->orders()
+            ->whereNotIn('status', [OrderStatus::DELIVERED->value, OrderStatus::CANCELLED->value])
+            ->exists()) {
+            return back()->with('error', 'Your profile cannot be deleted while you have active orders.');
+        }
+
         $request->user()->update(['is_active' => false]);
         $request->user()->delete();
 

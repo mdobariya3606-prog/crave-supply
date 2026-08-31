@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,6 +45,11 @@ class CustomerController extends Controller
     public function destroy(Request $request, User $user)
     {
         abort_unless($user->role === 'customer', 404);
+
+        if ($this->hasActiveOrders($user)) {
+            return back()->with('error', 'This customer cannot be deleted while they have active orders.');
+        }
+
         $user->delete();
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer account deleted.');
@@ -70,8 +76,21 @@ class CustomerController extends Controller
 
     public function forceDestroy(Request $request, int $userId)
     {
-        User::onlyTrashed()->where('role', 'customer')->findOrFail($userId)->forceDelete();
+        $user = User::onlyTrashed()->where('role', 'customer')->findOrFail($userId);
+
+        if ($this->hasActiveOrders($user)) {
+            return back()->with('error', 'This customer cannot be permanently deleted while they have active orders.');
+        }
+
+        $user->forceDelete();
         return back()->with('success', 'Customer permanently deleted.');
+    }
+
+    private function hasActiveOrders(User $user): bool
+    {
+        return $user->orders()
+            ->whereNotIn('status', [OrderStatus::DELIVERED->value, OrderStatus::CANCELLED->value])
+            ->exists();
     }
 
     public function restoreAll(Request $request)

@@ -93,6 +93,12 @@
             font-size: 13px
         }
 
+        .deleted-error {
+            margin-top: 18px;
+            color: #a04338;
+            font-size: 13px
+        }
+
         @media(max-width:650px) {
             .deleted-page {
                 width: calc(100% - 28px);
@@ -124,7 +130,7 @@
                 <form method="POST" action="{{ route('admin.customers.restore-all') }}">@csrf @method('PATCH')<button type="submit">Restore all</button></form>
                 <form method="POST" action="{{ route('admin.customers.force-destroy-all') }}" onsubmit="return confirm('Permanently delete all deleted customer accounts?')">@csrf @method('DELETE')<button class="danger" type="submit">Delete all permanently</button></form>
             </div>@endif
-        </div>@if(session('success'))<p class="deleted-success" role="status">{{ session('success') }}</p>@endif<div class="deleted-table">@forelse($deletedCustomers as $customer)@if($loop->first)<table>
+        </div>@if(session('success'))<p class="deleted-success" role="status">{{ session('success') }}</p>@endif @if(session('error'))<p class="deleted-error" role="alert">{{ session('error') }}</p>@endif<div class="deleted-table">@forelse($deletedCustomers as $customer)@if($loop->first)<table>
                 <thead>
                     <tr>
                         <th>Name</th>
