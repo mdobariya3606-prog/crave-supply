@@ -140,6 +140,74 @@
             background: #0f2946;
         }
 
+        .delivery-address {
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .delivery-address label {
+            display: block;
+            margin-bottom: 7px;
+            color: #133458;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .delivery-address textarea {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 96px;
+            padding: 12px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #1e293b;
+            background: #f8fafc;
+            font: inherit;
+            font-size: 13px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+
+        .review-summary > form {
+            width: 100%;
+        }
+
+        .delivery-address textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .14);
+        }
+
+        .delivery-address .error {
+            display: block;
+            margin-top: 6px;
+            color: #991b1b;
+            font-size: 12px;
+        }
+
+        html[data-theme='dark'] .delivery-address {
+            border-color: #475569;
+        }
+
+        html[data-theme='dark'] .delivery-address label {
+            color: #dbeafe;
+        }
+
+        html[data-theme='dark'] .delivery-address textarea {
+            border-color: #64748b;
+            color: #f8fafc;
+            background: #1e293b;
+        }
+
+        html[data-theme='dark'] .delivery-address textarea:focus {
+            background: #273449;
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 16px;
@@ -187,7 +255,16 @@
                 <div class="summary-line"><span>Subtotal</span><strong>₹{{ number_format($subtotal, 2) }}</strong></div>
                 <div class="summary-line"><span>Delivery</span><strong>{{ $delivery ? '₹'.number_format($delivery, 2) : 'FREE' }}</strong></div>
                 <div class="summary-total"><span>Total</span><strong>₹{{ number_format($subtotal + $delivery, 2) }}</strong></div>
-                <form action="{{ route('cart.submit') }}" method="POST">@csrf<button class="submit-order" type="submit">Submit order</button></form>
+                <form action="{{ route('cart.submit') }}" method="POST">
+                    @csrf
+                    <div class="delivery-address">
+                    <label for="delivery_address">Delivery address</label>
+                    <textarea id="delivery_address" name="delivery_address" maxlength="255" required
+                        placeholder="Enter your delivery address">{{ old('delivery_address', auth()->user()->business_address) }}</textarea>
+                    @error('delivery_address')<small class="error">{{ $message }}</small>@enderror
+                    </div>
+                    <button class="submit-order" type="submit">Submit order</button>
+                </form>
                 <a class="back-link" href="{{ route('cart.index') }}">← Back to cart</a>
             </aside>
         </div>

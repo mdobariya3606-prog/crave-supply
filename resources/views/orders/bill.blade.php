@@ -191,6 +191,9 @@
             <td><span class="summary-label">Bill to</span><span class="summary-value">{{ $order->user?->name ?: 'Customer' }}<br>{{ $order->user?->email }}</span></td>
             <td><span class="summary-label">Order details</span><span class="summary-value"><strong>{{ $order->order_number }}</strong><br>Status: {{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span></td>
         </tr>
+        <tr>
+            <td colspan="2"><span class="summary-label">Delivery address</span><span class="summary-value">{{ $order->delivery_address ?: '—' }}</span></td>
+        </tr>
     </table>
     <table class="items">
         <thead>

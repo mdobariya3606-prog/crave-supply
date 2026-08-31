@@ -120,6 +120,7 @@
             <p>Thank you. Your order has been received and is now visible to our team.</p>
             <div class="order-number">Order number: {{ $order->order_number }}</div>
             <p>Current status: <span class="status">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span></p>
+            <p class="delivery-address"><strong>Delivery address:</strong><br>{{ $order->delivery_address ?: '—' }}</p>
             <ul class="order-list">
                 @foreach($order->orderItems as $item)
                 <li><span>{{ $item->product_name }} × {{ $item->quantity }}</span><strong>₹{{ number_format($item->unit_price * $item->quantity, 2) }}</strong></li>

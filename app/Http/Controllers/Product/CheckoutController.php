@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -45,6 +46,9 @@ class CheckoutController extends Controller
     public function submit(Request $request)
     {
         $this->customer($request);
+        $request->validate([
+            'delivery_address' => ['required', 'string', 'max:255'],
+        ]);
         $cart = $request->session()->get('cart', []);
 
         if (empty($cart)) {
@@ -76,8 +80,13 @@ class CheckoutController extends Controller
             $order = Order::create([
                 'order_number' => $this->uniqueOrderNumber(),
                 'user_id' => $request->user()->id,
+                'delivery_address' => $request->string('delivery_address')->trim()->toString(),
                 'status' => OrderStatus::ORDER_RECEIVED,
                 'total_amount' => $subtotal + ($subtotal >= 2000 ? 0 : 100),
+            ]);
+
+            $request->user()->update([
+                'business_address' => $request->string('delivery_address')->trim()->toString(),
             ]);
 
             foreach ($items as $item) {
@@ -88,6 +97,9 @@ class CheckoutController extends Controller
                     'unit_price' => $item['unitPrice'],
                 ]);
                 $item['product']->decrement('stock', $item['quantity']);
+                Cache::forget("product.{$item['product']->id}");
+                Cache::forget("product.{$item['product']->id}.related");
+                Cache::forget("category.{$item['product']->category_id}.products");
             }
 
             $order->orderStatusHistories()->create([
