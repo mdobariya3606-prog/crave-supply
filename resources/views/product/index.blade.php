@@ -618,6 +618,20 @@
             text-transform: uppercase;
         }
 
+        .product-edit-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            padding: 0 16px;
+            border-radius: 6px;
+            color: #fff;
+            background: #2c2722;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
         .product-cart-error {
             display: block;
             flex-basis: 100%;
@@ -1096,7 +1110,9 @@
                                         class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
                                         $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
                                         }}</span>
-                                    @if ($product->is_available && $product->stock > 0)
+                                    @if (auth()->user()?->role === 'admin')
+                                    <a class="product-edit-link" href="{{ route('products.edit', $product) }}">Edit</a>
+                                    @elseif ($product->is_available && $product->stock > 0)
                                     @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
                                     <div class="product-cart-control" data-product-cart
                                         data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}"
@@ -1166,7 +1182,9 @@
                                     class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
                                     $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
                                     }}</span>
-                                @if ($product->is_available && $product->stock > 0)
+                                    @if (auth()->user()?->role === 'admin')
+                                    <a class="product-edit-link" href="{{ route('products.edit', $product) }}">Edit</a>
+                                    @elseif ($product->is_available && $product->stock > 0)
                                 @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
                                 <div class="product-cart-control" data-product-cart
                                     data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}"
