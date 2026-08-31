@@ -74,6 +74,7 @@ class LoginController extends Controller
             $request->session()->put('cart', $guestCart);
         }
 
-        return redirect()->intended(route('dashboard'));
+        $destination = Auth::user()->role === 'admin' ? route('admin.dashboard') : route('dashboard');
+        return redirect()->intended($destination);
     }
 }
