@@ -7,10 +7,18 @@
                 <p>Thoughtful snacks and drinks for better breaks, fuller shelves, and happier teams.</p>
             </div>
             <div class="footer-column">
-                <h3>Explore</h3>
-                <a href="{{ route('home') }}#catalogue">Catalogue</a>
-                <a href="{{ route('home') }}#restock-guide">Restock guide</a>
+                <h3>Useful links</h3>
+                <a href="{{ route('products.dashboard') }}">Products</a>
+                <a href="{{ route('contact') }}">Contact</a>
+                <a href="{{ route('about') }}#privacy">Privacy</a>
+                <a href="{{ route('about') }}#terms">Terms</a>
                 <a href="{{ url('/register') }}">Create account</a>
+            </div>
+            <div class="footer-column footer-categories">
+                <h3>Categories</h3>
+                @foreach (\App\Models\Category::orderBy('name')->get() as $category)
+                <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                @endforeach
             </div>
             <div class="footer-column">
                 <h3>Support</h3>
