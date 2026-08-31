@@ -1225,8 +1225,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
             const setCartCount = count => {
-                const node = document.querySelector('[data-cart-count]');
-                if (node) node.textContent = count ? `(${count})` : '';
+                document.querySelectorAll('[data-cart-count]').forEach(node => {
+                    node.textContent = count ? `(${count})` : '';
+                });
             };
             const render = (control, quantity) => {
                 control.innerHTML = quantity ? `<button type="button" data-cart-step="-1" aria-label="Decrease quantity">−</button><input type="number" min="0" max="${control.dataset.stock}" value="${quantity}" data-cart-quantity aria-label="Product quantity"><button type="button" data-cart-step="1" aria-label="Increase quantity">+</button>` : '<button type="button" class="product-add-button" data-cart-add>Add</button>';
