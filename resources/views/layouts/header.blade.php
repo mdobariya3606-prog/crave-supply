@@ -7,7 +7,6 @@
 </script>
 <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
 <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
-@php($headerCategories = \App\Models\Category::query()->orderBy('name')->get())
 <header class="site-header">
     <nav class="nav-wrap" aria-label="Main navigation">
         {{-- Brand and global search stay visible at every breakpoint. --}}
@@ -25,28 +24,7 @@
         </div>
         {{-- Desktop navigation links; hidden on narrow screens. --}}
         <div class="nav-links">
-            <a href="{{ route('home') }}" class={{ request()->routeIs('home') || request()->routeIs('dashboard') ?
-    'active' : '' }}>Home</a>
             <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
-            <div class="nav-category-menu">
-                <button type="button"
-                    class="nav-category-trigger{{ request()->routeIs('products.category') || request()->routeIs('categories.*') ? ' active' : '' }}"
-                    aria-expanded="false">
-                    Categories
-                    <svg class="nav-category-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m4 6 4 4 4-4" />
-                    </svg>
-                </button>
-                <div class="nav-category-dropdown">
-                    @forelse ($headerCategories as $category)
-                    <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
-                    @empty
-                    <span class="nav-category-empty">No categories yet</span>
-                    @endforelse
-                </div>
-            </div>
-            <a href="{{ route('about') }}" class={{ request()->routeIs('about') ? 'active' : '' }}>About</a>
             @if (!auth()->check() || auth()->user()?->role === 'customer')
             <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
                 Cart <span data-cart-count>{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span>
@@ -62,6 +40,11 @@
                                             }}>Register</a>
             @endguest
         </div>
+        @if (auth()->user()?->role === 'customer')
+        <a class="mobile-cart-link" href="{{ route('cart.index') }}" aria-label="Open cart">
+            Cart <span data-cart-count>{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span>
+        </a>
+        @endif
         {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
@@ -79,19 +62,6 @@
                 <div id="profileMenu" class="profile-menu" hidden>
                     <a href="{{ route('home') }}">Dashboard</a>
                     <a href="{{ route('products.dashboard') }}">Products</a>
-                    <div class="profile-category-menu">
-                        <button type="button" class="profile-category-trigger" aria-expanded="false">Categories <svg
-                                viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"
-                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="m4 6 4 4 4-4" />
-                            </svg></button>
-                        <div class="profile-category-list">
-                            @foreach ($headerCategories as $category)
-                            <a href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
-                            @endforeach
-                        </div>
-                    </div>
-                    <a href="{{ route('about') }}">About us</a>
                     <a href="{{ route('cache.clear') }}">Clear cache</a>
                     @auth
                     <a href="{{ route('profile') }}">Profile</a>

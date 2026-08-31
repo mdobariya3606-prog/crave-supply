@@ -476,6 +476,10 @@ html[data-theme="dark"] .guide-card:hover {
     font-size: 13px;
 }
 
+.mobile-cart-link {
+    display: none;
+}
+
 .avatar {
     border: 0;
     width: 34px;
@@ -824,6 +828,16 @@ a {
     }
     .user-menu span:first-child {
         display: none;
+    }
+    .mobile-cart-link {
+        display: inline-flex;
+        order: 3;
+        align-items: center;
+        gap: 4px;
+        color: var(--layout-ink);
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
     }
     /* The avatar sits above the search row; keep its popup below both rows. */
     .site-header .profile-menu {
