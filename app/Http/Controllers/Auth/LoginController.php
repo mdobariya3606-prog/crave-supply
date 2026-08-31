@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 
 class LoginController extends Controller
@@ -37,6 +38,18 @@ class LoginController extends Controller
                 ->withErrors(['email' => 'Too many failed login attempts from this IP address. Please try again in ' . RateLimiter::availableIn($ipKey) . ' seconds.']);
         }
 
+        $unverifiedUser = User::where('email', $request->input('email'))
+            ->where('role', 'customer')
+            ->where('is_active', false)
+            ->whereNull('email_verified_at')
+            ->first();
+
+        if ($unverifiedUser && Hash::check($request->input('password'), $unverifiedUser->password)) {
+            return back()
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'Please verify your email before logging in.']);
+        }
+
         if (! Auth::attempt([...$request->only('email', 'password'), 'is_active' => true], $request->boolean('remember'))) {
             RateLimiter::hit($emailKey, 120);
             RateLimiter::hit($ipKey, 120);
@@ -44,6 +57,11 @@ class LoginController extends Controller
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors(['email' => 'These credentials do not match our records.']);
+        }
+
+        if (Auth::user()->role === 'customer' && !Auth::user()->email_verified_at) {
+            Auth::logout();
+            return back()->withErrors(['email' => 'Please verify your email before logging in.']);
         }
 
         RateLimiter::clear($emailKey);

@@ -38,6 +38,9 @@ Route::middleware('guest')
     ->group(function () {
         Route::get('/register', [RegisterController::class, 'create'])->name('register');
         Route::post('/register', [RegisterController::class, 'store']);
+        Route::get('/register/verify', [RegisterController::class, 'showVerify'])->name('register.verify');
+        Route::post('/register/verify', [RegisterController::class, 'verify']);
+        Route::post('/register/verify/resend', [RegisterController::class, 'resend'])->name('register.verify.resend');
 
         Route::get('/login', [LoginController::class, 'create'])->name('login');
         Route::post('/login', [LoginController::class, 'store']);

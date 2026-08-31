@@ -23,6 +23,9 @@
             @if (session('status'))
             <div class="alert-success" role="status">{{ session('status') }}</div>
             @endif
+            @if (session()->has('registration_verification') && $errors->first('email') === 'Please verify your email before logging in.')
+            <p class="alert-error" role="alert">Your email is not verified. <a href="{{ route('register.verify') }}">Verify it now</a>.</p>
+            @endif
 
             <form action="{{ url('/login') }}" method="POST" id="loginForm" novalidate>
                 @csrf

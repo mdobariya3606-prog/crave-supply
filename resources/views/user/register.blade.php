@@ -305,6 +305,11 @@
                     body: new FormData(registerForm)
                 });
 
+                if (response.redirected) {
+                    window.location.assign(response.url);
+                    return;
+                }
+
                 const data = await response.json().catch(() => ({}));
 
                 if (!response.ok) {

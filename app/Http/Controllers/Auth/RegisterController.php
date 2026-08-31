@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class RegisterController extends Controller
 {
@@ -22,15 +26,64 @@ class RegisterController extends Controller
             $user->restore();
             $user->update(array_merge($data, ['is_active' => true]));
         } else {
-            $user = User::create($data);
+            $user = User::create(array_merge($data, ['is_active' => false]));
         }
 
-        $guestCart = $request->session()->get('cart', []);
+        $otp = (string) random_int(100000, 999999);
+        $request->session()->put('registration_verification', [
+            'user_id' => $user->id,
+            'otp' => Hash::make($otp),
+            'expires_at' => now()->addMinutes(10)->timestamp,
+        ]);
+        try {
+            Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($user) {
+                $message->to($user->email)->subject('Verify your CraveSupply account');
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+            return redirect()->route('register.verify')->with('error', 'We could not send the verification email. Please contact support or try again later.');
+        }
+
+        return redirect()->route('register.verify')->with('status', 'We sent a verification code to your email address.');
+    }
+
+    public function showVerify()
+    {
+        abort_unless(session()->has('registration_verification'), 404);
+        return view('user.verify-email');
+    }
+
+    public function resend(Request $request)
+    {
+        $verification = $request->session()->get('registration_verification');
+        abort_unless($verification, 404);
+        $user = User::findOrFail($verification['user_id']);
+        $otp = (string) random_int(100000, 999999);
+        $request->session()->put('registration_verification', [
+            'user_id' => $user->id,
+            'otp' => Hash::make($otp),
+            'expires_at' => now()->addMinutes(10)->timestamp,
+        ]);
+        Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($user) {
+            $message->to($user->email)->subject('Your new CraveSupply verification code');
+        });
+        return back()->with('status', 'A new verification code was sent to your email.');
+    }
+
+    public function verify(Request $request)
+    {
+        $request->validate(['otp' => ['required', 'digits:6']]);
+        $verification = $request->session()->get('registration_verification');
+
+        if (!$verification || now()->timestamp > $verification['expires_at'] || !Hash::check($request->input('otp'), $verification['otp'])) {
+            return back()->withErrors(['otp' => 'The verification code is invalid or has expired.']);
+        }
+
+        $user = User::findOrFail($verification['user_id']);
+        $user->update(['email_verified_at' => now(), 'is_active' => true]);
+        $request->session()->forget('registration_verification');
         Auth::login($user);
-        if ($guestCart) {
-            $request->session()->put('cart', $guestCart);
-        }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('status', 'Your email has been verified successfully.');
     }
 }
