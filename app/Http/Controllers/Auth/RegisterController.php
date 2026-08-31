@@ -35,6 +35,7 @@ class RegisterController extends Controller
             'otp' => Hash::make($otp),
             'expires_at' => now()->addMinutes(10)->timestamp,
         ]);
+        $request->session()->put('registration_verification_last_sent_at', now()->timestamp);
         try {
             Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($user) {
                 $message->to($user->email)->subject('Verify your CraveSupply account');
@@ -57,6 +58,16 @@ class RegisterController extends Controller
     {
         $verification = $request->session()->get('registration_verification');
         abort_unless($verification, 404);
+
+        $lastSentAt = $request->session()->get('registration_verification_last_sent_at');
+        $secondsSinceLastSend = $lastSentAt ? now()->timestamp - $lastSentAt : 120;
+        if ($secondsSinceLastSend < 120) {
+            $wait = 120 - $secondsSinceLastSend;
+            return back()->withErrors([
+                'otp' => "Please wait {$wait} seconds before requesting another code.",
+            ]);
+        }
+
         $user = User::findOrFail($verification['user_id']);
         $otp = (string) random_int(100000, 999999);
         $request->session()->put('registration_verification', [
@@ -64,6 +75,7 @@ class RegisterController extends Controller
             'otp' => Hash::make($otp),
             'expires_at' => now()->addMinutes(10)->timestamp,
         ]);
+        $request->session()->put('registration_verification_last_sent_at', now()->timestamp);
         Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($user) {
             $message->to($user->email)->subject('Your new CraveSupply verification code');
         });

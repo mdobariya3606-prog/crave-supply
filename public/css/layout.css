@@ -692,6 +692,7 @@ html[data-theme="dark"] .guide-card:hover {
     margin: 0 0 9px;
     color: #b9aa9b;
     font-size: 13px;
+    text-decoration: none;
 }
 .footer-column a:hover {
     color: #dba8a3;
