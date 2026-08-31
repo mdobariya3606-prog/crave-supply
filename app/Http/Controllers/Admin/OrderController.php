@@ -22,6 +22,7 @@ class OrderController extends Controller
             ->when($search, fn($query) => $query->where(fn($query) => $query
                 ->where('order_number', 'like', "%{$search}%")
                 ->orWhereHas('user', fn($query) => $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"))))
+            ->orderBy('status')
             ->latest()
             ->paginate(20)
             ->withQueryString();
