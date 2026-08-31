@@ -7,7 +7,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Throwable;
 
 class LoginController extends Controller
 {
@@ -45,6 +47,22 @@ class LoginController extends Controller
             ->first();
 
         if ($unverifiedUser && Hash::check($request->input('password'), $unverifiedUser->password)) {
+            $otp = (string) random_int(100000, 999999);
+            $request->session()->put('registration_verification', [
+                'user_id' => $unverifiedUser->id,
+                'otp' => Hash::make($otp),
+                'expires_at' => now()->addMinutes(10)->timestamp,
+            ]);
+            $request->session()->put('registration_verification_last_sent_at', now()->timestamp);
+
+            try {
+                Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($unverifiedUser) {
+                    $message->to($unverifiedUser->email)->subject('Verify your CraveSupply account');
+                });
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors(['email' => 'Please verify your email before logging in.']);
@@ -60,7 +78,22 @@ class LoginController extends Controller
         }
 
         if (Auth::user()->role === 'customer' && !Auth::user()->email_verified_at) {
+            $unverifiedUser = Auth::user();
             Auth::logout();
+            $otp = (string) random_int(100000, 999999);
+                $request->session()->put('registration_verification', [
+                    'user_id' => $unverifiedUser->id,
+                    'otp' => Hash::make($otp),
+                    'expires_at' => now()->addMinutes(10)->timestamp,
+                ]);
+                $request->session()->put('registration_verification_last_sent_at', now()->timestamp);
+            try {
+                Mail::raw("Your CraveSupply verification code is {$otp}. It expires in 10 minutes.", function ($message) use ($unverifiedUser) {
+                    $message->to($unverifiedUser->email)->subject('Verify your CraveSupply account');
+                });
+            } catch (Throwable $exception) {
+                report($exception);
+            }
             return back()->withErrors(['email' => 'Please verify your email before logging in.']);
         }
 
