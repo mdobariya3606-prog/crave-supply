@@ -772,6 +772,7 @@ input,
 select,
 textarea {
     accent-color: #8d6c4a;
+    outline: none;
 }
 button,
 .btn-submit,
