@@ -30,6 +30,9 @@ class ProductProfileController extends Controller
         }
 
         $reviews = $reviewsQuery->paginate(4)->withQueryString();
+        $myReview = auth()->check()
+            ? $product->reviews()->where('user_id', auth()->id())->first()
+            : null;
 
         $relatedProducts = Cache::remember(
             "product.{$product->id}.related",
@@ -48,6 +51,7 @@ class ProductProfileController extends Controller
         return view('product.profile', [
             'product' => $product,
             'reviews' => $reviews,
+            'myReview' => $myReview,
             'relatedProducts' => $relatedProducts,
         ]);
     }
