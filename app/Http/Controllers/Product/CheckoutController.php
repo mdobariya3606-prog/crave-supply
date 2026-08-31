@@ -74,7 +74,7 @@ class CheckoutController extends Controller
             }
 
             $order = Order::create([
-                'order_number' => 'CS-' . now()->format('ymdHis') . '-' . Str::upper(Str::random(5)),
+                'order_number' => $this->uniqueOrderNumber(),
                 'user_id' => $request->user()->id,
                 'status' => OrderStatus::ORDER_RECEIVED,
                 'total_amount' => $subtotal + ($subtotal >= 2000 ? 0 : 100),
@@ -123,6 +123,17 @@ class CheckoutController extends Controller
     private function customer(Request $request): void
     {
         abort_unless($request->user()?->role === 'customer', 403);
+    }
+
+    private function uniqueOrderNumber(): string
+    {
+        do {
+            // The unique database index remains the final safeguard; the existence
+            // check avoids generating the same number during the same second.
+            $orderNumber = 'CS-' . now()->format('ymdHis') . '-' . Str::upper(Str::random(10));
+        } while (Order::where('order_number', $orderNumber)->exists());
+
+        return $orderNumber;
     }
 
     private function cartItems(Request $request): array
