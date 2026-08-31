@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UpdateCategoryController extends Controller
 {
@@ -19,6 +20,8 @@ class UpdateCategoryController extends Controller
     {
         abort_unless($request->user()?->role === 'admin', 403);
         $category->update($request->validated());
+        Cache::forget('categories.all');
+        Cache::forget("category.{$category->id}.products");
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');

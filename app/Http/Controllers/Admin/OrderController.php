@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
@@ -56,6 +57,11 @@ class OrderController extends Controller
                 if ($validated['status'] === OrderStatus::CANCELLED->value) {
                     foreach ($lockedOrder->orderItems as $item) {
                         Product::whereKey($item->product_id)->increment('stock', $item->quantity);
+                        Cache::forget("product.{$item->product_id}");
+                        Cache::forget("product.{$item->product_id}.related");
+                        if ($product = Product::find($item->product_id)) {
+                            Cache::forget("category.{$product->category_id}.products");
+                        }
                     }
                 }
 

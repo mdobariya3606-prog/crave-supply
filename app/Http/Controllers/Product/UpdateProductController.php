@@ -21,6 +21,7 @@ class UpdateProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
+        $oldCategoryId = $product->category_id;
         $product->update([...$request->validated(), 'is_available' => $request->boolean('is_available')]);
         AddProductController::storeImages($request, $product);
         if ($request->filled('primary_image')) {
@@ -30,6 +31,8 @@ class UpdateProductController extends Controller
 
         Cache::forget("product.{$product->id}");
         Cache::forget("product.{$product->id}.related");
+        Cache::forget("category.{$oldCategoryId}.products");
+        Cache::forget("category.{$product->category_id}.products");
         return redirect()->route('products.profile', $product)->with('success', 'Product updated successfully.');
     }
 
@@ -41,12 +44,19 @@ class UpdateProductController extends Controller
         if (!$product->productImages()->where('is_primary', true)->exists() && $product->productImages()->exists()) {
             $product->productImages()->first()->update(['is_primary' => true]);
         }
+        Cache::forget("product.{$product->id}");
+        Cache::forget("product.{$product->id}.related");
         return back()->with('success', 'Product image removed.');
     }
 
     public function destroy(Product $product)
     {
+        $categoryId = $product->category_id;
         $product->delete();
+        Cache::forget('categories.all');
+        Cache::forget("category.{$categoryId}.products");
+        Cache::forget("product.{$product->id}");
+        Cache::forget("product.{$product->id}.related");
 
         return redirect()->route('products.dashboard')->with('success', 'Product deleted successfully.');
     }

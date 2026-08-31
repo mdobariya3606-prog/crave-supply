@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AddProductController extends Controller
 {
@@ -31,6 +32,8 @@ class AddProductController extends Controller
             'is_available' => $request->boolean('is_available'),
         ]);
         self::storeImages($request, $product);
+        Cache::forget('categories.all');
+        Cache::forget("category.{$product->category_id}.products");
 
         return redirect()->route('products.add')->with('success', 'Product added successfully.');
     }

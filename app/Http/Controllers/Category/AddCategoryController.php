@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AddCategoryController extends Controller
 {
@@ -20,6 +21,7 @@ class AddCategoryController extends Controller
     {
         abort_unless($request->user()?->role === 'admin', 403);
         Category::create($request->validated());
+        Cache::forget('categories.all');
 
         return redirect()->route('admin.categories.index')->with('success', 'Category added successfully.');
     }
