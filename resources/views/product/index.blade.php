@@ -645,31 +645,6 @@
             display: none;
         }
 
-        .product-card-status {
-            padding: 4px 7px;
-            border-radius: 99px;
-            color: #166534;
-            background: #dcfce7;
-            font-size: 10px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        html[data-theme="dark"] .product-card-status {
-            color: #dcfce7;
-            background: #166534;
-        }
-
-        .product-card-status.unavailable {
-            color: #991b1b;
-            background: #fee2e2;
-        }
-
-        html[data-theme="dark"] .product-card-status.unavailable {
-            color: #fee2e2;
-            background: #991b1b;
-        }
-
         .catalogue-pagination {
             display: flex;
             align-items: center;
@@ -1106,10 +1081,7 @@
                                     everyday needs.' }}
                                 </p>
                                 <div class="product-card-footer"><strong class="product-card-price">₹{{
-                                        number_format((float) $product->price, 2) }}</strong><span
-                                        class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
-                                        $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
-                                        }}</span>
+                                        number_format((float) $product->price, 2) }}</strong>
                                     @if (auth()->user()?->role === 'admin')
                                     <a class="product-edit-link" href="{{ route('products.edit', $product) }}">Edit</a>
                                     @elseif ($product->is_available && $product->stock > 0)
@@ -1178,13 +1150,9 @@
                             <div class="product-card-footer">
                                 <strong class="product-card-price">₹{{ number_format((float) $product->price, 2)
                                     }}</strong>
-                                <span
-                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{
-                                    $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock'
-                                    }}</span>
-                                    @if (auth()->user()?->role === 'admin')
-                                    <a class="product-edit-link" href="{{ route('products.edit', $product) }}">Edit</a>
-                                    @elseif ($product->is_available && $product->stock > 0)
+                                @if (auth()->user()?->role === 'admin')
+                                <a class="product-edit-link" href="{{ route('products.edit', $product) }}">Edit</a>
+                                @elseif ($product->is_available && $product->stock > 0)
                                 @php($cartQuantity = session('cart.' . $product->id . '.quantity', 0))
                                 <div class="product-cart-control" data-product-cart
                                     data-product-slug="{{ $product->slug }}" data-stock="{{ $product->stock }}"
@@ -1275,17 +1243,17 @@
                     render(control, quantity);
                     setCartCount(Math.max(0, currentCount + quantity - previous));
                     fetch(control.dataset.updateUrl, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrf,
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        body: JSON.stringify({
-                            quantity
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': csrf,
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: JSON.stringify({
+                                quantity
+                            })
                         })
-                    })
                         .then(response => response.json().then(data => {
                             if (!response.ok) {
                                 const error = new Error(data.message || 'Unable to update cart.');
