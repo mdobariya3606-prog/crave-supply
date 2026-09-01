@@ -12,9 +12,10 @@ Route::prefix('/cart')
     ->group(function () {
 
         Route::middleware(['auth', EnsureAccountIsActive::class])
+            ->controller(CheckoutController::class)
             ->group(function () {
-                Route::get('/review', [CheckoutController::class, 'review'])->name('review');
-                Route::post('/submit', [CheckoutController::class, 'submit'])->name('submit');
+                Route::get('/review', 'review')->name('review');
+                Route::post('/submit', 'submit')->name('submit');
             });
 
         Route::get('/', [CartController::class, 'index'])->name('index');

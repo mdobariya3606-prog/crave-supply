@@ -22,7 +22,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
-    \Illuminate\Support\Facades\Redis::set('last_accessed', now()->toDateTimeString());
+    Redis::set('last_accessed', now()->toDateTimeString());
     return view(
         'dashboard',
         [

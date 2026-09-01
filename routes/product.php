@@ -26,7 +26,7 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
 
         Route::delete('/product-images/{image}', [UpdateProductController::class, 'destroyImage'])->name('products.images.destroy');
         Route::patch('/reviews/{review}/toggle-visibility', [ReviewController::class, 'toggleVisibility'])->name('reviews.toggle-visibility');
-    });
+});
 
     Route::post('/products/{product:slug}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
 });
@@ -35,8 +35,8 @@ Route::prefix('/products')
     ->name('products.')
     ->group(function () {
         Route::get('/', [ProductDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/category/{category:slug}', [ProductDashboardController::class, 'category'])->name('category');
         Route::get('/{product:slug}', [ProductProfileController::class, 'show'])->name('profile');
+        Route::get('/category/{category:slug}', [ProductDashboardController::class, 'category'])->name('category');
     });
 
 Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
