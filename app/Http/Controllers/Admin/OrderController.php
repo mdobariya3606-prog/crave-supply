@@ -19,10 +19,23 @@ class OrderController extends Controller
         $status = $request->query('status');
 
         $orders = Order::with(['user', 'orderItems', 'orderStatusHistories.user'])
-            ->when($status && in_array($status, array_column(OrderStatus::cases(), 'value'), true), fn($query) => $query->where('status', $status))
-            ->when($search, fn($query) => $query->where(fn($query) => $query
-                ->where('order_number', 'like', "%{$search}%")
-                ->orWhereHas('user', fn($query) => $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"))))
+            ->when(
+                $status && in_array($status, array_column(OrderStatus::cases(), 'value'), true),
+                fn ($query) => $query->where('status', $status)
+            )
+            ->when(
+                $search,
+                fn ($query) => $query->where(
+                    fn ($query) => $query
+                        ->where('order_number', 'like', "%{$search}%")
+                        ->orWhereHas(
+                            'user',
+                            fn ($query) => $query
+                                ->where('name', 'like', "%{$search}%")
+                                ->orWhere('email', 'like', "%{$search}%")
+                        )
+                )
+            )
             ->orderBy('status')
             ->latest()
             ->paginate(20)
@@ -40,23 +53,33 @@ class OrderController extends Controller
     {
         $currentStatus = $order->status;
         $allowedStatuses = array_map(
-            fn(OrderStatus $status) => $status->value,
+            fn (OrderStatus $status) => $status->value,
             [$currentStatus, ...$currentStatus->nextStatuses()]
         );
 
-        $validated = $request->validate([
-            'status' => ['required', Rule::enum(OrderStatus::class), Rule::in($allowedStatuses)],
-        ], [
-            'status.in' => 'This order can only move to its next valid status.',
-        ]);
+        $validated = $request->validate(
+            [
+                'status' => [
+                    'required',
+                    Rule::enum(OrderStatus::class),
+                    Rule::in($allowedStatuses),
+                ],
+            ],
+            [
+                'status.in' => 'This order can only move to its next valid status.',
+            ]
+        );
 
         if ($currentStatus->value !== $validated['status']) {
             DB::transaction(function () use ($request, $order, $validated) {
-                $lockedOrder = Order::with('orderItems')->lockForUpdate()->findOrFail($order->id);
+                $lockedOrder = Order::with('orderItems')
+                    ->lockForUpdate()
+                    ->findOrFail($order->id);
 
                 if ($validated['status'] === OrderStatus::CANCELLED->value) {
                     foreach ($lockedOrder->orderItems as $item) {
-                        Product::whereKey($item->product_id)->increment('stock', $item->quantity);
+                        Product::whereKey($item->product_id)
+                            ->increment('stock', $item->quantity);
                         Cache::forget("product.{$item->product_id}");
                         Cache::forget("product.{$item->product_id}.related");
                         if ($product = Product::find($item->product_id)) {

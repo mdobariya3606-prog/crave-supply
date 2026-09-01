@@ -28,12 +28,15 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
                 ->name('customers.')
                 ->group(function () {
                     Route::get('/', 'index')->name('index');
-                    Route::get('/deleted', 'deleted')->name('deleted');
-                    Route::patch('/deleted/{userId}/restore', 'restore')->name('restore');
-                    Route::delete('/deleted/{userId}', 'forceDestroy')->name('force-destroy');
-                    Route::patch('/deleted/restore-all', 'restoreAll')->name('restore-all');
-                    Route::delete('/deleted/delete-all', 'forceDestroyAll')->name('force-destroy-all');
                     Route::get('/{user}', 'show')->name('show');
+                    Route::get('/deleted', 'deleted')->name('deleted');
+
+                    Route::patch('/deleted/{userId}/restore', 'restore')->name('restore');
+                    Route::patch('/deleted/restore-all', 'restoreAll')->name('restore-all');
+                    
+                    Route::delete('/deleted/{userId}', 'forceDestroy')->name('force-destroy');
+                    Route::delete('/deleted/delete-all', 'forceDestroyAll')->name('force-destroy-all');
+
                     Route::patch('/{user}/toggle', 'toggle')->name('toggle');
                     Route::delete('/{user}', 'destroy')->name('destroy');
                 });

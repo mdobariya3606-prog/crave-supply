@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -132,7 +133,8 @@
             font-size: 12px;
         }
 
-        .order-row a {
+        .order-row a,
+        .stock-row a {
             color: #8d6c4a;
             font-weight: 700;
             text-decoration: none;
@@ -291,12 +293,10 @@
                 <strong>{{ $orderCount }}</strong><span>Total orders</span>
             </div>
             <div class="stat">
-                <strong>{{ $currentOrderCount }}</strong
-                ><span>Current orders</span>
+                <strong>{{ $currentOrderCount }}</strong><span>Current orders</span>
             </div>
             <div class="stat">
-                <strong>{{ $completedOrderCount }}</strong
-                ><span>Completed</span>
+                <strong>{{ $completedOrderCount }}</strong><span>Completed</span>
             </div>
             <div class="stat">
                 <strong>{{ $customerCount }}</strong><span>Customers</span>
@@ -308,89 +308,51 @@
         <section class="feature-section">
             <h2>Admin features</h2>
             <div class="feature-grid">
-                <a class="feature-card" href="{{ route('products.dashboard') }}"
-                    ><strong>Catalogue</strong
-                    ><span>Manage products and stock.</span></a
-                ><a class="feature-card" href="{{ route('products.add') }}"
-                    ><strong>Add product</strong
-                    ><span>Create a new catalogue product.</span></a
-                ><a
+                <a class="feature-card" href="{{ route('products.dashboard') }}"><strong>Catalogue</strong><span>Manage products and stock.</span></a><a class="feature-card" href="{{ route('products.add') }}"><strong>Add product</strong><span>Create a new catalogue product.</span></a><a
                     class="feature-card"
-                    href="{{ route('admin.categories.index') }}"
-                    ><strong>Manage categories</strong
-                    ><span>Add, edit, and organise product categories.</span></a
-                ><a
+                    href="{{ route('admin.categories.index') }}"><strong>Manage categories</strong><span>Add, edit, and organise product categories.</span></a><a
                     class="feature-card{{ $receivedOrderCount ? ' has-unread-messages' : '' }}"
-                    href="{{ route('admin.orders.index') }}"
-                    ><strong
-                        >Orders{{ $receivedOrderCount ? ' (' . $receivedOrderCount . ')' : '' }}</strong
-                    ><span>Review orders and update statuses.</span></a
-                ><a
+                    href="{{ route('admin.orders.index') }}"><strong>Orders{{ $receivedOrderCount ? ' (' . $receivedOrderCount . ')' : '' }}</strong><span>Review orders and update statuses.</span></a><a
                     class="feature-card"
-                    href="{{ route('admin.customers.index') }}"
-                    ><strong>Customers</strong
-                    ><span>Manage customer accounts and access.</span></a
-                ><a
+                    href="{{ route('admin.customers.index') }}"><strong>Customers</strong><span>Manage customer accounts and access.</span></a><a
                     class="feature-card"
-                    href="{{ route('admin.customers.deleted') }}"
-                    ><strong
-                        >Deleted customers{{ ($deletedCustomerCount ?? 0) ? ' (' . ($deletedCustomerCount ?? 0) . ')' : '' }}</strong
-                    ><span
-                        >Restore or permanently remove deleted accounts.</span
-                    ></a
-                ><a
+                    href="{{ route('admin.customers.deleted') }}"><strong>Deleted customers{{ ($deletedCustomerCount ?? 0) ? ' (' . ($deletedCustomerCount ?? 0) . ')' : '' }}</strong><span>Restore or permanently remove deleted accounts.</span></a><a
                     class="feature-card{{ $unreadMessageCount ? ' has-unread-messages' : '' }}"
-                    href="{{ route('admin.contact-messages.index') }}"
-                    ><strong
-                        >Messages{{ $unreadMessageCount ? ' (' . $unreadMessageCount . ')' : '' }}</strong
-                    ><span>Read enquiries and send email replies.</span></a
-                >
+                    href="{{ route('admin.contact-messages.index') }}"><strong>Messages{{ $unreadMessageCount ? ' (' . $unreadMessageCount . ')' : '' }}</strong><span>Read enquiries and send email replies.</span></a>
             </div>
         </section>
         <div class="dashboard-grid">
             <section class="panel">
                 <h2>Recent orders</h2>
                 @forelse ($recentOrders as $order)
-                    <div class="order-row">
-                        <div>
-                            <a
-                                href="{{ route('orders.confirmation',$order) }}"
-                                >{{ $order->order_number }}</a
-                            ><br /><span
-                                >{{ $order->user?->name ?: 'Customer' }}</span
-                            >
-                        </div>
-                        <span
-                            class="badge"
-                            >{{ str_replace('_',' ',$order->status->value) }}</span
-                        >
+                <div class="order-row">
+                    <div>
+                        <a
+                            href="{{ route('orders.confirmation',$order) }}">{{ $order->order_number }}</a><br /><span>{{ $order->user?->name ?: 'Customer' }}</span>
                     </div>
+                    <span
+                        class="badge">{{ str_replace('_',' ',$order->status->value) }}</span>
+                </div>
                 @empty
-                    <p>No orders yet.</p>
+                <p>No orders yet.</p>
                 @endforelse
-                <a class="panel-link" href="{{ route('admin.orders.index') }}"
-                    >Open order management →</a
-                >
+                <a class="panel-link" href="{{ route('admin.orders.index') }}">Open order management →</a>
             </section>
             <section class="panel">
                 <h2>Stock watch</h2>
                 @forelse ($lowStockProducts as $product)
-                    <div class="stock-row">
-                        <span>{{ $product->name }}</span
-                        ><strong
-                            class="{{ $product->stock < 1 ? 'low' : '' }}"
-                            >{{ $product->stock }}</strong
-                        >
-                    </div>
+                <div class="stock-row">
+                    <span><a href="{{ route('products.profile', $product->slug) }}">{{ $product->name }}</a></span><strong
+                        class="{{ $product->stock < 1 ? 'low' : '' }}">{{ $product->stock }}</strong>
+                </div>
                 @empty
-                    <p>All products have healthy stock.</p>
+                <p>All products have healthy stock.</p>
                 @endforelse
-                <a class="panel-link" href="{{ route('products.dashboard') }}"
-                    >Manage catalogue →</a
-                >
+                <a class="panel-link" href="{{ route('products.dashboard') }}">Manage catalogue →</a>
             </section>
         </div>
     </main>
     @include ('layouts.footer')
 </body>
+
 </html>

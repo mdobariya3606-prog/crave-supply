@@ -148,6 +148,7 @@ a {
     transition: 0.2s ease;
 }
 .btn-primary {
+    border-radius: 8px;
     color: #fff;
     background: var(--navy);
 }
@@ -158,6 +159,7 @@ a {
 }
 .btn-secondary {
     border: 1px solid var(--line);
+    border-radius: 8px;
     color: var(--navy);
     background: #fffdf9;
 }

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit profile — CraveSupply</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
+        rel="stylesheet" />
     <!-- <link rel="stylesheet" href="{{ asset('css/layout.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 </head>
@@ -24,31 +24,27 @@
             </header>
 
             @if (session('status'))
-                <div class="alert-success" role="status">
-                    {{ session('status') }}
-                </div>
+            <div class="alert-success" role="status">
+                {{ session('status') }}
+            </div>
             @endif
             @if (session('error'))
-                <div class="alert-error" role="alert">
-                    {{ session('error') }}
-                </div>
+            <div class="alert-error" role="alert">
+                {{ session('error') }}
+            </div>
             @endif
 
             <form
                 action="{{ route('profile.update') }}"
                 method="POST"
                 id="profileForm"
-                novalidate
-            >
+                novalidate>
                 @csrf
                 @method ('PUT')
                 <div class="form-grid">
                     <div
-                        class="form-group{{ $errors->has('name') ? ' has-error' : '' }}"
-                    >
-                        <label for="name"
-                            >Full name <span class="required">*</span></label
-                        >
+                        class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                        <label for="name">Full name <span class="required">*</span></label>
                         <div class="input-wrapper">
                             {{-- Name  --}}
                             <input
@@ -61,12 +57,10 @@
                                 maxlength="255"
                                 autocomplete="name"
                                 placeholder="Alex Morgan"
-                                aria-describedby="nameError"
-                            /><svg
+                                aria-describedby="nameError" /><svg
                                 class="input-icon"
                                 viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+                                aria-hidden="true">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                 <circle cx="12" cy="7" r="4" />
                             </svg>
@@ -74,8 +68,7 @@
                         @include ('user.partials.field-error', ['field' => 'name'])
                     </div>
                     <div
-                        class="form-group{{ $errors->has('business_name') ? ' has-error' : '' }}"
-                    >
+                        class="form-group{{ $errors->has('business_name') ? ' has-error' : '' }}">
                         <label for="business_name">Business name</label>
                         <div class="input-wrapper">
                             {{-- Business name --}}
@@ -87,12 +80,10 @@
                                 maxlength="255"
                                 autocomplete="organization"
                                 placeholder="Morgan Foods Ltd."
-                                aria-describedby="business_nameError"
-                            /><svg
+                                aria-describedby="business_nameError" /><svg
                                 class="input-icon"
                                 viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+                                aria-hidden="true">
                                 <path d="M3 21h18" />
                                 <path d="M5 21V5l7-3 7 3v16" />
                                 <path d="M9 21v-5h6v5" />
@@ -101,8 +92,7 @@
                         @include ('user.partials.field-error', ['field' => 'business_name'])
                     </div>
                     <div
-                        class="form-group full-width{{ $errors->has('business_address') ? ' has-error' : '' }}"
-                    >
+                        class="form-group full-width{{ $errors->has('business_address') ? ' has-error' : '' }}">
                         <label for="business_address">Business address</label>
                         <div class="input-wrapper">
                             {{-- Business address --}}
@@ -112,13 +102,10 @@
                                 maxlength="255"
                                 autocomplete="street-address"
                                 placeholder="123 Market Street, City, State"
-                                aria-describedby="business_addressError"
-                                >{{ old('business_address', auth()->user()->business_address) }}</textarea
-                            ><svg
+                                aria-describedby="business_addressError">{{ old('business_address', auth()->user()->business_address) }}</textarea><svg
                                 class="input-icon input-icon-top"
                                 viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+                                aria-hidden="true">
                                 <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
                                 <circle cx="12" cy="10" r="2.5" />
                             </svg>
@@ -126,38 +113,7 @@
                         @include ('user.partials.field-error', ['field' => 'business_address'])
                     </div>
                     <div
-                        class="form-group{{ $errors->has('email') ? ' has-error' : '' }}"
-                    >
-                        <label for="email"
-                            >Email address
-                            <span class="required">*</span></label
-                        >
-                        <div class="input-wrapper">
-                            {{-- Email  --}}
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                value="{{ old('email', auth()->user()->email) }}"
-                                required
-                                maxlength="255"
-                                autocomplete="email"
-                                placeholder="you@company.com"
-                                aria-describedby="emailError"
-                            /><svg
-                                class="input-icon"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <rect x="3" y="5" width="18" height="14" rx="2" />
-                                <polyline points="3,7 12,13 21,7" />
-                            </svg>
-                        </div>
-                        @include ('user.partials.field-error', ['field' => 'email'])
-                    </div>
-                    <div
-                        class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}"
-                    >
+                        class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                         <label for="phone">Phone number</label>
                         <div class="input-wrapper">
                             {{-- Phone no. --}}
@@ -170,12 +126,10 @@
                                 inputmode="numeric"
                                 autocomplete="tel"
                                 placeholder="9876543210"
-                                aria-describedby="phoneError"
-                            /><svg
+                                aria-describedby="phoneError" /><svg
                                 class="input-icon"
                                 viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+                                aria-hidden="true">
                                 <rect x="6" y="3" width="12" height="18" rx="2" />
                                 <path d="M10 18h4" />
                             </svg>
@@ -184,9 +138,7 @@
                     </div>
                 </div>
                 <div class="profile-actions">
-                    <a class="secondary-btn" href="{{ route('dashboard') }}"
-                        >Cancel</a
-                    ><button type="submit" class="btn-submit">
+                    <a class="secondary-btn" href="{{ route('dashboard') }}">Cancel</a><button type="submit" class="btn-submit">
                         Save changes
                     </button>
                 </div>
@@ -203,8 +155,7 @@
                     return confirm(
                         'Are you sure you want to delete your profile?',
                     );
-                "
-            >
+                ">
                 @csrf
                 @method ('DELETE')
                 <button type="submit" class="secondary-btn">
@@ -285,4 +236,5 @@
         }
     </script>
 </body>
+
 </html>

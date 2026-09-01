@@ -15,93 +15,155 @@ class CustomerController extends Controller
 
         $customers = User::where('role', 'customer')
             ->withCount('orders')
-            ->when($search, fn($query) => $query->where(fn($query) => $query
-                ->where('name', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%")
-                ->orWhere('business_name', 'like', "%{$search}%")))
+            ->when(
+                $search,
+                fn($query) => $query->where(
+                    fn($query) => $query
+                        ->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('business_name', 'like', "%{$search}%")
+                )
+            )
             ->latest()
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.customers.index', compact('customers', 'search'));
+        return view(
+            'admin.customers.index',
+            compact('customers', 'search')
+        );
     }
 
-    public function show(Request $request, User $user)
+    public function show(User $user)
     {
-        abort_unless($user->role === 'customer', 404);
-        $user->load(['orders' => fn($query) => $query->with('orderItems')->latest()]);
+        $user->load([
+            'orders' => fn($query) => $query
+                ->with('orderItems')
+                ->latest(),
+        ]);
 
-        return view('admin.customers.show', compact('user'));
+        return view(
+            'admin.customers.show',
+            compact('user')
+        );
     }
 
-    public function toggle(Request $request, User $user)
+    public function toggle(User $user)
     {
-        abort_unless($user->role === 'customer', 404);
-        $user->update(['is_active' => ! $user->is_active]);
+        $user->update([
+            'is_active' => ! $user->is_active,
+        ]);
 
-        return back()->with('success', $user->is_active ? 'Customer account enabled.' : 'Customer account disabled.');
+        return back()->with(
+            'success',
+            $user->is_active
+                ? 'Customer account enabled.'
+                : 'Customer account disabled.'
+        );
     }
 
-    public function destroy(Request $request, User $user)
+    public function destroy(User $user)
     {
-        abort_unless($user->role === 'customer', 404);
-
         if ($this->hasActiveOrders($user)) {
-            return back()->with('error', 'This customer cannot be deleted while they have active orders.');
+            return back()->with(
+                'error',
+                'This customer cannot be deleted while they have active orders.'
+            );
         }
 
         $user->delete();
 
-        return redirect()->route('admin.customers.index')->with('success', 'Customer account deleted.');
+        return redirect()
+            ->route('admin.customers.index')
+            ->with('success', 'Customer account deleted.');
     }
 
-    public function deleted(Request $request)
+    public function deleted()
     {
-        $deletedCustomers = User::onlyTrashed()->where('role', 'customer')->latest('deleted_at')->paginate(20);
-        return view('admin.customers.deleted', compact('deletedCustomers'));
+        $deletedCustomers = User::onlyTrashed()
+            ->where('role', 'customer')
+            ->latest('deleted_at')
+            ->paginate(20);
+
+        return view(
+            'admin.customers.deleted',
+            compact('deletedCustomers')
+        );
     }
 
-    public function restore(Request $request, int $userId)
+    public function restore(int $userId)
     {
         $user = User::onlyTrashed()
             ->where('role', 'customer')
             ->findOrFail($userId);
 
         $user->restore();
+
         $user->update([
             'is_active' => true,
         ]);
-        return back()->with('success', 'Customer account restored.');
+
+        return back()->with(
+            'success',
+            'Customer account restored.'
+        );
     }
 
-    public function forceDestroy(Request $request, int $userId)
+    public function forceDestroy(int $userId)
     {
-        $user = User::onlyTrashed()->where('role', 'customer')->findOrFail($userId);
+        $user = User::onlyTrashed()
+            ->where('role', 'customer')
+            ->findOrFail($userId);
 
         if ($this->hasActiveOrders($user)) {
-            return back()->with('error', 'This customer cannot be permanently deleted while they have active orders.');
+            return back()->with(
+                'error',
+                'This customer cannot be permanently deleted while they have active orders.'
+            );
         }
 
         $user->forceDelete();
-        return back()->with('success', 'Customer permanently deleted.');
+
+        return back()->with(
+            'success',
+            'Customer permanently deleted.'
+        );
     }
 
     private function hasActiveOrders(User $user): bool
     {
         return $user->orders()
-            ->whereNotIn('status', [OrderStatus::DELIVERED->value, OrderStatus::CANCELLED->value])
+            ->whereNotIn(
+                'status',
+                [
+                    OrderStatus::DELIVERED->value,
+                    OrderStatus::CANCELLED->value,
+                ]
+            )
             ->exists();
     }
 
-    public function restoreAll(Request $request)
+    public function restoreAll()
     {
-        User::onlyTrashed()->where('role', 'customer')->restore();
-        return back()->with('success', 'All deleted customer accounts restored.');
+        User::onlyTrashed()
+            ->where('role', 'customer')
+            ->restore();
+
+        return back()->with(
+            'success',
+            'All deleted customer accounts restored.'
+        );
     }
 
-    public function forceDestroyAll(Request $request)
+    public function forceDestroyAll()
     {
-        User::onlyTrashed()->where('role', 'customer')->forceDelete();
-        return back()->with('success', 'All deleted customer accounts permanently deleted.');
+        User::onlyTrashed()
+            ->where('role', 'customer')
+            ->forceDelete();
+
+        return back()->with(
+            'success',
+            'All deleted customer accounts permanently deleted.'
+        );
     }
 }

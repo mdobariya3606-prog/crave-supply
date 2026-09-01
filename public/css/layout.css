@@ -435,7 +435,7 @@ html[data-theme="dark"] .guide-card:hover {
     height: 34px;
     display: grid;
     place-items: center;
-    border-radius: 0;
+    border-radius: 13px;
     color: #fff;
     background: var(--layout-navy);
     font-size: 12px;
@@ -784,9 +784,15 @@ button,
 .review-submit,
 .cart-checkout,
 .primary-btn,
-.button {
+.button,
+.btn,
+.btn-primary,
+.btn-secondary,
+.logout-button,
+.secondary-btn,
+.danger {
     border-color: #2c2722 !important;
-    border-radius: 0 !important;
+    border-radius: 8px !important;
     background: #2c2722 !important;
     color: #fffdf9 !important;
 }
