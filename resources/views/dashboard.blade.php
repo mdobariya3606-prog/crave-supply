@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CraveSupply — Better snacks for every break</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
     <style>
         :root {
             --navy: #2c2722;
@@ -1104,29 +1106,41 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
 
     <main class="dashboard">
         <section class="welcome">
             <div class="hero-copy">
                 <p class="eyebrow">CraveSupply · snacks made simple</p>
                 <h1>Make every break taste better.</h1>
-                <p>Discover thoughtfully selected snacks, drinks, and pantry favourites for offices, cafés, retailers,
-                    and the people they serve.</p>
-                <a class="primary-btn" href="#catalogue">Shop the snack range <span aria-hidden="true">→</span></a>
+                <p>Discover thoughtfully selected snacks, drinks, and pantry favourites for offices, cafés, retailers, and the people they serve.</p>
+                <a class="primary-btn" href="#catalogue"
+                    >Shop the snack range <span aria-hidden="true">→</span></a
+                >
             </div>
             <div class="hero-image">
-                <img src="{{ asset('images/snack-hero.svg') }}" alt="Colourful snacks arranged for sharing">
+                <img
+                    src="{{ asset('images/snack-hero.svg') }}"
+                    alt="Colourful snacks arranged for sharing"
+                />
             </div>
         </section>
 
         <section class="premium-proof" aria-label="CraveSupply benefits">
-            <div class="proof-item"><strong>Curated premium range</strong><span>Products chosen for quality and everyday
-                    appeal.</span></div>
-            <div class="proof-item"><strong>Wholesale-ready selection</strong><span>Practical options for offices,
-                    cafés, and retailers.</span></div>
-            <div class="proof-item"><strong>Smarter restocking</strong><span>Clear categories that make repeat orders
-                    easier.</span></div>
+            <div class="proof-item">
+                <strong>Curated premium range</strong
+                ><span>Products chosen for quality and everyday appeal.</span>
+            </div>
+            <div class="proof-item">
+                <strong>Wholesale-ready selection</strong
+                ><span
+                    >Practical options for offices, cafés, and retailers.</span
+                >
+            </div>
+            <div class="proof-item">
+                <strong>Smarter restocking</strong
+                ><span>Clear categories that make repeat orders easier.</span>
+            </div>
         </section>
 
         <section class="quick-grid" aria-label="Dashboard shortcuts">
@@ -1153,7 +1167,9 @@
         <section id="catalogue" aria-labelledby="featured-snacks">
             <div class="section-heading">
                 <div>
-                    <h2 id="featured-snacks">Explore our <span>premium range</span></h2>
+                    <h2 id="featured-snacks">
+                        Explore our <span>premium range</span>
+                    </h2>
                     <p>Curated categories for retailers, cafés, offices, and growing teams.</p>
                 </div>
                 <a class="text-link" href="/products">View all →</a>
@@ -1161,10 +1177,15 @@
 
             <div class="snack-grid">
                 <article class="snack-card">
-                    <a href="{{ route('products.category', 'artisan-beverages') }}">
-                        <img class="snack-image" loading="lazy"
+                    <a
+                        href="{{ route('products.category', 'artisan-beverages') }}"
+                    >
+                        <img
+                            class="snack-image"
+                            loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jwwKuoUM0ybse44TBLGFB8JYRY5VzMWHvOs9SJyp.jpg"
-                            alt="Cold Brew Concentrate">
+                            alt="Cold Brew Concentrate"
+                        />
                         <div class="snack-body">
                             <p class="snack-label">Premium Beverages</p>
                             <h3>Artisan Beverages</h3>
@@ -1174,120 +1195,183 @@
                 </article>
 
                 <article class="snack-card">
-                    <a href="{{ route('products.category', 'premium-confectionery') }}">
-                        <img class="snack-image" loading="lazy"
+                    <a
+                        href="{{ route('products.category', 'premium-confectionery') }}"
+                    >
+                        <img
+                            class="snack-image"
+                            loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/mF1EsVw31FzgdpSnFRmpJHave0BOt8xuC6jMq6sl.webp"
-                            alt="Godiva Milk Chocolate Assortment">
+                            alt="Godiva Milk Chocolate Assortment"
+                        />
                         <div class="snack-body">
                             <p class="snack-label">Confectionery</p>
                             <h3>Premium Confectionery</h3>
-                            <p>High-quality chocolate and confectionery products sourced from premium brands, suitable
-                                for
-                                retail, gifting, and
-                                specialty distribution.</p>
+                            <p>High-quality chocolate and confectionery products sourced from premium brands, suitable for retail, gifting, and specialty distribution.</p>
                         </div>
                     </a>
                 </article>
                 <article class="snack-card">
-                    <a href="{{ route('products.category', 'gourmet-pantry') }}">
-                        <img class="snack-image" loading="lazy"
+                    <a
+                        href="{{ route('products.category', 'gourmet-pantry') }}"
+                    >
+                        <img
+                            class="snack-image"
+                            loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jazIFilyTjQos1e5IzNpaxDolOOFqLPL9lnOzEpd.jpg"
-                            alt="Wild Orchard Preserve">
+                            alt="Wild Orchard Preserve"
+                        />
                         <div class="snack-body">
                             <p class="snack-label">Premium Pantry Essentials</p>
                             <h3>Gourmet Pantry</h3>
-                            <p>Premium staples and ingredients for considered kitchens.
-                            </p>
+                            <p>Premium staples and ingredients for considered kitchens.</p>
                         </div>
                     </a>
                 </article>
         </section>
 
         @guest
-        <div class="login-popup" id="catalogueLoginPopup" role="dialog" aria-modal="true"
-            aria-labelledby="catalogue-login-title" hidden>
-            <div class="login-popup-card">
-                <button class="login-popup-close" type="button" aria-label="Close login popup">&times;</button>
-                <p class="snack-label">Welcome to CraveSupply</p>
-                <h2 id="catalogue-login-title">Sign in for a smoother restock.</h2>
-                <p>You can continue browsing as a guest, or log in to keep your catalogue and ordering experience close at hand.</p>
-                <div class="login-popup-actions">
-                    <a class="nav-cta" href="{{ route('login') }}" style="border-radius: 20px !important; padding: 6px 9px; width: 50%; text-align: center;">Log in</a>
+            <div
+                class="login-popup"
+                id="catalogueLoginPopup"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="catalogue-login-title"
+                hidden
+            >
+                <div class="login-popup-card">
+                    <button
+                        class="login-popup-close"
+                        type="button"
+                        aria-label="Close login popup"
+                    >
+                        &times;
+                    </button>
+                    <p class="snack-label">Welcome to CraveSupply</p>
+                    <h2 id="catalogue-login-title">
+                        Sign in for a smoother restock.
+                    </h2>
+                    <p>You can continue browsing as a guest, or log in to keep your catalogue and ordering experience close at hand.</p>
+                    <div class="login-popup-actions">
+                        <a
+                            class="nav-cta"
+                            href="{{ route('login') }}"
+                            style="
+                                border-radius: 20px !important;
+                                padding: 6px 9px;
+                                width: 50%;
+                                text-align: center;
+                            "
+                            >Log in</a
+                        >
+                    </div>
                 </div>
             </div>
-        </div>
         @endguest
 
         @if (!empty($randomProducts) && $randomProducts->isNotEmpty())
-        <section class="products-section" aria-labelledby="featured-products-title" style="margin-top: 48px;">
-            <div class="section-heading">
-                <div>
-                    <h2 id="featured-products-title">Featured <span>products</span></h2>
-                    <p>Randomly selected items for your everyday supply needs.</p>
+            <section
+                class="products-section"
+                aria-labelledby="featured-products-title"
+                style="margin-top: 48px"
+            >
+                <div class="section-heading">
+                    <div>
+                        <h2 id="featured-products-title">
+                            Featured <span>products</span>
+                        </h2>
+                        <p>Randomly selected items for your everyday supply needs.</p>
+                    </div>
+                    <a
+                        class="text-link"
+                        href="{{ route('products.dashboard') }}"
+                        >View all products →</a
+                    >
                 </div>
-                <a class="text-link" href="{{ route('products.dashboard') }}">View all products →</a>
-            </div>
 
-            <div class="product-scroller-wrap">
-                <div class="product-scroller-track">
-                    @foreach ($randomProducts as $product)
-                    <article class="product-card">
-                        <a href="{{ route('products.profile', $product) }}">
-                            <img class="product-card-image"
-                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }}">
-                        </a>
-                        <div class="product-card-body">
-                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                            <a class="product-card-name"
-                                href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
-                            <p class="product-card-description">
-                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                            </p>
-                            <div class="product-card-footer">
-                                <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
-                                <span
-                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
-                            </div>
+                <div class="product-scroller-wrap">
+                    <div class="product-scroller-track">
+                        @foreach ($randomProducts as $product)
+                            <article class="product-card">
+                                <a
+                                    href="{{ route('products.profile', $product) }}"
+                                >
+                                    <img
+                                        class="product-card-image"
+                                        src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                        alt="{{ $product->name }}"
+                                    />
+                                </a>
+                                <div class="product-card-body">
+                                    <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                                    <a
+                                        class="product-card-name"
+                                        href="{{ route('products.profile', $product) }}"
+                                        >{{ $product->name }}</a
+                                    >
+                                    <p class="product-card-description">
+                                        {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                                    </p>
+                                    <div class="product-card-footer">
+                                        <strong class="product-card-price"
+                                            >₹{{ number_format((float) $product->price, 2) }}</strong
+                                        >
+                                        <span
+                                            class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}"
+                                            >{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span
+                                        >
+                                    </div>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                    <div class="scroller-controls">
+                        <div class="scroller-progress-wrap">
+                            <div class="scroller-progress-bar"></div>
                         </div>
-                    </article>
-                    @endforeach
-                </div>
-                <div class="scroller-controls">
-                    <div class="scroller-progress-wrap">
-                        <div class="scroller-progress-bar"></div>
+                        <div class="scroller-nav-buttons">
+                            <button
+                                type="button"
+                                class="scroller-btn prev"
+                                aria-label="Previous products"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                class="scroller-btn next"
+                                aria-label="Next products"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <div class="scroller-nav-buttons">
-                        <button type="button" class="scroller-btn prev" aria-label="Previous products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <button type="button" class="scroller-btn next" aria-label="Next products">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
 
-        <section class="premium-callout" aria-label="Premium supply call to action">
+        <section
+            class="premium-callout"
+            aria-label="Premium supply call to action"
+        >
             <div>
                 <h2>Stock smarter. Serve better.</h2>
                 <p>Bring premium everyday choices to your shelves without complicating your weekly routine.</p>
             </div>
-            <a class="text-link" href="#restock-guide">See the restock guide →</a>
+            <a class="text-link" href="#restock-guide"
+                >See the restock guide →</a
+            >
         </section>
 
         <section class="explore-section" aria-labelledby="explore-title">
             <div class="section-heading">
                 <div>
                     <h2 id="explore-title">A little more to explore</h2>
-                    <p class="explore-intro">Build a better break room, refresh your counter, and keep your regulars
-                        coming back.</p>
+                    <p class="explore-intro">Build a better break room, refresh your counter, and keep your regulars coming back.</p>
                 </div>
             </div>
 
@@ -1311,7 +1395,11 @@
             </div>
         </section>
 
-        <section id="restock-guide" class="guide-section" aria-labelledby="guide-title">
+        <section
+            id="restock-guide"
+            class="guide-section"
+            aria-labelledby="guide-title"
+        >
             <div class="section-heading">
                 <div>
                     <h2 id="guide-title">A simpler restock routine</h2>
@@ -1338,162 +1426,243 @@
             </div>
         </section>
 
-        <section id="about" class="service-band" aria-label="CraveSupply service details">
-            <div class="service-item"><strong>Built for busy teams</strong><span>Clear choices and practical categories
-                    for offices, cafés, and small businesses.</span></div>
-            <div class="service-item"><strong>Easy to get started</strong><span>Browse the catalogue, create an account,
-                    and keep your everyday supplies in one place.</span></div>
-            <div class="service-item"><strong>Support when you need it</strong><span>Our team is here to help with
-                    product questions and your next replenishment.</span></div>
+        <section
+            id="about"
+            class="service-band"
+            aria-label="CraveSupply service details"
+        >
+            <div class="service-item">
+                <strong>Built for busy teams</strong
+                ><span
+                    >Clear choices and practical categories for offices, cafés,
+                    and small businesses.</span
+                >
+            </div>
+            <div class="service-item">
+                <strong>Easy to get started</strong
+                ><span
+                    >Browse the catalogue, create an account, and keep your
+                    everyday supplies in one place.</span
+                >
+            </div>
+            <div class="service-item">
+                <strong>Support when you need it</strong
+                ><span
+                    >Our team is here to help with product questions and your
+                    next replenishment.</span
+                >
+            </div>
         </section>
 
         @if (auth()->user()?->role !== 'admin')
-        <section id="contact" class="premium-callout contact-callout" aria-labelledby="contact-title">
-            <div>
-                <p class="eyebrow">Have a question?</p>
-                <h2 id="contact-title">Let’s make your next restock easier.</h2>
-                <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
-            </div>
-            <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
-        </section>
+            <section
+                id="contact"
+                class="premium-callout contact-callout"
+                aria-labelledby="contact-title"
+            >
+                <div>
+                    <p class="eyebrow">Have a question?</p>
+                    <h2 id="contact-title">
+                        Let’s make your next restock easier.
+                    </h2>
+                    <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
+                </div>
+                <a class="primary-btn" href="mailto:hello@cravesupply.test"
+                    >Contact us</a
+                >
+            </section>
         @endif
 
         @if ($topReviews->isNotEmpty())
-        <section class="review-section" aria-labelledby="reviews-title">
-            <div class="section-heading">
-                <div>
-                    <h2 id="reviews-title">What businesses are saying</h2>
-                    <p>Real routines, made a little easier.</p>
+            <section class="review-section" aria-labelledby="reviews-title">
+                <div class="section-heading">
+                    <div>
+                        <h2 id="reviews-title">What businesses are saying</h2>
+                        <p>Real routines, made a little easier.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="review-slider" aria-live="polite">
-                <div class="review-track" id="reviewTrack">
-                    @foreach ($topReviews as $review)
-                    <article class="review-card">
-                        <div class="review-stars" aria-label="{{ $review->rating }} out of 5 stars">
-                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                        </div>
-                        <blockquote>“{{ $review->comment }}”</blockquote>
-                        <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
-                        @if ($review->product)
-                        <a class="review-product" href="{{ route('products.profile', $review->product) }}">Reviewed:
-                            {{ $review->product->name }}</a>
-                        @endif
-                    </article>
-                    @endforeach
+                <div class="review-slider" aria-live="polite">
+                    <div class="review-track" id="reviewTrack">
+                        @foreach ($topReviews as $review)
+                            <article class="review-card">
+                                <div
+                                    class="review-stars"
+                                    aria-label="{{ $review->rating }} out of 5 stars"
+                                >
+                                    {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                </div>
+                                <blockquote>
+                                    “{{ $review->comment }}”
+                                </blockquote>
+                                <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
+                                @if ($review->product)
+                                    <a
+                                        class="review-product"
+                                        href="{{ route('products.profile', $review->product) }}"
+                                        >Reviewed: {{ $review->product->name }}</a
+                                    >
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <div class="review-controls">
-                <div class="review-dots" aria-label="Choose a review">
-                    @foreach ($topReviews as $index => $review)
-                    <button class="review-dot{{ $index === 0 ? ' active' : '' }}" type="button"
-                        aria-label="Show review {{ $index + 1 }}"
-                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
-                    @endforeach
+                <div class="review-controls">
+                    <div class="review-dots" aria-label="Choose a review">
+                        @foreach ($topReviews as $index => $review)
+                            <button
+                                class="review-dot{{ $index === 0 ? ' active' : '' }}"
+                                type="button"
+                                aria-label="Show review {{ $index + 1 }}"
+                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                            ></button>
+                        @endforeach
+                    </div>
+                    <div class="review-buttons">
+                        <button
+                            class="review-button"
+                            id="reviewPrevious"
+                            type="button"
+                            aria-label="Previous review"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="review-button"
+                            id="reviewNext"
+                            type="button"
+                            aria-label="Next review"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="review-buttons">
-                    <button class="review-button" id="reviewPrevious" type="button"
-                        aria-label="Previous review">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 12H5M12 19l-7-7 7-7"></path>
-                        </svg></button>
-                    <button class="review-button" id="reviewNext" type="button" aria-label="Next review">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </section>
+            </section>
         @endif
     </main>
 
-    @include('layouts.footer')
+    @include ('layouts.footer')
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const section = document.getElementById('catalogue');
-            const popup = document.getElementById('catalogueLoginPopup');
+        document.addEventListener("DOMContentLoaded", () => {
+            const section = document.getElementById("catalogue");
+            const popup = document.getElementById("catalogueLoginPopup");
             if (!section || !popup) return;
             const close = () => {
                 popup.hidden = true;
-                document.body.style.overflow = '';
+                document.body.style.overflow = "";
             };
-            const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    popup.hidden = false;
-                    document.body.style.overflow = 'hidden';
-                    observer.disconnect();
-                }
-            }, {
-                threshold: 0.2
-            });
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        popup.hidden = false;
+                        document.body.style.overflow = "hidden";
+                        observer.disconnect();
+                    }
+                },
+                {
+                    threshold: 0.2,
+                },
+            );
             observer.observe(section);
-            popup.querySelector('.login-popup-close').addEventListener('click', close);
-            popup.querySelector('.login-popup-continue').addEventListener('click', close);
-            popup.addEventListener('click', event => {
+            popup
+                .querySelector(".login-popup-close")
+                .addEventListener("click", close);
+            popup
+                .querySelector(".login-popup-continue")
+                .addEventListener("click", close);
+            popup.addEventListener("click", (event) => {
                 if (event.target === popup) close();
             });
-            document.addEventListener('keydown', event => {
-                if (event.key === 'Escape' && !popup.hidden) close();
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape" && !popup.hidden) close();
             });
         });
     </script>
     <script>
         (() => {
             const sections = document.querySelectorAll(
-                '.dashboard > section:not(.welcome), .dashboard > .welcome'
+                ".dashboard > section:not(.welcome), .dashboard > .welcome",
             );
             if (!sections.length) return;
 
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                sections.forEach((section) => section.classList.add('is-visible'));
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                sections.forEach((section) =>
+                    section.classList.add("is-visible"),
+                );
                 return;
             }
 
-            sections.forEach((section) => section.classList.add('scroll-reveal'));
+            sections.forEach((section) =>
+                section.classList.add("scroll-reveal"),
+            );
 
-            const observer = new IntersectionObserver((entries, revealObserver) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-                    entry.target.classList.add('is-visible');
-                    revealObserver.unobserve(entry.target);
-                });
-            }, {
-                threshold: 0.12,
-                rootMargin: '0px 0px -40px'
-            });
+            const observer = new IntersectionObserver(
+                (entries, revealObserver) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add("is-visible");
+                        revealObserver.unobserve(entry.target);
+                    });
+                },
+                {
+                    threshold: 0.12,
+                    rootMargin: "0px 0px -40px",
+                },
+            );
 
             sections.forEach((section) => observer.observe(section));
         })();
 
         (() => {
-            document.querySelectorAll('a[href="#catalogue"]').forEach((link) => {
-                link.addEventListener('click', (event) => {
-                    const catalogue = document.getElementById('catalogue');
-                    if (!catalogue) return;
+            document
+                .querySelectorAll('a[href="#catalogue"]')
+                .forEach((link) => {
+                    link.addEventListener("click", (event) => {
+                        const catalogue = document.getElementById("catalogue");
+                        if (!catalogue) return;
 
-                    event.preventDefault();
-                    catalogue.scrollIntoView({
-                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
-                            .matches ? 'auto' : 'smooth',
-                        block: 'start'
+                        event.preventDefault();
+                        catalogue.scrollIntoView({
+                            behavior: window.matchMedia(
+                                "(prefers-reduced-motion: reduce)",
+                            ).matches
+                                ? "auto"
+                                : "smooth",
+                            block: "start",
+                        });
+                        catalogue.classList.remove("catalogue-focus");
+                        window.requestAnimationFrame(() =>
+                            catalogue.classList.add("catalogue-focus"),
+                        );
+                        window.setTimeout(
+                            () => catalogue.classList.remove("catalogue-focus"),
+                            1200,
+                        );
                     });
-                    catalogue.classList.remove('catalogue-focus');
-                    window.requestAnimationFrame(() => catalogue.classList.add('catalogue-focus'));
-                    window.setTimeout(() => catalogue.classList.remove('catalogue-focus'), 1200);
                 });
-            });
 
-            const track = document.getElementById('reviewTrack');
-            const dots = [...document.querySelectorAll('.review-dot')];
-            const previous = document.getElementById('reviewPrevious');
-            const next = document.getElementById('reviewNext');
-            const reviewSection = document.querySelector('.review-section');
-            if (!track || !previous || !next || !reviewSection || dots.length === 0) return;
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const track = document.getElementById("reviewTrack");
+            const dots = [...document.querySelectorAll(".review-dot")];
+            const previous = document.getElementById("reviewPrevious");
+            const next = document.getElementById("reviewNext");
+            const reviewSection = document.querySelector(".review-section");
+            if (
+                !track ||
+                !previous ||
+                !next ||
+                !reviewSection ||
+                dots.length === 0
+            )
+                return;
+            const reduceMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
             let current = 0;
             let autoplay = null;
             let pointerStartX = 0;
@@ -1501,15 +1670,15 @@
             let pointerActive = false;
             let draggingHorizontally = false;
 
-            const slider = reviewSection.querySelector('.review-slider');
+            const slider = reviewSection.querySelector(".review-slider");
 
             function showReview(index) {
                 current = (index + dots.length) % dots.length;
                 track.style.transform = `translateX(-${current * 100}%)`;
                 dots.forEach((dot, dotIndex) => {
                     const active = dotIndex === current;
-                    dot.classList.toggle('active', active);
-                    dot.setAttribute('aria-current', active ? 'true' : 'false');
+                    dot.classList.toggle("active", active);
+                    dot.setAttribute("aria-current", active ? "true" : "false");
                 });
             }
 
@@ -1522,7 +1691,10 @@
 
             function startAutoplay() {
                 if (reduceMotion || autoplay) return;
-                autoplay = window.setInterval(() => showReview(current + 1), 5000);
+                autoplay = window.setInterval(
+                    () => showReview(current + 1),
+                    5000,
+                );
             }
 
             function restartAutoplay() {
@@ -1530,20 +1702,22 @@
                 startAutoplay();
             }
 
-            previous.addEventListener('click', () => {
+            previous.addEventListener("click", () => {
                 showReview(current - 1);
                 restartAutoplay();
             });
-            next.addEventListener('click', () => {
+            next.addEventListener("click", () => {
                 showReview(current + 1);
                 restartAutoplay();
             });
-            dots.forEach((dot, index) => dot.addEventListener('click', () => {
-                showReview(index);
-                restartAutoplay();
-            }));
-            slider.addEventListener('pointerdown', (event) => {
-                if (event.pointerType === 'mouse' && event.button !== 0) return;
+            dots.forEach((dot, index) =>
+                dot.addEventListener("click", () => {
+                    showReview(index);
+                    restartAutoplay();
+                }),
+            );
+            slider.addEventListener("pointerdown", (event) => {
+                if (event.pointerType === "mouse" && event.button !== 0) return;
                 pointerStartX = event.clientX;
                 pointerStartY = event.clientY;
                 pointerActive = true;
@@ -1551,24 +1725,28 @@
                 track.setPointerCapture?.(event.pointerId);
                 stopAutoplay();
             });
-            slider.addEventListener('pointermove', (event) => {
+            slider.addEventListener("pointermove", (event) => {
                 if (!pointerActive) return;
                 const deltaX = event.clientX - pointerStartX;
                 const deltaY = event.clientY - pointerStartY;
                 if (!draggingHorizontally && Math.abs(deltaX) < 8) return;
-                if (!draggingHorizontally && Math.abs(deltaX) <= Math.abs(deltaY)) return;
+                if (
+                    !draggingHorizontally &&
+                    Math.abs(deltaX) <= Math.abs(deltaY)
+                )
+                    return;
                 draggingHorizontally = true;
                 event.preventDefault();
-                slider.classList.add('is-dragging');
-                track.style.transition = 'none';
+                slider.classList.add("is-dragging");
+                track.style.transition = "none";
                 track.style.transform = `translateX(calc(-${current * 100}% + ${deltaX}px))`;
             });
             const finishPointer = (event) => {
                 if (!pointerActive) return;
                 const deltaX = event.clientX - pointerStartX;
                 pointerActive = false;
-                slider.classList.remove('is-dragging');
-                track.style.transition = '';
+                slider.classList.remove("is-dragging");
+                track.style.transition = "";
                 if (draggingHorizontally && Math.abs(deltaX) > 45) {
                     showReview(current + (deltaX < 0 ? 1 : -1));
                 } else {
@@ -1577,24 +1755,25 @@
                 draggingHorizontally = false;
                 restartAutoplay();
             };
-            slider.addEventListener('pointerup', finishPointer);
-            slider.addEventListener('pointercancel', finishPointer);
-            reviewSection.addEventListener('mouseenter', stopAutoplay);
-            reviewSection.addEventListener('mouseleave', startAutoplay);
-            reviewSection.addEventListener('focusin', stopAutoplay);
-            reviewSection.addEventListener('focusout', (event) => {
-                if (!reviewSection.contains(event.relatedTarget)) startAutoplay();
+            slider.addEventListener("pointerup", finishPointer);
+            slider.addEventListener("pointercancel", finishPointer);
+            reviewSection.addEventListener("mouseenter", stopAutoplay);
+            reviewSection.addEventListener("mouseleave", startAutoplay);
+            reviewSection.addEventListener("focusin", stopAutoplay);
+            reviewSection.addEventListener("focusout", (event) => {
+                if (!reviewSection.contains(event.relatedTarget))
+                    startAutoplay();
             });
             startAutoplay();
         })();
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const initScroller = (wrap) => {
-                const track = wrap.querySelector('.product-scroller-track');
-                const bar = wrap.querySelector('.scroller-progress-bar');
-                const prevBtn = wrap.querySelector('.scroller-btn.prev');
-                const nextBtn = wrap.querySelector('.scroller-btn.next');
+                const track = wrap.querySelector(".product-scroller-track");
+                const bar = wrap.querySelector(".scroller-progress-bar");
+                const prevBtn = wrap.querySelector(".scroller-btn.prev");
+                const nextBtn = wrap.querySelector(".scroller-btn.next");
 
                 if (!track || !bar) return;
 
@@ -1603,7 +1782,7 @@
                     const maxScroll = track.scrollWidth - track.clientWidth;
 
                     if (maxScroll <= 0) {
-                        bar.style.width = '100%';
+                        bar.style.width = "100%";
                         if (prevBtn) prevBtn.disabled = true;
                         if (nextBtn) nextBtn.disabled = true;
                         return;
@@ -1611,35 +1790,38 @@
 
                     const currentRight = scrollLeft + track.clientWidth;
                     const progressRatio = currentRight / track.scrollWidth;
-                    const fillPercent = Math.min(100, Math.max(15, progressRatio * 100));
+                    const fillPercent = Math.min(
+                        100,
+                        Math.max(15, progressRatio * 100),
+                    );
 
-                    bar.style.width = fillPercent + '%';
+                    bar.style.width = fillPercent + "%";
 
                     if (prevBtn) prevBtn.disabled = scrollLeft <= 5;
                     if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 5;
                 };
 
-                track.addEventListener('scroll', update, {
-                    passive: true
+                track.addEventListener("scroll", update, {
+                    passive: true,
                 });
-                window.addEventListener('resize', update, {
-                    passive: true
+                window.addEventListener("resize", update, {
+                    passive: true,
                 });
 
                 if (prevBtn) {
-                    prevBtn.addEventListener('click', () => {
+                    prevBtn.addEventListener("click", () => {
                         track.scrollBy({
                             left: -track.clientWidth * 0.75,
-                            behavior: 'smooth'
+                            behavior: "smooth",
                         });
                     });
                 }
 
                 if (nextBtn) {
-                    nextBtn.addEventListener('click', () => {
+                    nextBtn.addEventListener("click", () => {
                         track.scrollBy({
                             left: track.clientWidth * 0.75,
-                            behavior: 'smooth'
+                            behavior: "smooth",
                         });
                     });
                 }
@@ -1647,9 +1829,10 @@
                 update();
             };
 
-            document.querySelectorAll('.product-scroller-wrap').forEach(initScroller);
+            document
+                .querySelectorAll(".product-scroller-wrap")
+                .forEach(initScroller);
         });
     </script>
 </body>
-
 </html>

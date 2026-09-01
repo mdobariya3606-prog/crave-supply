@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customers — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}" />
     <style>
         .customer-page {
             width: min(1100px, calc(100% - 40px));
             margin: auto;
-            padding: 52px 0 80px
+            padding: 52px 0 80px;
         }
 
         h1 {
-            font: 400 42px Georgia, serif;
-            color: #29251f
+            font:
+                400 42px Georgia,
+                serif;
+            color: #29251f;
         }
 
         .customer-filter {
             display: flex;
             gap: 10px;
-            margin: 20px 0
+            margin: 20px 0;
         }
 
         .customer-filter input {
             flex: 1;
             padding: 12px;
-            border: 1px solid #ded4c8
+            border: 1px solid #ded4c8;
         }
 
         .customer-filter button {
             padding: 0 16px;
             border: 0;
             color: #fff;
-            background: #2c2722
+            background: #2c2722;
         }
 
         .customer-table {
             overflow: auto;
             border: 1px solid #ded4c8;
-            background: #fffdf9
+            background: #fffdf9;
         }
 
         .customer-table table {
             width: 100%;
-            border-collapse: collapse
+            border-collapse: collapse;
         }
 
         .customer-table th,
@@ -54,37 +55,54 @@
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #eee5da;
-            font-size: 12px
+            font-size: 12px;
         }
 
         .customer-table th {
             color: #8d8376;
             font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: .1em
+            letter-spacing: 0.1em;
         }
 
         .customer-table a {
             color: #8d6c4a;
             font-weight: 700;
-            text-decoration: none
+            text-decoration: none;
         }
 
         .active {
-            color: #49603b
+            color: #49603b;
         }
 
         .disabled {
-            color: #a04338
+            color: #a04338;
         }
 
-        .customer-error { color: #a04338 }
+        .customer-error {
+            color: #a04338;
+        }
     </style>
 </head>
 
-<body>@include('layouts.header')<main class="customer-page">
+<body>
+    @include ('layouts.header')
+    <main class="customer-page">
         <h1>Customers</h1>
-        <p>Search registered customers and manage their accounts.</p>@if(session('success'))<p class="active">{{ session('success') }}</p>@endif @if(session('error'))<p class="customer-error" role="alert">{{ session('error') }}</p>@endif<form class="customer-filter"><input name="q" value="{{ $search }}" placeholder="Search name, email, or business"><button>Search</button></form>
+        <p>Search registered customers and manage their accounts.</p>
+        @if (session('success'))
+            <p class="active">{{ session('success') }}</p>
+        @endif
+        @if (session('error'))
+            <p class="customer-error" role="alert">{{ session('error') }}</p>
+        @endif
+        <form class="customer-filter">
+            <input
+                name="q"
+                value="{{ $search }}"
+                placeholder="Search name, email, or business"
+            /><button>Search</button>
+        </form>
         <div class="customer-table">
             <table>
                 <thead>
@@ -96,17 +114,39 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>@forelse($customers as $customer)<tr>
-                        <td><a href="{{ route('admin.customers.show',$customer) }}">{{ $customer->name }}</a><br><small>{{ $customer->email }}</small></td>
-                        <td>{{ $customer->business_name ?: '—' }}</td>
-                        <td>{{ $customer->orders_count }}</td>
-                        <td class="{{ $customer->is_active ? 'active' : 'disabled' }}">{{ $customer->is_active ? 'Active' : 'Disabled' }}</td>
-                        <td><a href="{{ route('admin.customers.show',$customer) }}">View profile</a></td>
-                    </tr>@empty<tr>
-                        <td colspan="5">No customers found.</td>
-                    </tr>@endforelse</tbody>
+                <tbody>
+                    @forelse ($customers as $customer)
+                        <tr>
+                            <td>
+                                <a
+                                    href="{{ route('admin.customers.show',$customer) }}"
+                                    >{{ $customer->name }}</a
+                                ><br /><small>{{ $customer->email }}</small>
+                            </td>
+                            <td>{{ $customer->business_name ?: '—' }}</td>
+                            <td>{{ $customer->orders_count }}</td>
+                            <td
+                                class="{{ $customer->is_active ? 'active' : 'disabled' }}"
+                            >
+                                {{ $customer->is_active ? 'Active' : 'Disabled' }}
+                            </td>
+                            <td>
+                                <a
+                                    href="{{ route('admin.customers.show',$customer) }}"
+                                    >View profile</a
+                                >
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">No customers found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
             </table>
-        </div>{{ $customers->links() }}
-    </main>@include('layouts.footer')</body>
-
+        </div>
+        {{ $customers->links() }}
+    </main>
+    @include ('layouts.footer')
+</body>
 </html>

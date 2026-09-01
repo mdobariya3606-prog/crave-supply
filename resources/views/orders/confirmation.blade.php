@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order {{ $order->order_number }} — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
     <style>
         body {
             margin: 0;
@@ -25,7 +24,7 @@
             border: 1px solid #bbf7d0;
             border-radius: 18px;
             background: #fff;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, .06);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
         }
 
         .success-mark {
@@ -43,7 +42,7 @@
             margin: 18px 0 8px;
             color: #133458;
             font-size: 32px;
-            letter-spacing: -.05em;
+            letter-spacing: -0.05em;
         }
 
         p {
@@ -101,37 +100,52 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="confirmation">
         <section class="confirmation-card">
             <div class="success-mark">
-
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                style="width: 25px;height: 25px;color: #22c55e;">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    style="width: 25px; height: 25px; color: #22c55e"
+                >
                     <path
                         d="M5 12.5L9.5 17L19 7"
                         stroke="currentColor"
                         stroke-width="2"
                         stroke-linecap="square"
-                        stroke-linejoin="miter" />
+                        stroke-linejoin="miter"
+                    />
                 </svg>
             </div>
             <h1>Order submitted successfully</h1>
             <p>Thank you. Your order has been received and is now visible to our team.</p>
-            <div class="order-number">Order number: {{ $order->order_number }}</div>
+            <div class="order-number">
+                Order number: {{ $order->order_number }}
+            </div>
             <p>Current status: <span class="status">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span></p>
-            <p class="delivery-address"><strong>Delivery address:</strong><br>{{ $order->delivery_address ?: '—' }}</p>
+            <p class="delivery-address"><strong>Delivery address:</strong><br />{{ $order->delivery_address ?: '—' }}</p>
             <ul class="order-list">
-                @foreach($order->orderItems as $item)
-                <li><span>{{ $item->product_name }} × {{ $item->quantity }}</span><strong>₹{{ number_format($item->unit_price * $item->quantity, 2) }}</strong></li>
+                @foreach ($order->orderItems as $item)
+                    <li>
+                        <span
+                            >{{ $item->product_name }} × {{ $item->quantity }}</span
+                        ><strong
+                            >₹{{ number_format($item->unit_price * $item->quantity, 2) }}</strong
+                        >
+                    </li>
                 @endforeach
             </ul>
             <p><strong>Total:</strong> ₹{{ number_format($order->total_amount, 2) }}</p>
-            <a class="button" href="{{ route('orders.bill', $order) }}">Download bill (PDF)</a>
-            <a class="button" href="{{ route('orders.index') }}">View my orders</a>
+            <a class="button" href="{{ route('orders.bill', $order) }}"
+                >Download bill (PDF)</a
+            >
+            <a class="button" href="{{ route('orders.index') }}"
+                >View my orders</a
+            >
         </section>
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
 </body>
-
 </html>

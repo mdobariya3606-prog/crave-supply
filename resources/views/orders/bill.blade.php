@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Bill {{ $order->order_number }}</title>
     <style>
         @page {
@@ -12,7 +11,9 @@
         body {
             margin: 0;
             color: #29251f;
-            font-family: DejaVu Sans, sans-serif;
+            font-family:
+                DejaVu Sans,
+                sans-serif;
             font-size: 11px;
         }
 
@@ -74,7 +75,7 @@
             vertical-align: top;
         }
 
-        .summary td+td {
+        .summary td + td {
             border-left: 0;
         }
 
@@ -105,7 +106,7 @@
             background: #2c2722;
             text-align: left;
             font-size: 10px;
-            letter-spacing: .5px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
@@ -151,7 +152,7 @@
             background: #e8eddf;
             font-size: 10px;
             font-weight: bold;
-            letter-spacing: .5px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
@@ -178,21 +179,40 @@
 </head>
 
 <body>
-    @php($itemsSubtotal = $order->orderItems->sum(fn ($item) => $item->unit_price * $item->quantity))
+    @php ($itemsSubtotal = $order->orderItems->sum(fn ($item) => $item->unit_price * $item->quantity))
     <div class="header">
         <div class="brand">CraveSupply</div>
         <div class="tagline">Better breaks, made simple</div>
-        <div class="document-label">Order bill<br>{{ $order->created_at->format('M j, Y') }}</div>
+        <div class="document-label">
+            Order bill<br />{{ $order->created_at->format('M j, Y') }}
+        </div>
     </div>
     <h1>Thank you for your order</h1>
     <p class="meta">A clear summary of your CraveSupply purchase.</p>
     <table class="summary">
         <tr>
-            <td><span class="summary-label">Bill to</span><span class="summary-value">{{ $order->user?->name ?: 'Customer' }}<br>{{ $order->user?->email }}</span></td>
-            <td><span class="summary-label">Order details</span><span class="summary-value"><strong>{{ $order->order_number }}</strong><br>Status: {{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span></td>
+            <td>
+                <span class="summary-label">Bill to</span
+                ><span class="summary-value"
+                    >{{ $order->user?->name ?: 'Customer' }}<br />{{ $order->user?->email }}</span
+                >
+            </td>
+            <td>
+                <span class="summary-label">Order details</span
+                ><span class="summary-value"
+                    ><strong>{{ $order->order_number }}</strong
+                    ><br />Status: {{ ucwords(str_replace('_', ' ', $order->status->value)) }}</span
+                >
+            </td>
         </tr>
         <tr>
-            <td colspan="2"><span class="summary-label">Delivery address</span><span class="summary-value">{{ $order->delivery_address ?: '—' }}</span></td>
+            <td colspan="2">
+                <span class="summary-label">Delivery address</span
+                ><span
+                    class="summary-value"
+                    >{{ $order->delivery_address ?: '—' }}</span
+                >
+            </td>
         </tr>
     </table>
     <table class="items">
@@ -204,21 +224,44 @@
                 <th class="right">Amount</th>
             </tr>
         </thead>
-        <tbody>@foreach($order->orderItems as $item)<tr>
-                <td>{{ $item->product_name }}</td>
-                <td class="right">{{ $item->quantity }}</td>
-                <td class="right">₹{{ number_format($item->unit_price, 2) }}</td>
-                <td class="right">₹{{ number_format($item->unit_price * $item->quantity, 2) }}</td>
-            </tr>@endforeach</tbody>
+        <tbody>
+            @foreach ($order->orderItems as $item)
+                <tr>
+                    <td>{{ $item->product_name }}</td>
+                    <td class="right">{{ $item->quantity }}</td>
+                    <td class="right">
+                        ₹{{ number_format($item->unit_price, 2) }}
+                    </td>
+                    <td class="right">
+                        ₹{{ number_format($item->unit_price * $item->quantity, 2) }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
     </table>
     <div class="total">
-        <div><span>Items subtotal</span><span>₹{{ number_format($itemsSubtotal, 2) }}</span></div>
-        <div><span>Delivery</span><span>{{ $itemsSubtotal >= 2000 ? 'FREE' : '₹100.00' }}</span></div>
-        <div class="grand-total"><span>Total</span><span>₹{{ number_format($order->total_amount, 2) }}</span></div>
+        <div>
+            <span>Items subtotal</span
+            ><span>₹{{ number_format($itemsSubtotal, 2) }}</span>
+        </div>
+        <div>
+            <span>Delivery</span
+            ><span>{{ $itemsSubtotal >= 2000 ? 'FREE' : '₹100.00' }}</span>
+        </div>
+        <div class="grand-total">
+            <span>Total</span
+            ><span>₹{{ number_format($order->total_amount, 2) }}</span>
+        </div>
     </div>
-    <div class="status">{{ ucwords(str_replace('_', ' ', $order->status->value)) }}</div>
-    <div class="note"><strong>Need help?</strong><br>For questions about this order, contact hello@cravesupply.test. Please keep your order number handy.</div>
-    <div class="footer">CraveSupply | hello@cravesupply.test | Thank you for choosing us</div>
+    <div class="status">
+        {{ ucwords(str_replace('_', ' ', $order->status->value)) }}
+    </div>
+    <div class="note">
+        <strong>Need help?</strong><br />For questions about this order, contact
+        hello@cravesupply.test. Please keep your order number handy.
+    </div>
+    <div class="footer">
+        CraveSupply | hello@cravesupply.test | Thank you for choosing us
+    </div>
 </body>
-
 </html>

@@ -1,12 +1,15 @@
 <script>
-    (function() {
-        var savedTheme = localStorage.getItem('cravesupply-theme');
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    (function () {
+        var savedTheme = localStorage.getItem("cravesupply-theme");
+        var prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+            savedTheme || (prefersDark ? "dark" : "light");
     })();
 </script>
-<link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-<link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
+<link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}" />
 <header class="site-header">
     <nav class="nav-wrap" aria-label="Main navigation">
         {{-- Brand and global search stay visible at every breakpoint. --}}
@@ -15,42 +18,91 @@
             <span class="cravesupply-title">CraveSupply</span>
         </a>
         <div class="global-search" data-global-search>
-            <form action="{{ route('products.dashboard') }}" method="GET" role="search">
-                <label class="search-label" for="global-search-input">Search products and categories</label>
-                <input id="global-search-input" name="q" type="search" autocomplete="off"
-                    placeholder="Search products or categories" data-search-input>
+            <form
+                action="{{ route('products.dashboard') }}"
+                method="GET"
+                role="search"
+            >
+                <label class="search-label" for="global-search-input"
+                    >Search products and categories</label
+                >
+                <input
+                    id="global-search-input"
+                    name="q"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search products or categories"
+                    data-search-input
+                />
             </form>
             <div class="search-results" data-search-results hidden></div>
         </div>
         {{-- Desktop navigation links; hidden on narrow screens. --}}
         <div class="nav-links">
-            <a href="{{ url('/products') }}" class={{ request()->routeIs('products.*') ? 'active' : '' }}>Products</a>
+            <a
+                href="{{ url('/products') }}"
+                class={{ request()->routeIs('products.*') ? 'active' : '' }}
+                >Products</a
+            >
             @if (!auth()->check() || auth()->user()?->role === 'customer')
-            <a href="{{ route('cart.index') }}" class={{ request()->routeIs('cart.*') ? 'active' : '' }}>
-                Cart <span data-cart-count>{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span>
-            </a>
+                <a
+                    href="{{ route('cart.index') }}"
+                    class={{ request()->routeIs('cart.*') ? 'active' : '' }}
+                >
+                    Cart
+                    <span
+                        data-cart-count
+                        >{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span
+                    >
+                </a>
             @endif
             @if (auth()->user()?->role === 'customer')
-            <a href="{{ route('orders.index') }}" class={{ request()->routeIs('orders.index') ? 'active' : ''
-                                            }}>Orders</a>
+                <a
+                    href="{{ route('orders.index') }}"
+                    class={{ request()->routeIs('orders.index') ? 'active' : ''
+                                            }}
+                    >Orders</a
+                >
             @endif
             @guest
-            <a href="{{ route('login') }}" class={{ request()->routeIs('login') ? 'active' : '' }}>Login</a>
-            <a class="nav-cta" href="{{ route('register') }}" class={{ request()->routeIs('register') ? 'active' : ''
-                                            }}>Register</a>
+                <a
+                    href="{{ route('login') }}"
+                    class={{ request()->routeIs('login') ? 'active' : '' }}
+                    >Login</a
+                >
+                <a
+                    class="nav-cta"
+                    href="{{ route('register') }}"
+                    class={{ request()->routeIs('register') ? 'active' : ''
+                                            }}
+                    >Register</a
+                >
             @endguest
         </div>
         @if (auth()->user()?->role === 'customer')
-        <a class="mobile-cart-link" href="{{ route('cart.index') }}" aria-label="Open cart">
-            Cart <span data-cart-count>{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span>
-        </a>
+            <a
+                class="mobile-cart-link"
+                href="{{ route('cart.index') }}"
+                aria-label="Open cart"
+            >
+                Cart
+                <span
+                    data-cart-count
+                    >{{ ($cartCount ?? collect(session('cart', []))->sum('quantity')) ? '(' . ($cartCount ?? collect(session('cart', []))->sum('quantity')) . ')' : '' }}</span
+                >
+            </a>
         @endif
         {{-- Account trigger and popup. The popup is positioned outside the header flow. --}}
         <div class="user-menu">
             <span>{{ auth()->user()->name ?? 'Customer' }}</span>
             <div class="profile-dropdown">
-                <button type="button" class="avatar profile-trigger" aria-label="Open navigation menu"
-                    aria-expanded="false" aria-controls="profileMenu">
+                <button
+                    type="button"
+                    class="avatar profile-trigger"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="profileMenu"
+                >
                     <svg class="menu-icon" viewBox="0 0 20 20" aria-hidden="true">
                         <path class="menu-bar menu-bar-one" d="M2 4h16" />
                         <path class="menu-bar menu-bar-two" d="M2 10h16" />
@@ -64,19 +116,33 @@
                     <a href="{{ route('products.dashboard') }}">Products</a>
                     <a href="{{ route('cache.clear') }}">Clear cache</a>
                     @auth
-                    <a href="{{ route('profile') }}">Profile</a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button class="btn-logout" type="submit" onclick='return confirm("Are you sure to logout?")' style="border-radius: 8px !important;">
-                            Logout
-                        </button>
-                    </form>
+                        <a href="{{ route('profile') }}">Profile</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button
+                                class="btn-logout"
+                                type="submit"
+                                onclick="
+                                    return confirm('Are you sure to logout?');
+                                "
+                                style="border-radius: 8px !important"
+                            >
+                                Logout
+                            </button>
+                        </form>
                     @else
-                    <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
                     @endauth
-                    <button type="button" class="theme-menu-item" data-theme-toggle aria-label="Switch to dark mode"
-                        aria-pressed="false"><span data-theme-icon>☾</span><span data-theme-label>Dark
-                            mode</span></button>
+                    <button
+                        type="button"
+                        class="theme-menu-item"
+                        data-theme-toggle
+                        aria-label="Switch to dark mode"
+                        aria-pressed="false"
+                    >
+                        <span data-theme-icon>☾</span
+                        ><span data-theme-label>Dark mode</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -84,28 +150,42 @@
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.nav-category-trigger').forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const menu = trigger.closest('.nav-category-menu');
-                const open = menu.classList.toggle('is-open');
-                trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.addEventListener("DOMContentLoaded", () => {
+        document
+            .querySelectorAll(".nav-category-trigger")
+            .forEach((trigger) => {
+                trigger.addEventListener("click", () => {
+                    const menu = trigger.closest(".nav-category-menu");
+                    const open = menu.classList.toggle("is-open");
+                    trigger.setAttribute(
+                        "aria-expanded",
+                        open ? "true" : "false",
+                    );
+                });
             });
+        document.addEventListener("click", (event) => {
+            document
+                .querySelectorAll(".nav-category-menu.is-open")
+                .forEach((menu) => {
+                    if (!menu.contains(event.target)) {
+                        menu.classList.remove("is-open");
+                        menu.querySelector(
+                            ".nav-category-trigger",
+                        )?.setAttribute("aria-expanded", "false");
+                    }
+                });
         });
-        document.addEventListener('click', event => {
-            document.querySelectorAll('.nav-category-menu.is-open').forEach(menu => {
-                if (!menu.contains(event.target)) {
-                    menu.classList.remove('is-open');
-                    menu.querySelector('.nav-category-trigger')?.setAttribute('aria-expanded', 'false');
-                }
-            });
-        });
-        document.addEventListener('keydown', event => {
-            if (event.key !== 'Escape') return;
-            document.querySelectorAll('.nav-category-menu.is-open').forEach(menu => {
-                menu.classList.remove('is-open');
-                menu.querySelector('.nav-category-trigger')?.setAttribute('aria-expanded', 'false');
-            });
+        document.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return;
+            document
+                .querySelectorAll(".nav-category-menu.is-open")
+                .forEach((menu) => {
+                    menu.classList.remove("is-open");
+                    menu.querySelector(".nav-category-trigger")?.setAttribute(
+                        "aria-expanded",
+                        "false",
+                    );
+                });
         });
     });
 </script>
@@ -435,34 +515,51 @@
 {{-- Profile menu open/close behavior. --}}
 <script>
     (() => {
-        const trigger = document.querySelector('.profile-trigger');
-        const menu = document.getElementById('profileMenu');
+        const trigger = document.querySelector(".profile-trigger");
+        const menu = document.getElementById("profileMenu");
 
         if (!trigger || !menu) return;
 
-        document.querySelector('.profile-category-trigger')?.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const categoryMenu = event.currentTarget.closest('.profile-category-menu');
-            const isOpen = categoryMenu.classList.toggle('is-open');
-            event.currentTarget.setAttribute('aria-expanded', String(isOpen));
-        });
+        document
+            .querySelector(".profile-category-trigger")
+            ?.addEventListener("click", (event) => {
+                event.stopPropagation();
+                const categoryMenu = event.currentTarget.closest(
+                    ".profile-category-menu",
+                );
+                const isOpen = categoryMenu.classList.toggle("is-open");
+                event.currentTarget.setAttribute(
+                    "aria-expanded",
+                    String(isOpen),
+                );
+            });
 
-        trigger.addEventListener('click', () => {
+        trigger.addEventListener("click", () => {
             const isOpen = !menu.hidden;
             menu.hidden = isOpen;
-            trigger.setAttribute('aria-expanded', String(!isOpen));
+            trigger.setAttribute("aria-expanded", String(!isOpen));
             if (isOpen) {
-                menu.querySelector('.profile-category-menu')?.classList.remove('is-open');
-                menu.querySelector('.profile-category-trigger')?.setAttribute('aria-expanded', 'false');
+                menu.querySelector(".profile-category-menu")?.classList.remove(
+                    "is-open",
+                );
+                menu.querySelector(".profile-category-trigger")?.setAttribute(
+                    "aria-expanded",
+                    "false",
+                );
             }
         });
 
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.profile-dropdown')) {
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".profile-dropdown")) {
                 menu.hidden = true;
-                trigger.setAttribute('aria-expanded', 'false');
-                menu.querySelector('.profile-category-menu')?.classList.remove('is-open');
-                menu.querySelector('.profile-category-trigger')?.setAttribute('aria-expanded', 'false');
+                trigger.setAttribute("aria-expanded", "false");
+                menu.querySelector(".profile-category-menu")?.classList.remove(
+                    "is-open",
+                );
+                menu.querySelector(".profile-category-trigger")?.setAttribute(
+                    "aria-expanded",
+                    "false",
+                );
             }
         });
     })();
@@ -471,25 +568,30 @@
 <script>
     (() => {
         const root = document.documentElement;
-        const toggle = document.querySelector('[data-theme-toggle]');
-        const icon = document.querySelector('[data-theme-icon]');
-        const label = document.querySelector('[data-theme-label]');
-        const savedTheme = localStorage.getItem('cravesupply-theme');
-        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-        const applyTheme = theme => {
-            const dark = theme === 'dark';
-            root.dataset.theme = dark ? 'dark' : 'light';
+        const toggle = document.querySelector("[data-theme-toggle]");
+        const icon = document.querySelector("[data-theme-icon]");
+        const label = document.querySelector("[data-theme-label]");
+        const savedTheme = localStorage.getItem("cravesupply-theme");
+        const prefersDark = window.matchMedia?.(
+            "(prefers-color-scheme: dark)",
+        ).matches;
+        const applyTheme = (theme) => {
+            const dark = theme === "dark";
+            root.dataset.theme = dark ? "dark" : "light";
             if (toggle) {
-                toggle.setAttribute('aria-pressed', String(dark));
-                toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+                toggle.setAttribute("aria-pressed", String(dark));
+                toggle.setAttribute(
+                    "aria-label",
+                    dark ? "Switch to light mode" : "Switch to dark mode",
+                );
             }
-            if (icon) icon.textContent = dark ? '☀' : '☾';
-            if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+            if (icon) icon.textContent = dark ? "☀" : "☾";
+            if (label) label.textContent = dark ? "Light mode" : "Dark mode";
         };
-        applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
-        toggle?.addEventListener('click', () => {
-            const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('cravesupply-theme', next);
+        applyTheme(savedTheme || (prefersDark ? "dark" : "light"));
+        toggle?.addEventListener("click", () => {
+            const next = root.dataset.theme === "dark" ? "light" : "dark";
+            localStorage.setItem("cravesupply-theme", next);
             applyTheme(next);
         });
     })();
@@ -498,31 +600,55 @@
 {{-- Debounced product/category search suggestions. --}}
 <script>
     (() => {
-        const search = document.querySelector('[data-global-search]');
+        const search = document.querySelector("[data-global-search]");
         if (!search) return;
-        const input = search.querySelector('[data-search-input]');
-        const results = search.querySelector('[data-search-results]');
+        const input = search.querySelector("[data-search-input]");
+        const results = search.querySelector("[data-search-results]");
         let timer;
-        const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        } [character]));
-        const render = data => {
+        const escapeHtml = (value) =>
+            String(value).replace(
+                /[&<>"']/g,
+                (character) =>
+                    ({
+                        "&": "&amp;",
+                        "<": "&lt;",
+                        ">": "&gt;",
+                        '"': "&quot;",
+                        "'": "&#039;",
+                    })[character],
+            );
+        const render = (data) => {
             const groups = [
-                ['Products', data.products || []],
-                ['Categories', data.categories || []]
+                ["Products", data.products || []],
+                ["Categories", data.categories || []],
             ];
-            const html = groups.filter(([, items]) => items.length).map(([title, items]) =>
-                '<div class="search-group-title">' + title + '</div>' +
-                items.map(item => '<a class="search-result" href="' + encodeURI(item.url) + '"><strong>' + escapeHtml(item.label) + '</strong><span>' + escapeHtml(item.meta) + '</span></a>').join('')
-            ).join('');
-            results.innerHTML = html || '<div class="search-empty">No products or categories found.</div>';
+            const html = groups
+                .filter(([, items]) => items.length)
+                .map(
+                    ([title, items]) =>
+                        '<div class="search-group-title">' +
+                        title +
+                        "</div>" +
+                        items
+                            .map(
+                                (item) =>
+                                    '<a class="search-result" href="' +
+                                    encodeURI(item.url) +
+                                    '"><strong>' +
+                                    escapeHtml(item.label) +
+                                    "</strong><span>" +
+                                    escapeHtml(item.meta) +
+                                    "</span></a>",
+                            )
+                            .join(""),
+                )
+                .join("");
+            results.innerHTML =
+                html ||
+                '<div class="search-empty">No products or categories found.</div>';
             results.hidden = false;
         };
-        input.addEventListener('input', () => {
+        input.addEventListener("input", () => {
             clearTimeout(timer);
             const term = input.value.trim();
             if (term.length < 2) {
@@ -531,21 +657,25 @@
             }
             timer = setTimeout(async () => {
                 try {
-                    const response = await fetch('{{ route('search.suggestions') }}?q=' + encodeURIComponent(term), {
-                        headers: {
-                            Accept: 'application/json'
-                        }
-                    });
+                    const response = await fetch(
+                        "{{ route('search.suggestions') }}?q=" +
+                            encodeURIComponent(term),
+                        {
+                            headers: {
+                                Accept: "application/json",
+                            },
+                        },
+                    );
                     render(await response.json());
                 } catch {
                     results.hidden = true;
                 }
             }, 220);
         });
-        input.addEventListener('focus', () => {
+        input.addEventListener("focus", () => {
             if (input.value.trim().length >= 2) results.hidden = false;
         });
-        document.addEventListener('click', event => {
+        document.addEventListener("click", (event) => {
             if (!search.contains(event.target)) results.hidden = true;
         });
     })();

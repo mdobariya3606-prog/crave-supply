@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manage categories — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}" />
     <style>
         .category-admin-page {
             max-width: 1120px;
@@ -25,7 +24,7 @@
 
         .category-admin-head h1 {
             margin: 0 0 8px;
-            letter-spacing: -.05em;
+            letter-spacing: -0.05em;
         }
 
         .category-admin-head p {
@@ -38,7 +37,7 @@
             border: 1px solid var(--layout-line);
             border-radius: 16px;
             background: var(--layout-surface);
-            box-shadow: 0 8px 26px rgba(44, 39, 34, .06);
+            box-shadow: 0 8px 26px rgba(44, 39, 34, 0.06);
         }
 
         .category-admin-name {
@@ -74,7 +73,7 @@
             border-radius: 18px;
             color: #fffdf9 !important;
             background: #17362a !important;
-            box-shadow: 0 6px 14px rgba(23, 54, 42, .15);
+            box-shadow: 0 6px 14px rgba(23, 54, 42, 0.15);
             text-decoration: none;
             font-size: 12px;
         }
@@ -82,7 +81,7 @@
         .category-add-button:hover {
             background: #2f5a45 !important;
             transform: translateY(-1px);
-            box-shadow: 0 9px 18px rgba(23, 54, 42, .2);
+            box-shadow: 0 9px 18px rgba(23, 54, 42, 0.2);
         }
 
         .category-admin-table-wrap {
@@ -90,7 +89,7 @@
             border: 1px solid var(--layout-line);
             border-radius: 16px;
             background: var(--layout-surface);
-            box-shadow: 0 8px 26px rgba(44, 39, 34, .06);
+            box-shadow: 0 8px 26px rgba(44, 39, 34, 0.06);
         }
 
         .category-admin-table {
@@ -111,7 +110,7 @@
             background: var(--layout-page);
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: .08em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
@@ -119,7 +118,7 @@
             border-bottom: 0;
         }
 
-        @media(max-width:600px) {
+        @media (max-width: 600px) {
             .category-admin-page {
                 padding: 32px 16px 60px;
             }
@@ -142,7 +141,7 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="category-admin-page">
         <div class="category-admin-head">
             <div>
@@ -150,10 +149,18 @@
                 <h1>Manage categories</h1>
                 <p>Review every product category and keep your catalogue organised.</p>
             </div>
-            <a class="category-add-button" href="{{ route('categories.add') }}">Add category</a>
+            <a class="category-add-button" href="{{ route('categories.add') }}"
+                >Add category</a
+            >
         </div>
-        @if (session('success')) <div class="alert-success" role="status">{{ session('success') }}</div> @endif
-        @if (session('error')) <div class="alert-error" role="alert">{{ session('error') }}</div> @endif
+        @if (session('success'))
+            <div class="alert-success" role="status">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert-error" role="alert">{{ session('error') }}</div>
+        @endif
         <div class="category-admin-table-wrap">
             <table class="category-admin-table">
                 <thead>
@@ -165,21 +172,34 @@
                 </thead>
                 <tbody>
                     @forelse ($categories as $category)
-                    <tr>
-                        <td class="category-admin-name">{{ $category->name }}</td>
-                        <td class="category-admin-meta">{{ $category->products_count }} {{ Str::plural('product', $category->products_count) }}</td>
-                        <td class="category-admin-actions"><a href="{{ route('categories.edit', $category) }}">Edit</a><a href="{{ route('products.category', $category->slug) }}">View</a></td>
-                    </tr>
+                        <tr>
+                            <td class="category-admin-name">
+                                {{ $category->name }}
+                            </td>
+                            <td class="category-admin-meta">
+                                {{ $category->products_count }} {{ Str::plural('product', $category->products_count) }}
+                            </td>
+                            <td class="category-admin-actions">
+                                <a
+                                    href="{{ route('categories.edit', $category) }}"
+                                    >Edit</a
+                                ><a
+                                    href="{{ route('products.category', $category->slug) }}"
+                                    >View</a
+                                >
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td class="category-admin-meta" colspan="3">No categories have been added yet.</td>
-                    </tr>
+                        <tr>
+                            <td class="category-admin-meta" colspan="3">
+                                No categories have been added yet.
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
 </body>
-
 </html>

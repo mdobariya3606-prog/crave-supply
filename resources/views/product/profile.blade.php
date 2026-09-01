@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ $product->name }} — CraveSupply</title>
 
     <style>
@@ -1319,46 +1318,79 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="product-profile">
         @if (session('success'))
-            <div class="review-message" role="status">{{ session('success') }}</div>
+            <div class="review-message" role="status">
+                {{ session('success') }}
+            </div>
         @endif
 
-        @error('quantity', 'order')
+        @error ('quantity', 'order')
             <span class="order-error" role="alert">{{ $message }}</span>
         @enderror
 
-        <div class="breadcrumb"><a href="{{ route('products.dashboard') }}">Products</a> / {{ $product->name }}</div>
+        <div class="breadcrumb">
+            <a href="{{ route('products.dashboard') }}">Products</a>
+            / {{ $product->name }}
+        </div>
 
         <section class="product-main" aria-labelledby="product-title">
             <div class="gallery" data-gallery>
                 <div class="gallery-main">
                     <div class="gallery-track" data-gallery-track>
                         @forelse ($product->productImages as $index => $image)
-                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                            <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}"
+                            />
                         @empty
-                            <img src="{{ asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }} product image">
+                            <img
+                                src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} product image"
+                            />
                         @endforelse
                     </div>
-                    <button class="gallery-arrow previous" type="button" data-gallery-previous
-                        aria-label="Previous image">‹</button>
-                    <button class="gallery-arrow next" type="button" data-gallery-next
-                        aria-label="Next image">›</button>
+                    <button
+                        class="gallery-arrow previous"
+                        type="button"
+                        data-gallery-previous
+                        aria-label="Previous image"
+                    >
+                        ‹
+                    </button>
+                    <button
+                        class="gallery-arrow next"
+                        type="button"
+                        data-gallery-next
+                        aria-label="Next image"
+                    >
+                        ›
+                    </button>
                 </div>
                 <div class="gallery-thumbs">
                     @foreach ($product->productImages as $index => $image)
-                        <button class="gallery-thumb{{ $index === 0 ? ' active' : '' }}" type="button"
-                            data-gallery-thumb="{{ $index }}">
-                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}">
+                        <button
+                            class="gallery-thumb{{ $index === 0 ? ' active' : '' }}"
+                            type="button"
+                            data-gallery-thumb="{{ $index }}"
+                        >
+                            <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} view {{ $index + 1 }}"
+                            />
                         </button>
                     @endforeach
                     @if ($product->productImages->isEmpty())
-                        <button class="gallery-thumb active" type="button" data-gallery-thumb="0">
-                            <img src="{{ asset('images/product-placeholder.svg') }}" alt="{{ $product->name }} placeholder">
+                        <button
+                            class="gallery-thumb active"
+                            type="button"
+                            data-gallery-thumb="0"
+                        >
+                            <img
+                                src="{{ asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }} placeholder"
+                            />
                         </button>
                     @endif
                 </div>
@@ -1371,18 +1403,25 @@
                     {{ $product->description ?: 'A thoughtfully selected premium product for your business and shared
                     spaces.' }}
                 </p>
-                <div class="rating-summary"><span class="stars top-rating-stars">
+                <div class="rating-summary">
+                    <span class="stars top-rating-stars">
                         <?php
 $avgRating = (int) $product->reviews->avg('rating'); ?>
-                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
-                    </span><span class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1)
-                        }}
-                        from {{ $product->reviews->count() }}
-                        review{{ $product->reviews->count() === 1 ? '' : 's' }}</span></div>
-                <div class="price-row"><span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
-                        class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{
+                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }} </span
+                    ><span class="top-rating-text"
+                        >{{ number_format((float) $product->reviews->avg('rating'), 1)
+                        }} from {{ $product->reviews->count() }} review{{ $product->reviews->count() === 1 ? '' : 's' }}</span
+                    >
+                </div>
+                <div class="price-row">
+                    <span class="price"
+                        >₹{{ number_format((float) $product->price, 2) }}</span
+                    ><span
+                        class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}"
+                        >{{
     $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently
-                            unavailable') }}</span>
+                            unavailable') }}</span
+                    >
                 </div>
                 <dl class="detail-list">
                     <div>
@@ -1395,36 +1434,74 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                     </div>
                     <div>
                         <dt>Collection</dt>
-                        <dd>{{ $product->category?->name ?: 'Premium collection' }}</dd>
+                        <dd>
+                            {{ $product->category?->name ?: 'Premium collection' }}
+                        </dd>
                     </div>
                 </dl>
                 @if (auth()->user()?->role === 'admin')
-                    <a class="review-submit" style="display:inline-block;text-decoration:none;margin-top:18px"
-                        href="{{ route('products.edit', $product) }}">Edit product</a>
+                    <a
+                        class="review-submit"
+                        style="
+                            display: inline-block;
+                            text-decoration: none;
+                            margin-top: 18px;
+                        "
+                        href="{{ route('products.edit', $product) }}"
+                        >Edit product</a
+                    >
                 @endif
                 @if ($product->is_available && $product->stock > 0)
                     @if (!auth()->check() || auth()->user()?->role === 'customer')
-                        <form class="order-form" action="{{ route('cart.update', $product->slug) }}" method="POST">
+                        <form
+                            class="order-form"
+                            action="{{ route('cart.update', $product->slug) }}"
+                            method="POST"
+                        >
                             @csrf
-                            @method('PUT')
+                            @method ('PUT')
                             <label for="quantity">Quantity</label>
-                            <div class="input-wrapper"><input id="quantity" name="quantity" type="number" min="1"
-                                    max="{{ $product->stock }}" value="1"></div>
-                            <button class="review-submit" type="submit">Add to Cart</button>
-                            <span class="order-error" data-order-error role="alert" hidden></span>
+                            <div class="input-wrapper">
+                                <input
+                                    id="quantity"
+                                    name="quantity"
+                                    type="number"
+                                    min="1"
+                                    max="{{ $product->stock }}"
+                                    value="1"
+                                />
+                            </div>
+                            <button class="review-submit" type="submit">
+                                Add to Cart
+                            </button>
+                            <span
+                                class="order-error"
+                                data-order-error
+                                role="alert"
+                                hidden
+                            ></span>
                         </form>
                     @endif
                 @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
-                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Out of
-                        stock</span>
+                    <span
+                        class="availability unavailable"
+                        style="display: inline-block; margin-top: 18px"
+                        >Out of stock</span
+                    >
                 @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
-                    <span class="availability unavailable" style="display:inline-block;margin-top:18px">Currently
-                        unavailable</span>
+                    <span
+                        class="availability unavailable"
+                        style="display: inline-block; margin-top: 18px"
+                        >Currently unavailable</span
+                    >
                 @endif
             </div>
         </section>
 
-        <section class="service-highlights" aria-label="CraveSupply service benefits">
+        <section
+            class="service-highlights"
+            aria-label="CraveSupply service benefits"
+        >
             <article class="service-highlight">
                 <svg viewBox="0 0 48 48" aria-hidden="true">
                     <path d="M24 4 38 10v11c0 9-5.8 17.2-14 21-8.2-3.8-14-12-14-21V10l14-6Z" />
@@ -1445,7 +1522,8 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             <article class="service-highlight">
                 <svg viewBox="0 0 48 48" aria-hidden="true">
                     <path
-                        d="M5 31h25V16H5zM30 23h7l6 6v2H30zM12 37a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm25 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+                        d="M5 31h25V16H5zM30 23h7l6 6v2H30zM12 37a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm25 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                    />
                     <path d="M35 16V9m-4 4 4-4 4 4" />
                 </svg>
                 <strong>Reliable delivery</strong>
@@ -1457,8 +1535,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             <div class="editorial-story-copy">
                 <p class="product-label">The CraveSupply standard</p>
                 <h2 id="story-title">Good choices, beautifully considered.</h2>
-                <p>We look for products that earn their place on the shelf: dependable quality, thoughtful details, and
-                    a little joy in every everyday moment.</p>
+                <p>We look for products that earn their place on the shelf: dependable quality, thoughtful details, and a little joy in every everyday moment.</p>
             </div>
             <div class="editorial-story-visual" aria-hidden="true"></div>
         </section>
@@ -1481,36 +1558,84 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         <div class="stars main-review-stars">
                             {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }}
                         </div>
-                        <p class="review-note main-review-note">{{ $product->reviews->count() }} verified
-                            review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
+                        <p class="review-note main-review-note">{{ $product->reviews->count() }} verified review{{ $product->reviews->count() === 1 ? '' : 's' }} shared so far.</p>
                     </article>
                     @auth
                         @if (session('review_success'))
-                            <div class="review-message" role="status">{{ session('review_success') }}</div>
-                        @endif
-                        <form class="review-form" action="{{ route('products.reviews.store', $product) }}" method="POST">
-                            @csrf
-                            <h3>{{ $myReview ? 'Edit your review' : 'Share your experience' }}</h3>
-                            <label for="rating">Your rating</label>
-                            <div class="input-wrapper"><select id="rating" name="rating" required>
-                                    <option value="">Select a rating</option>
-                                    <option value="5" @selected(old('rating', $myReview?->rating) == 5)>★★★★★ Excellent
-                                    </option>
-                                    <option value="4" @selected(old('rating', $myReview?->rating) == 4)>★★★★☆ Very good
-                                    </option>
-                                    <option value="3" @selected(old('rating', $myReview?->rating) == 3)>★★★☆☆ Good</option>
-                                    <option value="2" @selected(old('rating', $myReview?->rating) == 2)>★★☆☆☆ Fair</option>
-                                    <option value="1" @selected(old('rating', $myReview?->rating) == 1)>★☆☆☆☆ Needs
-                                        improvement</option>
-                                </select></div>
-                            @error('rating')<small class="review-field-error">{{ $message }}</small>@enderror
-                            <label for="comment">Review</label>
-                            <div class="input-wrapper"><textarea id="comment" name="comment" maxlength="1000"
-                                    placeholder="Tell us about the product...">{{ old('comment', $myReview?->comment) }}</textarea>
+                            <div class="review-message" role="status">
+                                {{ session('review_success') }}
                             </div>
-                            @error('comment')<small class="review-field-error">{{ $message }}</small>@enderror
-                            <button class="review-submit"
-                                type="submit">{{ $myReview ? 'Update review' : 'Submit review' }}</button>
+                        @endif
+                        <form
+                            class="review-form"
+                            action="{{ route('products.reviews.store', $product) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            <h3>
+                                {{ $myReview ? 'Edit your review' : 'Share your experience' }}
+                            </h3>
+                            <label for="rating">Your rating</label>
+                            <div class="input-wrapper">
+                                <select id="rating" name="rating" required>
+                                    <option value="">Select a rating</option>
+                                    <option
+                                        value="5"
+                                        @selected (old('rating', $myReview?->rating) == 5)
+                                    >
+                                        ★★★★★ Excellent
+                                    </option>
+                                    <option
+                                        value="4"
+                                        @selected (old('rating', $myReview?->rating) == 4)
+                                    >
+                                        ★★★★☆ Very good
+                                    </option>
+                                    <option
+                                        value="3"
+                                        @selected (old('rating', $myReview?->rating) == 3)
+                                    >
+                                        ★★★☆☆ Good
+                                    </option>
+                                    <option
+                                        value="2"
+                                        @selected (old('rating', $myReview?->rating) == 2)
+                                    >
+                                        ★★☆☆☆ Fair
+                                    </option>
+                                    <option
+                                        value="1"
+                                        @selected (old('rating', $myReview?->rating) == 1)
+                                    >
+                                        ★☆☆☆☆ Needs improvement
+                                    </option>
+                                </select>
+                            </div>
+                            @error ('rating')
+                                <small
+                                    class="review-field-error"
+                                    >{{ $message }}</small
+                                >
+                            @enderror
+                            <label for="comment">Review</label>
+                            <div class="input-wrapper">
+                                <textarea
+                                    id="comment"
+                                    name="comment"
+                                    maxlength="1000"
+                                    placeholder="Tell us about the product..."
+                                    >{{ old('comment', $myReview?->comment) }}</textarea
+                                >
+                            </div>
+                            @error ('comment')
+                                <small
+                                    class="review-field-error"
+                                    >{{ $message }}</small
+                                >
+                            @enderror
+                            <button class="review-submit" type="submit">
+                                {{ $myReview ? 'Update review' : 'Submit review' }}
+                            </button>
                         </form>
                     @else
                         <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
@@ -1518,58 +1643,117 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                 </div>
                 <div class="review-list">
                     @forelse ($reviews as $review)
-                                    <article class="review-item" data-review-id="{{ $review->id }}" @if(!$review->is_approved)
-                                    style="opacity:0.75;border:1px dashed #cbd5e1;" @endif>
-                                        <header style="display:flex;align-items:center;justify-content:space-between;">
-                                            <div>
-                                                <strong>{{ $review->user?->name ?: 'Customer' }}</strong><time>{{
-                        $review->created_at->format('M j, Y') }}</time>
-                                                <span class="review-hidden-badge"
-                                                    style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;">Hidden</span>
-                                            </div>
-                                            @if (auth()->check() && auth()->user()->role === 'admin')
-                                                <form class="admin-review-toggle-form"
-                                                    action="{{ route('reviews.toggle-visibility', $review) }}" method="POST"
-                                                    style="margin:0;">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="admin-review-toggle-btn"
-                                                        style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};">
-                                                        {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </header>
-                                        <div class="stars">
-                                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                                        </div>
-                                        @if ($review->comment)
-                                            <p>{{ $review->comment }}</p>
-                                        @endif
-                                    </article>
+                        <article
+                            class="review-item"
+                            data-review-id="{{ $review->id }}"
+                            @if (!$review->is_approved)
+                                style="
+                                    opacity: 0.75;
+                                    border: 1px dashed #cbd5e1;
+                                "
+                            @endif
+                        >
+                            <header
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                "
+                            >
+                                <div>
+                                    <strong
+                                        >{{ $review->user?->name ?: 'Customer' }}</strong
+                                    ><time
+                                        >{{
+                        $review->created_at->format('M j, Y') }}</time
+                                    >
+                                    <span
+                                        class="review-hidden-badge"
+                                        style="display:{{ $review->is_approved ? 'none' : 'inline-block' }};margin-left:8px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-size:11px;font-weight:600;"
+                                        >Hidden</span
+                                    >
+                                </div>
+                                @if (auth()->check() && auth()->user()->role === 'admin')
+                                    <form
+                                        class="admin-review-toggle-form"
+                                        action="{{ route('reviews.toggle-visibility', $review) }}"
+                                        method="POST"
+                                        style="margin: 0"
+                                    >
+                                        @csrf
+                                        @method ('PATCH')
+                                        <button
+                                            type="submit"
+                                            class="admin-review-toggle-btn"
+                                            style="display:inline-flex;align-items:center;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:none;background:{{ $review->is_approved ? '#fee2e2' : '#dcfce7' }};color:{{ $review->is_approved ? '#991b1b' : '#166534' }};"
+                                        >
+                                            {{ $review->is_approved ? 'Turn off visibility' : 'Turn on visibility' }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </header>
+                            <div class="stars">
+                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                            </div>
+                            @if ($review->comment)
+                                <p>{{ $review->comment }}</p>
+                            @endif
+                        </article>
                     @empty
-                        <div class="empty-state">No reviews yet. Be the first to share your experience.</div>
+                        <div class="empty-state">
+                            No reviews yet. Be the first to share your
+                            experience.
+                        </div>
                     @endforelse
                     @if ($reviews->hasPages())
-                        <nav class="review-pagination manual-review-pagination" aria-label="Reviews pagination">
+                        <nav
+                            class="review-pagination manual-review-pagination"
+                            aria-label="Reviews pagination"
+                        >
                             @if ($reviews->onFirstPage())
-                                <span class="review-page-button disabled" aria-disabled="true">‹</span>
+                                <span
+                                    class="review-page-button disabled"
+                                    aria-disabled="true"
+                                    >‹</span
+                                >
                             @else
-                                <a class="review-page-button" href="{{ $reviews->previousPageUrl() }}" rel="prev">‹</a>
+                                <a
+                                    class="review-page-button"
+                                    href="{{ $reviews->previousPageUrl() }}"
+                                    rel="prev"
+                                    >‹</a
+                                >
                             @endif
                             <div class="review-page-numbers">
                                 @for ($page = 1; $page <= $reviews->lastPage(); $page++)
                                     @if ($page === $reviews->currentPage())
-                                        <span class="review-page-button active" aria-current="page">{{ $page }}</span>
+                                        <span
+                                            class="review-page-button active"
+                                            aria-current="page"
+                                            >{{ $page }}</span
+                                        >
                                     @else
-                                        <a class="review-page-button" href="{{ $reviews->url($page) }}">{{ $page }}</a>
+                                        <a
+                                            class="review-page-button"
+                                            href="{{ $reviews->url($page) }}"
+                                            >{{ $page }}</a
+                                        >
                                     @endif
                                 @endfor
                             </div>
                             @if ($reviews->hasMorePages())
-                                <a class="review-page-button" href="{{ $reviews->nextPageUrl() }}" rel="next">›</a>
+                                <a
+                                    class="review-page-button"
+                                    href="{{ $reviews->nextPageUrl() }}"
+                                    rel="next"
+                                    >›</a
+                                >
                             @else
-                                <span class="review-page-button disabled" aria-disabled="true">›</span>
+                                <span
+                                    class="review-page-button disabled"
+                                    aria-disabled="true"
+                                    >›</span
+                                >
                             @endif
                         </nav>
                     @endif
@@ -1578,121 +1762,147 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         </section>
 
         @if ($relatedProducts->isNotEmpty())
-        <section class="related-section" aria-labelledby="related-title">
-            <div class="section-title">
-                <div>
-                    <h2 id="related-title">You may also like</h2>
-                    <p>More premium products from this collection.</p>
-                </div>
-            </div>
-            <div class="related-grid">
-                @foreach ($relatedProducts as $relatedProduct)
-                <a class="related-card" href="{{ route('products.profile', $relatedProduct) }}">
-                    @php($relatedImage = $relatedProduct->productImages->firstWhere('is_primary', true) ?:
-                    $relatedProduct->productImages->first())
-                    <img class="related-card-image"
-                        src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
-                        alt="{{ $relatedProduct->name }}">
-                    <div class="related-card-desc">
-                        <h3>{{ $relatedProduct->name }}</h3>
-                        <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
+            <section class="related-section" aria-labelledby="related-title">
+                <div class="section-title">
+                    <div>
+                        <h2 id="related-title">You may also like</h2>
+                        <p>More premium products from this collection.</p>
                     </div>
-                </a>
-                @endforeach
-            </div>
-        </section>
+                </div>
+                <div class="related-grid">
+                    @foreach ($relatedProducts as $relatedProduct)
+                        <a
+                            class="related-card"
+                            href="{{ route('products.profile', $relatedProduct) }}"
+                        >
+                            @php ($relatedImage = $relatedProduct->productImages->firstWhere('is_primary', true) ?:
+                    $relatedProduct->productImages->first())
+                            <img
+                                class="related-card-image"
+                                src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $relatedProduct->name }}"
+                            />
+                            <div class="related-card-desc">
+                                <h3>{{ $relatedProduct->name }}</h3>
+                                <p>₹{{ number_format((float) $relatedProduct->price, 2) }}</p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
         @endif
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
 
     <script>
         (() => {
-            const gallery = document.querySelector('[data-gallery]');
+            const gallery = document.querySelector("[data-gallery]");
             if (!gallery) return;
-            const images = @json(
-                $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
-                    asset('images/product-placeholder.svg'),
-                ]
-            );
-            const track = gallery.querySelector('[data-gallery-track]');
-            const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
+            const images = @json (
+                        $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
+                            asset('images/product-placeholder.svg'),
+                        ]
+                    );
+            const track = gallery.querySelector("[data-gallery-track]");
+            const thumbs = [...gallery.querySelectorAll("[data-gallery-thumb]")];
             let current = 0;
             let timer;
             let dragStartX = null;
             let dragStartY = null;
             let dragged = false;
-            if (images.length > 1) track.appendChild(track.firstElementChild.cloneNode(true));
+            if (images.length > 1)
+                track.appendChild(track.firstElementChild.cloneNode(true));
             const show = (index) => {
                 const next = (index + images.length) % images.length;
                 const isForwardWrap = current === images.length - 1 && next === 0;
                 current = next;
-                track.style.transform = 'translateX(-' + ((isForwardWrap ? images.length : current) * 100) + '%)';
+                track.style.transform =
+                    "translateX(-" +
+                    (isForwardWrap ? images.length : current) * 100 +
+                    "%)";
                 if (isForwardWrap) {
                     window.setTimeout(() => {
-                        track.style.transition = 'none';
-                        track.style.transform = 'translateX(0)';
-                        window.requestAnimationFrame(() => track.style.transition = '');
+                        track.style.transition = "none";
+                        track.style.transform = "translateX(0)";
+                        window.requestAnimationFrame(
+                            () => (track.style.transition = ""),
+                        );
                     }, 650);
                 }
-                thumbs.forEach((thumb, thumbIndex) => thumb.classList.toggle('active', thumbIndex === current));
+                thumbs.forEach((thumb, thumbIndex) =>
+                    thumb.classList.toggle("active", thumbIndex === current),
+                );
             };
             const restart = () => {
                 window.clearInterval(timer);
-                if (images.length > 1) timer = window.setInterval(() => show(current + 1), 5000);
+                if (images.length > 1)
+                    timer = window.setInterval(() => show(current + 1), 5000);
             };
-            gallery.querySelector('[data-gallery-previous]').addEventListener('click', () => {
-                show(current - 1);
-                restart();
-            });
-            gallery.querySelector('[data-gallery-next]').addEventListener('click', () => {
-                show(current + 1);
-                restart();
-            });
-            thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => {
-                show(index);
-                restart();
-            }));
-            track.addEventListener('pointerdown', (event) => {
-                if (event.pointerType === 'mouse' && event.button !== 0) return;
+            gallery
+                .querySelector("[data-gallery-previous]")
+                .addEventListener("click", () => {
+                    show(current - 1);
+                    restart();
+                });
+            gallery
+                .querySelector("[data-gallery-next]")
+                .addEventListener("click", () => {
+                    show(current + 1);
+                    restart();
+                });
+            thumbs.forEach((thumb, index) =>
+                thumb.addEventListener("click", () => {
+                    show(index);
+                    restart();
+                }),
+            );
+            track.addEventListener("pointerdown", (event) => {
+                if (event.pointerType === "mouse" && event.button !== 0) return;
                 dragStartX = event.clientX;
                 dragStartY = event.clientY;
                 dragged = false;
-                track.classList.add('is-dragging');
+                track.classList.add("is-dragging");
                 track.setPointerCapture?.(event.pointerId);
                 window.clearInterval(timer);
             });
-            track.addEventListener('pointermove', (event) => {
+            track.addEventListener("pointermove", (event) => {
                 if (dragStartX === null) return;
-                if (Math.abs(event.clientX - dragStartX) > 8 || Math.abs(event.clientY - dragStartY) > 8) {
+                if (
+                    Math.abs(event.clientX - dragStartX) > 8 ||
+                    Math.abs(event.clientY - dragStartY) > 8
+                ) {
                     dragged = true;
                 }
             });
-            track.addEventListener('pointerup', (event) => {
+            track.addEventListener("pointerup", (event) => {
                 if (dragStartX === null) return;
                 const distanceX = event.clientX - dragStartX;
                 const distanceY = event.clientY - dragStartY;
-                track.classList.remove('is-dragging');
+                track.classList.remove("is-dragging");
                 dragStartX = null;
                 dragStartY = null;
-                if (Math.abs(distanceX) > 45 && Math.abs(distanceX) > Math.abs(distanceY)) {
+                if (
+                    Math.abs(distanceX) > 45 &&
+                    Math.abs(distanceX) > Math.abs(distanceY)
+                ) {
                     show(distanceX < 0 ? current + 1 : current - 1);
                 }
                 restart();
             });
-            track.addEventListener('pointercancel', () => {
-                track.classList.remove('is-dragging');
+            track.addEventListener("pointercancel", () => {
+                track.classList.remove("is-dragging");
                 dragStartX = null;
                 dragStartY = null;
                 restart();
             });
-            gallery.addEventListener('mouseenter', () => window.clearInterval(timer));
-            gallery.addEventListener('mouseleave', restart);
-            gallery.addEventListener('keydown', (event) => {
-                if (event.key === 'ArrowLeft') {
+            gallery.addEventListener("mouseenter", () => window.clearInterval(timer));
+            gallery.addEventListener("mouseleave", restart);
+            gallery.addEventListener("keydown", (event) => {
+                if (event.key === "ArrowLeft") {
                     show(current - 1);
                     restart();
                 }
-                if (event.key === 'ArrowRight') {
+                if (event.key === "ArrowRight") {
                     show(current + 1);
                     restart();
                 }
@@ -1701,55 +1911,62 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             restart();
         })();
 
-        document.querySelectorAll('.admin-review-toggle-form').forEach(form => {
-            form.addEventListener('submit', async function (e) {
+        document.querySelectorAll(".admin-review-toggle-form").forEach((form) => {
+            form.addEventListener("submit", async function (e) {
                 e.preventDefault();
-                const button = form.querySelector('.admin-review-toggle-btn');
+                const button = form.querySelector(".admin-review-toggle-btn");
                 if (!button) return;
                 button.disabled = true;
 
                 try {
                     const response = await fetch(form.action, {
-                        method: 'POST',
+                        method: "POST",
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]')?.value || ''
+                            "X-Requested-With": "XMLHttpRequest",
+                            Accept: "application/json",
+                            "X-CSRF-TOKEN":
+                                form.querySelector('input[name="_token"]')?.value || "",
                         },
-                        body: new FormData(form)
+                        body: new FormData(form),
                     });
 
                     if (response.ok) {
                         const data = await response.json();
-                        const article = form.closest('.review-item');
-                        const badge = article ? article.querySelector('.review-hidden-badge') : null;
+                        const article = form.closest(".review-item");
+                        const badge = article
+                            ? article.querySelector(".review-hidden-badge")
+                            : null;
 
                         if (data.is_approved) {
-                            button.textContent = 'Turn off visibility';
-                            button.style.background = '#fee2e2';
-                            button.style.color = '#991b1b';
-                            if (badge) badge.style.display = 'none';
+                            button.textContent = "Turn off visibility";
+                            button.style.background = "#fee2e2";
+                            button.style.color = "#991b1b";
+                            if (badge) badge.style.display = "none";
                             if (article) {
-                                article.style.opacity = '1';
-                                article.style.border = '';
+                                article.style.opacity = "1";
+                                article.style.border = "";
                             }
                         } else {
-                            button.textContent = 'Turn on visibility';
-                            button.style.background = '#dcfce7';
-                            button.style.color = '#166534';
-                            if (badge) badge.style.display = 'inline-block';
+                            button.textContent = "Turn on visibility";
+                            button.style.background = "#dcfce7";
+                            button.style.color = "#166534";
+                            if (badge) badge.style.display = "inline-block";
                             if (article) {
-                                article.style.opacity = '0.75';
-                                article.style.border = '1px dashed #cbd5e1';
+                                article.style.opacity = "0.75";
+                                article.style.border = "1px dashed #cbd5e1";
                             }
                         }
 
                         if (data.formatted_avg !== undefined) {
-                            const topStars = document.querySelector('.top-rating-stars');
-                            const topText = document.querySelector('.top-rating-text');
-                            const mainScore = document.querySelector('.main-review-score');
-                            const mainStars = document.querySelector('.main-review-stars');
-                            const mainNote = document.querySelector('.main-review-note');
+                            const topStars =
+                                document.querySelector(".top-rating-stars");
+                            const topText = document.querySelector(".top-rating-text");
+                            const mainScore =
+                                document.querySelector(".main-review-score");
+                            const mainStars =
+                                document.querySelector(".main-review-stars");
+                            const mainNote =
+                                document.querySelector(".main-review-note");
 
                             if (topStars) topStars.textContent = data.stars;
                             if (topText) topText.textContent = data.top_summary;
@@ -1759,50 +1976,55 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         }
                     }
                 } catch (err) {
-                    console.error('Error updating review visibility:', err);
+                    console.error("Error updating review visibility:", err);
                 } finally {
                     button.disabled = false;
                 }
             });
         });
 
-        document.querySelectorAll('.order-form').forEach(form => {
-            form.addEventListener('submit', async function (event) {
+        document.querySelectorAll(".order-form").forEach((form) => {
+            form.addEventListener("submit", async function (event) {
                 event.preventDefault();
 
-                const error = form.querySelector('[data-order-error]');
+                const error = form.querySelector("[data-order-error]");
                 const button = form.querySelector('button[type="submit"]');
                 if (error) {
-                    error.textContent = '';
+                    error.textContent = "";
                     error.hidden = true;
                 }
                 if (button) button.disabled = true;
 
                 try {
                     const response = await fetch(form.action, {
-                        method: 'POST',
+                        method: "POST",
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]')?.value || ''
+                            "X-Requested-With": "XMLHttpRequest",
+                            Accept: "application/json",
+                            "X-CSRF-TOKEN":
+                                form.querySelector('input[name="_token"]')?.value || "",
                         },
-                        body: new FormData(form)
+                        body: new FormData(form),
                     });
 
                     if (response.status === 422) {
                         const data = await response.json();
                         if (error) {
-                            error.textContent = data.message || 'Unable to add this product to your cart.';
+                            error.textContent =
+                                data.message ||
+                                "Unable to add this product to your cart.";
                             error.hidden = false;
                         }
                         return;
                     }
 
-                    if (!response.ok) throw new Error('Unable to add this product to your cart.');
+                    if (!response.ok)
+                        throw new Error("Unable to add this product to your cart.");
                     window.location.reload();
                 } catch (err) {
                     if (error) {
-                        error.textContent = err.message || 'Unable to add this product to your cart.';
+                        error.textContent =
+                            err.message || "Unable to add this product to your cart.";
                         error.hidden = false;
                     }
                 } finally {
@@ -1812,5 +2034,4 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         });
     </script>
 </body>
-
 </html>

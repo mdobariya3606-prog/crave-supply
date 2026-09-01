@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Review order — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
     <style>
         body {
             margin: 0;
@@ -24,10 +23,10 @@
             margin: 0;
             color: #133458;
             font-size: 34px;
-            letter-spacing: -.05em;
+            letter-spacing: -0.05em;
         }
 
-        .review-page>p {
+        .review-page > p {
             margin: 9px 0 24px;
             color: #64748b;
             font-size: 14px;
@@ -45,10 +44,10 @@
             border: 1px solid #e2e8f0;
             border-radius: 16px;
             background: #fff;
-            box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
         }
 
-        html[data-theme='dark'] .review-summary {
+        html[data-theme="dark"] .review-summary {
             background: #2c2722;
         }
 
@@ -87,7 +86,7 @@
             white-space: nowrap;
         }
 
-        html[data-theme='dark'] .review-item-price {
+        html[data-theme="dark"] .review-item-price {
             color: #9bcfff;
         }
 
@@ -169,7 +168,10 @@
             font-size: 13px;
             line-height: 1.5;
             resize: vertical;
-            transition: border-color .2s, box-shadow .2s, background .2s;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
         }
 
         .review-summary > form {
@@ -180,7 +182,7 @@
             outline: none;
             border-color: #3b82f6;
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, .14);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
         }
 
         .delivery-address .error {
@@ -190,21 +192,21 @@
             font-size: 12px;
         }
 
-        html[data-theme='dark'] .delivery-address {
+        html[data-theme="dark"] .delivery-address {
             border-color: #475569;
         }
 
-        html[data-theme='dark'] .delivery-address label {
+        html[data-theme="dark"] .delivery-address label {
             color: #dbeafe;
         }
 
-        html[data-theme='dark'] .delivery-address textarea {
+        html[data-theme="dark"] .delivery-address textarea {
             border-color: #64748b;
             color: #f8fafc;
             background: #1e293b;
         }
 
-        html[data-theme='dark'] .delivery-address textarea:focus {
+        html[data-theme="dark"] .delivery-address textarea:focus {
             background: #273449;
         }
 
@@ -217,59 +219,97 @@
             text-decoration: none;
         }
 
-        @media(max-width:720px) {
+        @media (max-width: 720px) {
             .review-page {
                 width: calc(100% - 28px);
-                padding-top: 30px
+                padding-top: 30px;
             }
 
             .review-layout {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
 
             .review-summary {
                 position: static;
-                order: -1
+                order: -1;
             }
         }
     </style>
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="review-page">
         <h1>Review your order</h1>
         <p>Check your products and quantities, then submit your order. No payment is required.</p>
-        @if($errors->has('cart'))<p style="padding:12px;border-radius:9px;color:#991b1b !important;background:#fef2f2">{{ $errors->first('cart') }}</p>@endif
+        @if ($errors->has('cart'))
+            <p style="
+                    padding: 12px;
+                    border-radius: 9px;
+                    color: #991b1b !important;
+                    background: #fef2f2;
+                ">{{ $errors->first('cart') }}</p>
+        @endif
         <div class="review-layout">
             <section class="review-card" aria-label="Order items">
-                @foreach($items as $item)
-                <div class="review-item">
-                    <div><strong>{{ $item['product']->name }}</strong><span>Quantity: {{ $item['quantity'] }} × ₹{{ number_format($item['unitPrice'], 2) }}</span></div>
-                    <div class="review-item-price">₹{{ number_format($item['unitPrice'] * $item['quantity'], 2) }}</div>
-                </div>
+                @foreach ($items as $item)
+                    <div class="review-item">
+                        <div>
+                            <strong>{{ $item['product']->name }}</strong
+                            ><span
+                                >Quantity: {{ $item['quantity'] }} × ₹{{ number_format($item['unitPrice'], 2) }}</span
+                            >
+                        </div>
+                        <div class="review-item-price">
+                            ₹{{ number_format($item['unitPrice'] * $item['quantity'], 2) }}
+                        </div>
+                    </div>
                 @endforeach
             </section>
             <aside class="review-summary">
                 <h2>Order summary</h2>
-                <div class="summary-line"><span>Subtotal</span><strong>₹{{ number_format($subtotal, 2) }}</strong></div>
-                <div class="summary-line"><span>Delivery</span><strong>{{ $delivery ? '₹'.number_format($delivery, 2) : 'FREE' }}</strong></div>
-                <div class="summary-total"><span>Total</span><strong>₹{{ number_format($subtotal + $delivery, 2) }}</strong></div>
+                <div class="summary-line">
+                    <span>Subtotal</span
+                    ><strong>₹{{ number_format($subtotal, 2) }}</strong>
+                </div>
+                <div class="summary-line">
+                    <span>Delivery</span
+                    ><strong
+                        >{{ $delivery ? '₹'.number_format($delivery, 2) : 'FREE' }}</strong
+                    >
+                </div>
+                <div class="summary-total">
+                    <span>Total</span
+                    ><strong
+                        >₹{{ number_format($subtotal + $delivery, 2) }}</strong
+                    >
+                </div>
                 <form action="{{ route('cart.submit') }}" method="POST">
                     @csrf
                     <div class="delivery-address">
-                    <label for="delivery_address">Delivery address</label>
-                    <textarea id="delivery_address" name="delivery_address" maxlength="255" required
-                        placeholder="Enter your delivery address">{{ old('delivery_address', auth()->user()->business_address) }}</textarea>
-                    @error('delivery_address')<small class="error">{{ $message }}</small>@enderror
+                        <label for="delivery_address">Delivery address</label>
+                        <textarea
+                            id="delivery_address"
+                            name="delivery_address"
+                            maxlength="255"
+                            required
+                            placeholder="Enter your delivery address"
+                            >{{ old('delivery_address', auth()->user()->business_address) }}</textarea
+                        >
+                        @error ('delivery_address')
+                            <small class="error">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <button class="submit-order" type="submit">Submit order</button>
+                    <button class="submit-order" type="submit">
+                        Submit order
+                    </button>
                 </form>
-                <a class="back-link" href="{{ route('cart.index') }}">← Back to cart</a>
+                <a class="back-link" href="{{ route('cart.index') }}"
+                    >← Back to cart</a
+                >
             </aside>
         </div>
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
 </body>
-
 </html>

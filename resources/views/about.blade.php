@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About us — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/premium-theme.css') }}" />
     <style>
         .about-page {
             width: min(1080px, calc(100% - 40px));
@@ -355,7 +354,7 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="about-page">
         <section class="about-hero">
             <div>
@@ -363,12 +362,33 @@
                 <h1>Good snacks. Thoughtful supply.</h1>
                 <p>CraveSupply helps offices, cafés, retailers, and growing teams keep the things people reach for most close at hand.</p>
             </div>
-            <div class="about-visual" aria-label="Abstract CraveSupply brand artwork"></div>
+            <div
+                class="about-visual"
+                aria-label="Abstract CraveSupply brand artwork"
+            ></div>
         </section>
         <section class="about-values" aria-label="Our values">
-            <div class="value"><strong>Curated with care</strong><span>Dependable products that earn their place on your shelf.</span></div>
-            <div class="value"><strong>Simple by design</strong><span>Clear categories, easy ordering, and service that respects your time.</span></div>
-            <div class="value"><strong>Made for real teams</strong><span>Practical choices for shared spaces, customers, and everyday breaks.</span></div>
+            <div class="value">
+                <strong>Curated with care</strong
+                ><span
+                    >Dependable products that earn their place on your
+                    shelf.</span
+                >
+            </div>
+            <div class="value">
+                <strong>Simple by design</strong
+                ><span
+                    >Clear categories, easy ordering, and service that respects
+                    your time.</span
+                >
+            </div>
+            <div class="value">
+                <strong>Made for real teams</strong
+                ><span
+                    >Practical choices for shared spaces, customers, and
+                    everyday breaks.</span
+                >
+            </div>
         </section>
         <section class="about-copy" id="privacy">
             <p class="eyebrow">Our promise</p>
@@ -376,9 +396,15 @@
             <p>From the first browse to the next restock, we want CraveSupply to feel considered, calm, and useful. We are building a dependable catalogue for the moments between the big moments.</p>
         </section>
         <section class="about-stat-grid">
-            <div class="about-stat"><strong>01</strong><span>Curated catalogue</span></div>
-            <div class="about-stat"><strong>24/7</strong><span>Simple online ordering</span></div>
-            <div class="about-stat"><strong>100%</strong><span>Focused on better breaks</span></div>
+            <div class="about-stat">
+                <strong>01</strong><span>Curated catalogue</span>
+            </div>
+            <div class="about-stat">
+                <strong>24/7</strong><span>Simple online ordering</span>
+            </div>
+            <div class="about-stat">
+                <strong>100%</strong><span>Focused on better breaks</span>
+            </div>
         </section>
         <section class="about-section">
             <div>
@@ -397,14 +423,17 @@
             </div>
             <div>
                 <ul class="about-list">
-                    <li><strong>Reliable quality</strong>
+                    <li>
+                        <strong>Reliable quality</strong>
                         <p>Products people enjoy today and are happy to choose again tomorrow.</p>
                     </li>
-                    <li><strong>Everyday usefulness</strong>
+                    <li>
+                        <strong>Everyday usefulness</strong>
                         <p>Snacks and drinks that work for real teams, counters, meetings, and breaks.</p>
                     </li>
-                    <li><strong>Clear value</strong>
-                       <p> Thoughtful choices that make sense for your shelves and your routine.</p>
+                    <li>
+                        <strong>Clear value</strong>
+                        <p>Thoughtful choices that make sense for your shelves and your routine.</p>
                     </li>
                 </ul>
             </div>
@@ -423,7 +452,8 @@
             <div>
                 <h2>Ready to make your shelves feel considered?</h2>
                 <p>Explore the CraveSupply range and find a better rhythm for your next restock.</p>
-            </div><a href="{{ route('products.dashboard') }}">Explore products →</a>
+            </div>
+            <a href="{{ route('products.dashboard') }}">Explore products →</a>
         </section>
         <section class="about-contact" aria-labelledby="about-contact-title">
             <div>
@@ -431,30 +461,72 @@
                 <h2 id="about-contact-title">Tell us how we can help.</h2>
                 <p>Have a question about stocking your business or finding the right products? Send us a message and our team will get back to you.</p>
             </div>
-            <form class="about-contact-form" action="{{ route('contact.submit') }}" method="POST">
+            <form
+                class="about-contact-form"
+                action="{{ route('contact.submit') }}"
+                method="POST"
+            >
                 @csrf
-                @if(session('contact_success'))<p class="about-contact-success" role="status">{{ session('contact_success') }}</p>@endif
-                @if($errors->any())<p class="about-contact-error" role="alert">Please correct the highlighted fields.</p>@endif
+                @if (session('contact_success'))
+                    <p class="about-contact-success" role="status">{{ session('contact_success') }}</p>
+                @endif
+                @if ($errors->any())
+                    <p class="about-contact-error" role="alert">Please correct the highlighted fields.</p>
+                @endif
                 <label for="about-name">Name *</label>
-                <input id="about-name" name="name" value="{{ old('name') }}" required>
-                @error('name')<small class="about-field-error">{{ $message }}</small>@enderror
+                <input
+                    id="about-name"
+                    name="name"
+                    value="{{ old('name') }}"
+                    required
+                />
+                @error ('name')
+                    <small class="about-field-error">{{ $message }}</small>
+                @enderror
                 <label for="about-business-name">Business name</label>
-                <input id="about-business-name" name="business_name" value="{{ old('business_name') }}">
-                @error('business_name')<small class="about-field-error">{{ $message }}</small>@enderror
+                <input
+                    id="about-business-name"
+                    name="business_name"
+                    value="{{ old('business_name') }}"
+                />
+                @error ('business_name')
+                    <small class="about-field-error">{{ $message }}</small>
+                @enderror
                 <label for="about-email">Email *</label>
-                <input id="about-email" name="email" type="email" value="{{ old('email') }}" required>
-                @error('email')<small class="about-field-error">{{ $message }}</small>@enderror
+                <input
+                    id="about-email"
+                    name="email"
+                    type="email"
+                    value="{{ old('email') }}"
+                    required
+                />
+                @error ('email')
+                    <small class="about-field-error">{{ $message }}</small>
+                @enderror
                 <label for="about-phone">Phone</label>
-                <input id="about-phone" name="phone" type="tel" value="{{ old('phone') }}">
-                @error('phone')<small class="about-field-error">{{ $message }}</small>@enderror
+                <input
+                    id="about-phone"
+                    name="phone"
+                    type="tel"
+                    value="{{ old('phone') }}"
+                />
+                @error ('phone')
+                    <small class="about-field-error">{{ $message }}</small>
+                @enderror
                 <label for="about-message">Message *</label>
-                <textarea id="about-message" name="message" required>{{ old('message') }}</textarea>
-                @error('message')<small class="about-field-error">{{ $message }}</small>@enderror
+                <textarea
+                    id="about-message"
+                    name="message"
+                    required
+                    >{{ old('message') }}</textarea
+                >
+                @error ('message')
+                    <small class="about-field-error">{{ $message }}</small>
+                @enderror
                 <button type="submit">Send message</button>
             </form>
         </section>
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
 </body>
-
 </html>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verify email — CraveSupply</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <style>
         .card .form-group .otp-boxes {
             display: flex;
@@ -30,7 +29,7 @@
         .card .form-group input.otp-box:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, .14);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
         }
 
         .card .form-group.has-error input.otp-box {
@@ -38,7 +37,7 @@
             background: #fffafa;
         }
 
-        @media (max-width:420px) {
+        @media (max-width: 420px) {
             .card .form-group .otp-boxes {
                 gap: 4px;
             }
@@ -53,7 +52,7 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    @include ('layouts.header')
     <main class="register-container">
         <section class="card" aria-labelledby="verify-title">
             <header class="card-header">
@@ -62,63 +61,100 @@
                 <h1 id="verify-title">Verify your email</h1>
                 <p>Enter the six-digit code sent to your email address.</p>
             </header>
-            @if (session('status'))<div class="alert-success" role="status">{{ session('status') }}</div>@endif
-            @if (session('error'))<div class="alert-error" role="alert">{{ session('error') }}</div>@endif
-            @if ($errors->has('otp'))<div class="alert-error" role="alert">{{ $errors->first('otp') }}</div>@endif
+            @if (session('status'))
+                <div class="alert-success" role="status">
+                    {{ session('status') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert-error" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if ($errors->has('otp'))
+                <div class="alert-error" role="alert">
+                    {{ $errors->first('otp') }}
+                </div>
+            @endif
             <form action="{{ route('register.verify') }}" method="POST">
                 @csrf
-                <div class="form-group{{ $errors->has('otp') ? ' has-error' : '' }}">
+                <div
+                    class="form-group{{ $errors->has('otp') ? ' has-error' : '' }}"
+                >
                     <label for="otp">Verification code</label>
-                    <div class="otp-boxes" role="group" aria-label="Six-digit verification code">
+                    <div
+                        class="otp-boxes"
+                        role="group"
+                        aria-label="Six-digit verification code"
+                    >
                         @for ($i = 0; $i < 6; $i++)
-                            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code"
-                            aria-label="Digit {{ $i + 1 }}" data-otp-digit>
-                            @endfor
+                            <input
+                                class="otp-box"
+                                type="text"
+                                inputmode="numeric"
+                                maxlength="1"
+                                autocomplete="one-time-code"
+                                aria-label="Digit {{ $i + 1 }}"
+                                data-otp-digit
+                            />
+                        @endfor
                     </div>
-                    <input id="otp" name="otp" type="hidden" required>
-                    @error('otp')<small class="field-error">{{ $message }}</small>@enderror
+                    <input id="otp" name="otp" type="hidden" required />
+                    @error ('otp')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
                 </div>
                 <button type="submit" class="btn-submit">Verify email</button>
             </form>
-            <form action="{{ route('register.verify.resend') }}" method="POST" style="margin-top:16px;text-align:center">
+            <form
+                action="{{ route('register.verify.resend') }}"
+                method="POST"
+                style="margin-top: 16px; text-align: center"
+            >
                 @csrf
-                <button type="submit" class="secondary-btn">Send a new code</button>
+                <button type="submit" class="secondary-btn">
+                    Send a new code
+                </button>
             </form>
         </section>
     </main>
-    @include('layouts.footer')
+    @include ('layouts.footer')
     <script>
         (() => {
-            const form = document.querySelector('form[action="{{ route('register.verify') }}"]');
-            const boxes = [...document.querySelectorAll('[data-otp-digit]')];
-            const hidden = document.getElementById('otp');
+            const form = document.querySelector(
+                'form[action="{{ route('register.verify') }}"]',
+            );
+            const boxes = [...document.querySelectorAll("[data-otp-digit]")];
+            const hidden = document.getElementById("otp");
             if (!form || boxes.length !== 6 || !hidden) return;
 
             const sync = () => {
-                hidden.value = boxes.map(box => box.value).join('');
+                hidden.value = boxes.map((box) => box.value).join("");
             };
             boxes.forEach((box, index) => {
-                box.addEventListener('input', () => {
-                    box.value = box.value.replace(/\D/g, '').slice(-1);
+                box.addEventListener("input", () => {
+                    box.value = box.value.replace(/\D/g, "").slice(-1);
                     sync();
                     if (box.value && boxes[index + 1]) boxes[index + 1].focus();
                 });
-                box.addEventListener('keydown', event => {
-                    if (event.key === 'Backspace' && !box.value && boxes[index - 1]) boxes[index - 1].focus();
+                box.addEventListener("keydown", (event) => {
+                    if (event.key === "Backspace" && !box.value && boxes[index - 1])
+                        boxes[index - 1].focus();
                 });
-                box.addEventListener('paste', event => {
+                box.addEventListener("paste", (event) => {
                     event.preventDefault();
-                    const digits = (event.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
-                    digits.split('').forEach((digit, offset) => {
+                    const digits = (event.clipboardData.getData("text") || "")
+                        .replace(/\D/g, "")
+                        .slice(0, 6);
+                    digits.split("").forEach((digit, offset) => {
                         if (boxes[index + offset]) boxes[index + offset].value = digit;
                     });
                     sync();
                     boxes[Math.min(index + digits.length, 5)].focus();
                 });
             });
-            form.addEventListener('submit', sync);
+            form.addEventListener("submit", sync);
         })();
     </script>
 </body>
-
 </html>
