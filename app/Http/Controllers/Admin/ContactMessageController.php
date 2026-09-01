@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'business_name' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'message' => ['required', 'string', 'max:2000'],
+        ]);
+
+        ContactMessage::create($validated);
+
+        return back()->with('contact_success', 'Thanks for reaching out.  Our team will get back to you shortly.');
+    }
     public function index(Request $request)
     {
         $messages = ContactMessage::query()

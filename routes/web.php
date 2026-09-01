@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Models\Review;
 use App\Models\Product;
-use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,21 +50,8 @@ Route::middleware('auth')->get('/cache/clear', function (Request $request) {
     return redirect()->back()->with('success', 'Your personal cache was cleared.');
 })->name('cache.clear');
 
-Route::get('/account-disabled', fn() => view('account-disabled'))->name('account.disabled');
-
 Route::view('/about', 'about')->name('about');
-Route::get('/contact', fn() => view('contact'))->name('contact');
+Route::view('/contact', 'contact')->name('contact');
+Route::view('/account-disabled', 'account-disabled')->name('account.disabled');
 
-Route::post('/contact', function (Request $request) {
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:100'],
-        'business_name' => ['nullable', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255'],
-        'phone' => ['nullable', 'string', 'max:30'],
-        'message' => ['required', 'string', 'max:2000'],
-    ]);
-
-    ContactMessage::create($validated);
-
-    return back()->with('contact_success', 'Thanks for reaching out. Our team will get back to you shortly.');
-})->name('contact.submit');
+Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.submit');

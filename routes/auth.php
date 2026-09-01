@@ -17,36 +17,55 @@ Route::middleware(['auth', EnsureAccountIsActive::class])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(['admin'])->group(function () {
-        Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('/admin/customers', [CustomerController::class, 'index'])->name('admin.customers.index');
-        Route::get('/admin/customers/deleted', [CustomerController::class, 'deleted'])->name('admin.customers.deleted');
-        Route::patch('/admin/customers/deleted/{userId}/restore', [CustomerController::class, 'restore'])->name('admin.customers.restore');
-        Route::delete('/admin/customers/deleted/{userId}', [CustomerController::class, 'forceDestroy'])->name('admin.customers.force-destroy');
-        Route::patch('/admin/customers/deleted/restore-all', [CustomerController::class, 'restoreAll'])->name('admin.customers.restore-all');
-        Route::delete('/admin/customers/deleted/delete-all', [CustomerController::class, 'forceDestroyAll'])->name('admin.customers.force-destroy-all');
-        Route::get('/admin/customers/{user}', [CustomerController::class, 'show'])->name('admin.customers.show');
+    Route::middleware(['admin'])
+        ->prefix('/admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::patch('/admin/customers/{user}/toggle', [CustomerController::class, 'toggle'])->name('admin.customers.toggle');
-        Route::delete('/admin/customers/{user}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
-        Route::get('/admin/messages', [ContactMessageController::class, 'index'])->name('admin.contact-messages.index');
-        Route::post('/admin/messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])->name('admin.contact-messages.reply');
-    });
+            Route::controller(CustomerController::class)
+                ->prefix('/customers')
+                ->name('customers.')
+                ->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/deleted', 'deleted')->name('deleted');
+                    Route::patch('/deleted/{userId}/restore', 'restore')->name('restore');
+                    Route::delete('/deleted/{userId}', 'forceDestroy')->name('force-destroy');
+                    Route::patch('/deleted/restore-all', 'restoreAll')->name('restore-all');
+                    Route::delete('/deleted/delete-all', 'forceDestroyAll')->name('force-destroy-all');
+                    Route::get('/{user}', 'show')->name('show');
+                    Route::patch('/{user}/toggle', 'toggle')->name('toggle');
+                    Route::delete('/{user}', 'destroy')->name('destroy');
+                });
+
+            Route::get('/messages', [ContactMessageController::class, 'index'])->name('contact-messages.index');
+            Route::post('/messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])->name('contact-messages.reply');
+        });
 });
 
 Route::middleware('guest')
     ->group(function () {
-        Route::get('/register', [RegisterController::class, 'create'])->name('register');
-        Route::post('/register', [RegisterController::class, 'store']);
-        Route::get('/register/verify', [RegisterController::class, 'showVerify'])->name('register.verify');
-        Route::post('/register/verify', [RegisterController::class, 'verify']);
-        Route::post('/register/verify/resend', [RegisterController::class, 'resend'])->name('register.verify.resend');
+
+        Route::controller(RegisterController::class)
+            ->prefix('/register')
+            ->name('register')
+            ->group(function () {
+                Route::get('/', 'create');
+                Route::post('/', 'store');
+                Route::get('/verify', 'showVerify')->name('.verify');
+                Route::post('/verify', 'verify')->name('.verify');
+                Route::post('/verify/resend', 'resend')->name('.verify.resend');
+            });
 
         Route::get('/login', [LoginController::class, 'create'])->name('login');
         Route::post('/login', [LoginController::class, 'store']);
 
-        Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
-        Route::post('/forgot-password', [PasswordResetController::class, 'email'])->name('password.email');
-        Route::get('/reset-password/{token}', [PasswordResetController::class, 'resetForm'])->name('password.reset');
-        Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
+        Route::controller(PasswordResetController::class)
+            ->name('password.')
+            ->group(function () {
+                Route::get('/forgot-password', 'requestForm')->name('request');
+                Route::post('/forgot-password', 'email')->name('email');
+                Route::get('/reset-password/{token}', 'resetForm')->name('reset');
+                Route::post('/reset-password', 'reset')->name('update');
+            });
     });

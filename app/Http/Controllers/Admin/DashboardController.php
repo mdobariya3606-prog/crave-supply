@@ -20,6 +20,7 @@ class DashboardController extends Controller
             'currentOrderCount' => Order::whereIn('status', ['order_received', 'processing', 'ready', 'out_for_delivery'])->count(),
             'completedOrderCount' => Order::where('status', 'delivered')->count(),
             'customerCount' => User::where('role', 'customer')->count(),
+            'deletedCustomerCount' => User::onlyTrashed()->where('role', 'customer')->count(),
             'productCount' => Product::count(),
             'categoryCount' => Category::count(),
             'unreadMessageCount' => ContactMessage::where('is_read', false)->count(),

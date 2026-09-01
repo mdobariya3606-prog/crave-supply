@@ -8,14 +8,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', EnsureAccountIsActive::class])
     ->group(function () {
-        Route::get('/orders', [CheckoutController::class, 'orders'])->name('orders.index');
-        Route::get('/orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])->name('orders.confirmation');
-        Route::get('/orders/{order}/bill', [CheckoutController::class, 'bill'])->name('orders.bill');
 
-        Route::middleware(['admin'])->group(function () {
-            Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-            Route::put('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status');
-        });
+        Route::controller(CheckoutController::class)
+            ->prefix('/orders')
+            ->name('orders.')
+            ->group(function () {
+                Route::get('/', 'orders')->name('index');
+                Route::get('/{order}/confirmation', 'confirmation')->name('confirmation');
+                Route::get('/{order}/bill', 'bill')->name('bill');
+            });
+
+        Route::middleware(['admin'])
+            ->controller(OrderController::class)
+            ->prefix('/admin')
+            ->name('admin.')
+            ->group(function () {
+                Route::get('/orders', 'index')->name('orders.index');
+                Route::put('/orders/{order}/status', 'updateStatus')->name('orders.status');
+            });
     });
 
 Route::post('/products/{product:slug}/order', [OrderOrderController::class, 'store'])->middleware(['auth', EnsureAccountIsActive::class])->name('products.order.store');
