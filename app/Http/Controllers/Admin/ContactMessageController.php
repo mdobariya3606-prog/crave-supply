@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QueuedRawMail;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -46,10 +47,10 @@ class ContactMessageController extends Controller
             'reply' => ['required', 'string', 'max:5000'],
         ]);
 
-        Mail::raw($validated['reply'], function ($mail) use ($contactMessage) {
-            $mail->to($contactMessage->email)
-                ->subject('Re: Your CraveSupply message');
-        });
+        Mail::to($contactMessage->email)->queue(new QueuedRawMail(
+            $validated['reply'],
+            'Re: Your CraveSupply message',
+        ));
 
         $contactMessage->update(['is_read' => true]);
 
