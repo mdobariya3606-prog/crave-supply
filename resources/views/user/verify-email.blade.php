@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verify email — CraveSupply</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <style>
+        .form-group label {
+            text-align: center;
+        }
+
         .card .form-group .otp-boxes {
             display: flex;
+            justify-content: center;
             gap: 6px;
             margin-bottom: 8px;
         }
@@ -62,58 +68,59 @@
                 <p>Enter the six-digit code sent to your email address.</p>
             </header>
             @if (session('status'))
-                <div class="alert-success" role="status">
-                    {{ session('status') }}
-                </div>
+            <div class="alert-success" role="status">
+                {{ session('status') }}
+            </div>
             @endif
             @if (session('error'))
-                <div class="alert-error" role="alert">
-                    {{ session('error') }}
-                </div>
+            <div class="alert-error" role="alert">
+                {{ session('error') }}
+            </div>
             @endif
             @if ($errors->has('otp'))
-                <div class="alert-error" role="alert">
-                    {{ $errors->first('otp') }}
-                </div>
+            <div class="alert-error" role="alert">
+                {{ $errors->first('otp') }}
+            </div>
             @endif
             <form action="{{ route('register.verify') }}" method="POST">
                 @csrf
                 <div
-                    class="form-group{{ $errors->has('otp') ? ' has-error' : '' }}"
-                >
+                    class="form-group{{ $errors->has('otp') ? ' has-error' : '' }}">
                     <label for="otp">Verification code</label>
                     <div
                         class="otp-boxes"
                         role="group"
-                        aria-label="Six-digit verification code"
-                    >
-                        @for ($i = 0; $i < 6; $i++)
+                        aria-label="Six-digit verification code">
+                        @for ($i = 0; $i
+                        < 6; $i++)
                             <input
-                                class="otp-box"
-                                type="text"
-                                inputmode="numeric"
-                                maxlength="1"
-                                autocomplete="one-time-code"
-                                aria-label="Digit {{ $i + 1 }}"
-                                data-otp-digit
-                            />
+                            class="otp-box"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="1"
+                            autocomplete="one-time-code"
+                            aria-label="Digit {{ $i + 1 }}"
+                            data-otp-digit />
                         @endfor
                     </div>
                     <input id="otp" name="otp" type="hidden" required />
                     @error ('otp')
-                        <small class="field-error">{{ $message }}</small>
+                    <small class="field-error">{{ $message }}</small>
                     @enderror
                 </div>
                 <button type="submit" class="btn-submit">Verify email</button>
             </form>
             <form
+                id="resendVerificationForm"
                 action="{{ route('register.verify.resend') }}"
                 method="POST"
-                style="margin-top: 16px; text-align: center"
-            >
+                style="margin-top: 16px; text-align: center">
                 @csrf
-                <button type="submit" class="secondary-btn">
-                    Send a new code
+                <button
+                    id="resendVerificationButton"
+                    type="submit"
+                    class="secondary-btn">
+                    <span id="resendButtonLabel">Send a new code</span>
                 </button>
             </form>
         </section>
@@ -155,6 +162,46 @@
             });
             form.addEventListener("submit", sync);
         })();
+
+        (() => {
+            const form = document.getElementById("resendVerificationForm");
+            const button = document.getElementById("resendVerificationButton");
+            const label = document.getElementById("resendButtonLabel");
+            const status = @json(session('status'));
+
+            if (!form || !button || !label) return;
+
+            const cooldownSeconds = 120;
+            const resendSucceeded = [
+                "We sent a verification code to your email address.",
+                "A new verification code was sent to your email.",
+            ].includes(status);
+
+            if (!resendSucceeded) return;
+
+            let remaining = cooldownSeconds;
+            button.disabled = true;
+
+            const updateLabel = () => {
+                label.textContent = `Resend available in ${remaining}s`;
+            };
+
+            updateLabel();
+
+            const countdown = window.setInterval(() => {
+                remaining -= 1;
+
+                if (remaining <= 0) {
+                    window.clearInterval(countdown);
+                    button.disabled = false;
+                    label.textContent = "Send a new code";
+                    return;
+                }
+
+                updateLabel();
+            }, 1000);
+        })();
     </script>
 </body>
+
 </html>
