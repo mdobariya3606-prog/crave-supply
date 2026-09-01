@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CategoryRequest;
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
+use App\Support\Cache\ProductCache;
 
 class UpdateCategoryController extends Controller
 {
@@ -19,9 +19,9 @@ class UpdateCategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         abort_unless($request->user()?->role === 'admin', 403);
+        $categoryId = $category->id;
         $category->update($request->validated());
-        Cache::forget('categories.all');
-        Cache::forget("category.{$category->id}.products");
+        ProductCache::forgetCategory($categoryId);
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');

@@ -7,7 +7,7 @@ use App\Http\Requests\Product\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use Illuminate\Support\Facades\Cache;
+use App\Support\Cache\ProductCache;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateProductController extends Controller
@@ -15,7 +15,7 @@ class UpdateProductController extends Controller
     public function edit(Product $product)
     {
         return view('product.edit', compact('product') + ['categories' => Category::orderBy('name')->get()]);
-    }
+    }   
 
     public function update(ProductRequest $request, Product $product)
     {
@@ -27,10 +27,7 @@ class UpdateProductController extends Controller
             $product->productImages()->whereKey($request->integer('primary_image'))->update(['is_primary' => true]);
         }
 
-        Cache::forget("product.{$product->id}");
-        Cache::forget("product.{$product->id}.related");
-        Cache::forget("category.{$oldCategoryId}.products");
-        Cache::forget("category.{$product->category_id}.products");
+        ProductCache::forgetProduct($product, $oldCategoryId);
 
         return redirect()->route('products.profile', $product)->with('success', 'Product updated successfully.');
     }
@@ -43,8 +40,7 @@ class UpdateProductController extends Controller
         if (! $product->productImages()->where('is_primary', true)->exists() && $product->productImages()->exists()) {
             $product->productImages()->first()->update(['is_primary' => true]);
         }
-        Cache::forget("product.{$product->id}");
-        Cache::forget("product.{$product->id}.related");
+        ProductCache::forgetProduct($product);
 
         return back()->with('success', 'Product image removed.');
     }
@@ -53,10 +49,8 @@ class UpdateProductController extends Controller
     {
         $categoryId = $product->category_id;
         $product->delete();
-        Cache::forget('categories.all');
-        Cache::forget("category.{$categoryId}.products");
-        Cache::forget("product.{$product->id}");
-        Cache::forget("product.{$product->id}.related");
+        ProductCache::forgetProduct($product);
+        ProductCache::forgetCategory($categoryId);
 
         return redirect()->route('products.dashboard')->with('success', 'Product deleted successfully.');
     }

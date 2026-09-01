@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
-use Illuminate\Support\Facades\Cache;
+use App\Support\Cache\ProductCache;
 
 class ReviewController extends Controller
 {
@@ -16,8 +16,7 @@ class ReviewController extends Controller
             ['user_id' => $request->user()->id],
             [...$request->validated(), 'is_approved' => true],
         );
-        Cache::forget("product.{$product->id}");
-        Cache::forget("product.{$product->id}.related");
+        ProductCache::forgetProduct($product);
 
         return back()->with('review_success', 'Thank you — your review has been added.');
     }
@@ -27,8 +26,7 @@ class ReviewController extends Controller
         $review->update([
             'is_approved' => ! $review->is_approved,
         ]);
-        Cache::forget("product.{$review->product_id}");
-        Cache::forget("product.{$review->product_id}.related");
+        ProductCache::forgetProduct($review->product);
 
         if (request()->expectsJson() || request()->ajax()) {
             $product = $review->product;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
+use App\Support\Cache\ProductCache;
 
 class DeleteCategoryController extends Controller
 {
@@ -17,8 +17,7 @@ class DeleteCategoryController extends Controller
         }
 
         $category->delete();
-        Cache::forget('categories.all');
-        Cache::forget("category.{$category->id}.products");
+        ProductCache::forgetCategory($category->id);
 
         return redirect()->route('admin.categories.index');
     }
