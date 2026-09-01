@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,7 +19,7 @@ class ProductDashboardController extends Controller
                 return Category::withCount('products')
                     ->orderBy('name')
                     ->get()
-                    ->filter(fn(Category $category) => $category->products_count > 3)
+                    ->filter(fn (Category $category) => $category->products_count > 3)
                     ->values();
             }
         );
@@ -31,7 +30,7 @@ class ProductDashboardController extends Controller
             : $allCategories->take(4);
 
         // Load only the products needed for each catalogue preview.
-        $categoryProducts = $categories->mapWithKeys(fn(Category $category) => [
+        $categoryProducts = $categories->mapWithKeys(fn (Category $category) => [
             $category->id => Cache::remember(
                 "category.{$category->id}.products",
                 now()->addMinutes(30),
@@ -42,7 +41,7 @@ class ProductDashboardController extends Controller
                         ->take(5)
                         ->get();
                 }
-            )
+            ),
         ]);
 
         return view('product.index', [

@@ -10,8 +10,8 @@ class OrderController extends Controller
 {
     public function store(Request $request, Product $product)
     {
-        abort_unless(!$request->user() || $request->user()->role === 'customer', 403);
-        if (!$product->is_available || $product->stock < 1) {
+        abort_unless(! $request->user() || $request->user()->role === 'customer', 403);
+        if (! $product->is_available || $product->stock < 1) {
             return back()->withErrors([
                 'quantity' => 'This product is currently unavailable or out of stock.',
             ], 'order');
@@ -21,12 +21,12 @@ class OrderController extends Controller
             'quantity' => ['required', 'integer', 'min:1'],
         ]);
 
-        $existingQuantity = (int) data_get($request->session()->get('cart', []), $product->id . '.quantity', 0);
+        $existingQuantity = (int) data_get($request->session()->get('cart', []), $product->id.'.quantity', 0);
         $remainingStock = max(0, $product->stock - $existingQuantity);
 
         if ($validated['quantity'] > $remainingStock) {
             return back()->withErrors([
-                'quantity' => 'You can order up to ' . $remainingStock . ' more of this product.',
+                'quantity' => 'You can order up to '.$remainingStock.' more of this product.',
             ], 'order');
         }
 
@@ -45,6 +45,7 @@ class OrderController extends Controller
             'quantity' => $existingQuantity + $quantity,
         ];
         $request->session()->put('cart', $cart);
-        return back()->with('success', $product->name . ' added to your order.');
+
+        return back()->with('success', $product->name.' added to your order.');
     }
 }

@@ -26,7 +26,7 @@ class PasswordResetController extends Controller
 
         if ($token) {
             $expiresAt = Carbon::parse($token->created_at)->addMinutes(60);
-            if (!$expiresAt->isPast()) {
+            if (! $expiresAt->isPast()) {
                 return back()->withInput()->withErrors(['email' => 'Email already sent.']);
             }
         }

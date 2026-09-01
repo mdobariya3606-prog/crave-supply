@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ReviewRequest;
 use App\Models\Product;
-
 use App\Models\Review;
 use Illuminate\Support\Facades\Cache;
 
@@ -26,7 +25,7 @@ class ReviewController extends Controller
     public function toggleVisibility(Review $review)
     {
         $review->update([
-            'is_approved' => !$review->is_approved,
+            'is_approved' => ! $review->is_approved,
         ]);
         Cache::forget("product.{$review->product_id}");
         Cache::forget("product.{$review->product_id}.related");
@@ -38,7 +37,7 @@ class ReviewController extends Controller
             $avgFloat = $count ? (float) $approvedReviews->avg('rating') : 0.0;
             $formattedAvg = $count ? number_format($avgFloat, 1) : '—';
             $avgInt = (int) round($avgFloat);
-            $stars = str_repeat('★', $avgInt) . str_repeat('☆', 5 - $avgInt);
+            $stars = str_repeat('★', $avgInt).str_repeat('☆', 5 - $avgInt);
 
             return response()->json([
                 'success' => true,
@@ -47,8 +46,8 @@ class ReviewController extends Controller
                 'approved_count' => $count,
                 'formatted_avg' => $formattedAvg,
                 'stars' => $stars,
-                'note' => $count . ' verified review' . ($count === 1 ? '' : 's') . ' shared so far.',
-                'top_summary' => $formattedAvg . ' from ' . $count . ' review' . ($count === 1 ? '' : 's'),
+                'note' => $count.' verified review'.($count === 1 ? '' : 's').' shared so far.',
+                'top_summary' => $formattedAvg.' from '.$count.' review'.($count === 1 ? '' : 's'),
             ]);
         }
 

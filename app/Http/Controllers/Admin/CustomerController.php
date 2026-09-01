@@ -17,8 +17,8 @@ class CustomerController extends Controller
             ->withCount('orders')
             ->when(
                 $search,
-                fn($query) => $query->where(
-                    fn($query) => $query
+                fn ($query) => $query->where(
+                    fn ($query) => $query
                         ->where('name', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%")
                         ->orWhere('business_name', 'like', "%{$search}%")
@@ -37,7 +37,7 @@ class CustomerController extends Controller
     public function show(User $user)
     {
         $user->load([
-            'orders' => fn($query) => $query
+            'orders' => fn ($query) => $query
                 ->with('orderItems')
                 ->latest(),
         ]);

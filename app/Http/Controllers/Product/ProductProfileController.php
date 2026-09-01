@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,7 +13,7 @@ class ProductProfileController extends Controller
         $product = Cache::remember(
             "product.{$product->id}",
             now()->addMinutes(30),
-            function() use($product) {
+            function () use ($product) {
                 return $product->load([
                     'category',
                     'productImages',
@@ -25,7 +24,7 @@ class ProductProfileController extends Controller
 
         $reviewsQuery = $product->reviews()->with('user')->latest();
 
-        if (!auth()->check() || auth()->user()?->role !== 'admin') {
+        if (! auth()->check() || auth()->user()?->role !== 'admin') {
             $reviewsQuery->where('is_approved', true);
         }
 
@@ -37,7 +36,7 @@ class ProductProfileController extends Controller
         $relatedProducts = Cache::remember(
             "product.{$product->id}.related",
             now()->addMinutes(30),
-            function() use($product) {
+            function () use ($product) {
                 return Product::where('category_id', $product->category_id)
                     ->where('id', '!=', $product->id)
                     ->where('is_available', true)

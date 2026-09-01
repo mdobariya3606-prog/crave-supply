@@ -6,12 +6,12 @@ use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
@@ -64,7 +64,7 @@ class CheckoutController extends Controller
                 $product = $products->get($productId);
                 $quantity = (int) ($cartItem['quantity'] ?? 0);
 
-                if (!$product || !$product->is_available || $quantity < 1 || $product->stock < $quantity) {
+                if (! $product || ! $product->is_available || $quantity < 1 || $product->stock < $quantity) {
                     throw ValidationException::withMessages([
                         'cart' => 'One or more products are no longer available in the requested quantity.',
                     ]);
@@ -111,6 +111,7 @@ class CheckoutController extends Controller
         });
 
         $request->session()->forget('cart');
+
         return redirect()->route('orders.confirmation', $order)->with('success', 'Your order was submitted successfully.');
     }
 
@@ -129,7 +130,7 @@ class CheckoutController extends Controller
 
         return Pdf::loadView('orders.bill', compact('order'))
             ->setPaper('a4')
-            ->download('cravesupply-' . $order->order_number . '-bill.pdf');
+            ->download('cravesupply-'.$order->order_number.'-bill.pdf');
     }
 
     private function customer(Request $request): void
@@ -142,7 +143,7 @@ class CheckoutController extends Controller
         do {
             // The unique database index remains the final safeguard; the existence
             // check avoids generating the same number during the same second.
-            $orderNumber = 'CS-' . now()->format('ymdHis') . '-' . Str::upper(Str::random(10));
+            $orderNumber = 'CS-'.now()->format('ymdHis').'-'.Str::upper(Str::random(10));
         } while (Order::where('order_number', $orderNumber)->exists());
 
         return $orderNumber;
@@ -158,7 +159,7 @@ class CheckoutController extends Controller
         foreach ($cart as $productId => $cartItem) {
             $product = $products->get($productId);
             $quantity = (int) ($cartItem['quantity'] ?? 0);
-            if (!$product || $quantity < 1) {
+            if (! $product || $quantity < 1) {
                 continue;
             }
 

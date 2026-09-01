@@ -4,13 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Database\Factories\UserFactory;
 use App\Notifications\QueuedResetPassword;
+use Database\Factories\UserFactory;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -34,6 +34,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         'password',
         'is_active',
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -81,8 +82,8 @@ class User extends Authenticatable implements CanResetPasswordContract
     protected function name(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => Str::trim(Str::upper($value)),
-            get: fn(string $value) => Str::upper($value),
+            set: fn (string $value) => Str::trim(Str::upper($value)),
+            get: fn (string $value) => Str::upper($value),
         );
     }
 }

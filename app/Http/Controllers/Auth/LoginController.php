@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\QueuedRawMail;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Mail\QueuedRawMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,9 +23,9 @@ class LoginController extends Controller
     {
         if (
             User::withTrashed()
-            ->where('email', $request->input('email'))
-            ->whereNotNull('deleted_at')
-            ->exists()
+                ->where('email', $request->input('email'))
+                ->whereNotNull('deleted_at')
+                ->exists()
         ) {
             return back()
                 ->withErrors([
@@ -33,18 +33,18 @@ class LoginController extends Controller
                 ]);
         }
 
-        $emailKey = 'login-email:' . strtolower(
+        $emailKey = 'login-email:'.strtolower(
             $request->string('email')->toString()
         );
 
-        $ipKey = 'login-ip:' . $request->ip();
+        $ipKey = 'login-ip:'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($emailKey, 5)) {
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
-                    'email' => 'Too many failed login attempts for this email address. Please try again in ' .
-                        RateLimiter::availableIn($emailKey) .
+                    'email' => 'Too many failed login attempts for this email address. Please try again in '.
+                        RateLimiter::availableIn($emailKey).
                         ' seconds.',
                 ]);
         }
@@ -53,8 +53,8 @@ class LoginController extends Controller
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
-                    'email' => 'Too many failed login attempts from this IP address. Please try again in ' .
-                        RateLimiter::availableIn($ipKey) .
+                    'email' => 'Too many failed login attempts from this IP address. Please try again in '.
+                        RateLimiter::availableIn($ipKey).
                         ' seconds.',
                 ]);
         }
@@ -105,7 +105,7 @@ class LoginController extends Controller
         }
 
         if (
-            !Auth::attempt(
+            ! Auth::attempt(
                 [
                     ...$request->only('email', 'password'),
                     'is_active' => true,
@@ -125,7 +125,7 @@ class LoginController extends Controller
 
         if (
             Auth::user()->role === 'customer' &&
-            !Auth::user()->email_verified_at
+            ! Auth::user()->email_verified_at
         ) {
             $unverifiedUser = Auth::user();
 

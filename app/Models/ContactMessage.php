@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ContactMessage extends Model
 {
     public $timestamps = false;
+
     protected $fillable = [
         'name',
         'business_name',

@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class OrderStatusHistory extends Model
 {
     public $timestamps = false;
+
     protected $fillable = [
         'order_id',
         'status',
-        'changed_by'
+        'changed_by',
     ];
 
     protected function casts(): array

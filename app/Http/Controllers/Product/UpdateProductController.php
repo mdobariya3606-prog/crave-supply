@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Product\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Http\Requests\Product\ProductRequest;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Product\AddProductController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateProductController extends Controller
 {
@@ -33,6 +31,7 @@ class UpdateProductController extends Controller
         Cache::forget("product.{$product->id}.related");
         Cache::forget("category.{$oldCategoryId}.products");
         Cache::forget("category.{$product->category_id}.products");
+
         return redirect()->route('products.profile', $product)->with('success', 'Product updated successfully.');
     }
 
@@ -41,11 +40,12 @@ class UpdateProductController extends Controller
         Storage::disk('public')->delete($image->image_path);
         $product = $image->product;
         $image->delete();
-        if (!$product->productImages()->where('is_primary', true)->exists() && $product->productImages()->exists()) {
+        if (! $product->productImages()->where('is_primary', true)->exists() && $product->productImages()->exists()) {
             $product->productImages()->first()->update(['is_primary' => true]);
         }
         Cache::forget("product.{$product->id}");
         Cache::forget("product.{$product->id}.related");
+
         return back()->with('success', 'Product image removed.');
     }
 

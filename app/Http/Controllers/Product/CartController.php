@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     private function canUseCart(Request $request): void
     {
-        abort_unless(!$request->user() || $request->user()->role === 'customer', 403);
+        abort_unless(! $request->user() || $request->user()->role === 'customer', 403);
     }
 
     public function index(Request $request)
@@ -24,8 +24,9 @@ class CartController extends Controller
 
         foreach ($cart as $productId => &$item) {
             $product = $products->get($productId);
-            if (!$product) {
+            if (! $product) {
                 unset($cart[$productId]);
+
                 continue;
             }
 
@@ -40,7 +41,7 @@ class CartController extends Controller
 
         return view('product.cart', [
             'cart' => $cart,
-            'total' => collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']),
+            'total' => collect($cart)->sum(fn ($item) => $item['price'] * $item['quantity']),
         ]);
     }
 }

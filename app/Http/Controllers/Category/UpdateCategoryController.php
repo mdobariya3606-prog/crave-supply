@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class UpdateCategoryController extends Controller
@@ -16,6 +15,7 @@ class UpdateCategoryController extends Controller
 
         return view('product.category-add', compact('category'));
     }
+
     public function update(CategoryRequest $request, Category $category)
     {
         abort_unless($request->user()?->role === 'admin', 403);

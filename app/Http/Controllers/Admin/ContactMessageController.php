@@ -24,6 +24,7 @@ class ContactMessageController extends Controller
 
         return back()->with('contact_success', 'Thanks for reaching out.  Our team will get back to you shortly.');
     }
+
     public function index(Request $request)
     {
         $messages = ContactMessage::query()

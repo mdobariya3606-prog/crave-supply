@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\QueuedRawMail;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Mail\QueuedRawMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,9 +146,9 @@ class RegisterController extends Controller
         );
 
         if (
-            !$verification ||
+            ! $verification ||
             now()->timestamp > $verification['expires_at'] ||
-            !Hash::check(
+            ! Hash::check(
                 $request->input('otp'),
                 $verification['otp']
             )

@@ -14,6 +14,7 @@ class DeleteCartController extends Controller
         $cart = $request->session()->get('cart', []);
         unset($cart[$product->id]);
         $request->session()->put('cart', $cart);
+
         return back()->with('success', 'Product removed from cart.');
     }
 
@@ -21,11 +22,12 @@ class DeleteCartController extends Controller
     {
         $this->canUseCart($request);
         $request->session()->forget('cart');
+
         return back()->with('success', 'Cart cleared.');
     }
 
     private function canUseCart(Request $request): void
     {
-        abort_unless(!$request->user() || $request->user()->role === 'customer', 403);
+        abort_unless(! $request->user() || $request->user()->role === 'customer', 403);
     }
 }
