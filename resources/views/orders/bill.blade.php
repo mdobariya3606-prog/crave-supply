@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <meta charset="UTF-8" />
     <title>Bill {{ $order->order_number }}</title>
     <style>
