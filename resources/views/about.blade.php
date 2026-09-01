@@ -1,5 +1,7 @@
+{{ \Illuminate\Support\Facades\Redis::get('last_accessed') }}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -364,30 +366,20 @@
             </div>
             <div
                 class="about-visual"
-                aria-label="Abstract CraveSupply brand artwork"
-            ></div>
+                aria-label="Abstract CraveSupply brand artwork"></div>
         </section>
         <section class="about-values" aria-label="Our values">
             <div class="value">
-                <strong>Curated with care</strong
-                ><span
-                    >Dependable products that earn their place on your
-                    shelf.</span
-                >
+                <strong>Curated with care</strong><span>Dependable products that earn their place on your
+                    shelf.</span>
             </div>
             <div class="value">
-                <strong>Simple by design</strong
-                ><span
-                    >Clear categories, easy ordering, and service that respects
-                    your time.</span
-                >
+                <strong>Simple by design</strong><span>Clear categories, easy ordering, and service that respects
+                    your time.</span>
             </div>
             <div class="value">
-                <strong>Made for real teams</strong
-                ><span
-                    >Practical choices for shared spaces, customers, and
-                    everyday breaks.</span
-                >
+                <strong>Made for real teams</strong><span>Practical choices for shared spaces, customers, and
+                    everyday breaks.</span>
             </div>
         </section>
         <section class="about-copy" id="privacy">
@@ -464,33 +456,30 @@
             <form
                 class="about-contact-form"
                 action="{{ route('contact.submit') }}"
-                method="POST"
-            >
+                method="POST">
                 @csrf
                 @if (session('contact_success'))
-                    <p class="about-contact-success" role="status">{{ session('contact_success') }}</p>
+                <p class="about-contact-success" role="status">{{ session('contact_success') }}</p>
                 @endif
                 @if ($errors->any())
-                    <p class="about-contact-error" role="alert">Please correct the highlighted fields.</p>
+                <p class="about-contact-error" role="alert">Please correct the highlighted fields.</p>
                 @endif
                 <label for="about-name">Name *</label>
                 <input
                     id="about-name"
                     name="name"
                     value="{{ old('name') }}"
-                    required
-                />
+                    required />
                 @error ('name')
-                    <small class="about-field-error">{{ $message }}</small>
+                <small class="about-field-error">{{ $message }}</small>
                 @enderror
                 <label for="about-business-name">Business name</label>
                 <input
                     id="about-business-name"
                     name="business_name"
-                    value="{{ old('business_name') }}"
-                />
+                    value="{{ old('business_name') }}" />
                 @error ('business_name')
-                    <small class="about-field-error">{{ $message }}</small>
+                <small class="about-field-error">{{ $message }}</small>
                 @enderror
                 <label for="about-email">Email *</label>
                 <input
@@ -498,30 +487,26 @@
                     name="email"
                     type="email"
                     value="{{ old('email') }}"
-                    required
-                />
+                    required />
                 @error ('email')
-                    <small class="about-field-error">{{ $message }}</small>
+                <small class="about-field-error">{{ $message }}</small>
                 @enderror
                 <label for="about-phone">Phone</label>
                 <input
                     id="about-phone"
                     name="phone"
                     type="tel"
-                    value="{{ old('phone') }}"
-                />
+                    value="{{ old('phone') }}" />
                 @error ('phone')
-                    <small class="about-field-error">{{ $message }}</small>
+                <small class="about-field-error">{{ $message }}</small>
                 @enderror
                 <label for="about-message">Message *</label>
                 <textarea
                     id="about-message"
                     name="message"
-                    required
-                    >{{ old('message') }}</textarea
-                >
+                    required>{{ old('message') }}</textarea>
                 @error ('message')
-                    <small class="about-field-error">{{ $message }}</small>
+                <small class="about-field-error">{{ $message }}</small>
                 @enderror
                 <button type="submit">Send message</button>
             </form>
@@ -529,4 +514,5 @@
     </main>
     @include ('layouts.footer')
 </body>
+
 </html>

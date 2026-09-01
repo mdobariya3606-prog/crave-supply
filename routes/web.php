@@ -5,6 +5,7 @@ use App\Models\Review;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 require_once 'auth.php';
@@ -21,6 +22,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
+    \Illuminate\Support\Facades\Redis::set('last_accessed', now()->toDateTimeString());
     return view(
         'dashboard',
         [
