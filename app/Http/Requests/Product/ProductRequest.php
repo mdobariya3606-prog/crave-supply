@@ -32,6 +32,7 @@ class ProductRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0', 'decimal:0,2'],
             'stock' => ['required', 'integer', 'min:0'],
+            'threshold' => ['sometimes', 'integer', 'min:0'],
             'is_available' => ['sometimes', 'boolean'],
             'images' => ['sometimes', 'array', 'max:8'],
             'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],

@@ -17,6 +17,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
+        'threshold',
         'is_available',
     ];
 
@@ -25,6 +26,7 @@ class Product extends Model
         return [
             'price' => 'decimal:2',
             'stock' => 'integer',
+            'threshold' => 'integer',
             'is_available' => 'boolean',
         ];
     }

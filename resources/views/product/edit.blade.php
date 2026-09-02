@@ -172,6 +172,15 @@
                             <small class="field-error">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="threshold">Low-stock threshold</label>
+                        <div class="input-wrapper">
+                            <input id="threshold" name="threshold" type="number" min="0" value="{{ old('threshold', $product->threshold ?? 0) }}" step="1" />
+                        </div>
+                        @error ('threshold')
+                            <small class="field-error">{{ $message }}</small>
+                        @enderror
+                    </div>
                     <div class="form-group full-width">
                         <label for="description">Description</label>
                         <div class="input-wrapper">

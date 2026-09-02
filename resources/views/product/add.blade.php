@@ -216,6 +216,16 @@
                         @enderror
                     </div>
 
+                    <div class="form-group{{ $errors->has('threshold') ? ' has-error' : '' }}">
+                        <label for="threshold">Low-stock threshold</label>
+                        <div class="input-wrapper">
+                            <input id="threshold" name="threshold" type="number" value="{{ old('threshold', 0) }}" min="0" step="1" />
+                        </div>
+                        @error ('threshold')
+                            <div class="error-text is-visible"><span>{{ $message }}</span></div>
+                        @enderror
+                    </div>
+
                     <div
                         class="form-group full-width{{ $errors->has('description') ? ' has-error' : '' }}"
                     >
