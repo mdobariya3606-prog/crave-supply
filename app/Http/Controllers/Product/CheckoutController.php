@@ -115,6 +115,41 @@ class CheckoutController extends Controller
         return redirect()->route('orders.confirmation', $order)->with('success', 'Your order was submitted successfully.');
     }
 
+    public function payment(Request $request)
+    {
+        $this->customer($request);
+        $request->validate([
+            'delivery_address' => ['required', 'string', 'max:255'],
+        ]);
+
+        [$items, $subtotal] = $this->cartItems($request);
+        if (empty($items)) {
+            return redirect()->route('cart.index')->withErrors(['cart' => 'Your cart is empty.']);
+        }
+
+        return view('product.payment', [
+            'items' => $items,
+            'subtotal' => $subtotal,
+            'delivery' => $subtotal >= 2000 ? 0 : 100,
+            'deliveryAddress' => $request->string('delivery_address')->trim()->toString(),
+        ]);
+    }
+
+    public function submitPayment(Request $request)
+    {
+        $this->customer($request);
+        $request->validate([
+            'delivery_address' => ['required', 'string', 'max:255'],
+            'card_name' => ['required', 'string', 'max:100'],
+            'card_number' => ['required', 'string', 'max:19'],
+            'expiry' => ['required', 'string', 'max:5'],
+            'cvv' => ['required', 'string', 'max:4'],
+        ]);
+
+        // Dummy payment only: card details are intentionally neither processed nor stored.
+        return $this->submit($request);
+    }
+
     public function confirmation(Request $request, Order $order)
     {
         abort_unless($request->user()->id === $order->user_id || $request->user()->role === 'admin', 403);

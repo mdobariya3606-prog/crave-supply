@@ -285,7 +285,7 @@
                         >₹{{ number_format($subtotal + $delivery, 2) }}</strong
                     >
                 </div>
-                <form action="{{ route('cart.submit') }}" method="POST">
+                <form action="{{ route('orders.payment') }}" method="POST">
                     @csrf
                     <div class="delivery-address">
                         <label for="delivery_address">
@@ -309,7 +309,7 @@
                         @enderror
                     </div>
                     <button class="submit-order" type="submit">
-                        Submit order
+                        Continue to payment
                     </button>
                 </form>
                 <a class="back-link" href="{{ route('cart.index') }}"

@@ -14,6 +14,8 @@ Route::middleware(['auth', EnsureAccountIsActive::class])
             ->name('orders.')
             ->group(function () {
                 Route::get('/', 'orders')->name('index');
+                Route::post('/payment', 'payment')->name('payment');
+                Route::post('/payment/submit', 'submitPayment')->name('payment.submit');
                 Route::get('/{order}/confirmation', 'confirmation')->name('confirmation');
                 Route::get('/{order}/bill', 'bill')->name('bill');
             });
