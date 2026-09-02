@@ -55,7 +55,8 @@
         .order-number {
             margin: 20px 0;
             padding: 15px;
-            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
             color: #133458;
             background: #eff6ff;
             font-size: 14px;
@@ -184,6 +185,58 @@
             font-size: 13px;
             font-weight: 700;
             text-decoration: none;
+        }
+
+        html[data-theme="dark"] body {
+            color: #f8fafc;
+            background: #1e293b;
+        }
+
+        html[data-theme="dark"] .confirmation-card {
+            border-color: #365c46;
+            background: #2c2722;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .2);
+        }
+
+        html[data-theme="dark"] h1,
+        html[data-theme="dark"] .tracking-header {
+            color: #dbeafe;
+        }
+
+        html[data-theme="dark"] p,
+        html[data-theme="dark"] .track-step {
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .order-number {
+            color: #dbeafe;
+            background: #1e293b;    
+        }
+
+        html[data-theme="dark"] .tracking {
+            border-color: #475569;
+            background: #1e293b;
+        }
+
+        html[data-theme="dark"] .track-progress {
+            background: #475569;
+        }
+
+        html[data-theme="dark"] .track-step.active {
+            color: #86efac;
+        }
+
+        html[data-theme="dark"] .track-step.complete {
+            color: #5eead4;
+        }
+
+        html[data-theme="dark"] .track-step .dot {
+            border-color: #64748b;
+            background: #2c2722;
+        }
+
+        html[data-theme="dark"] .order-list li {
+            border-color: #475569;
         }
     </style>
 </head>

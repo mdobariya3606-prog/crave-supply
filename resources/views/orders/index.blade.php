@@ -102,6 +102,10 @@
             border-radius: 999px;
             background: #e2e8f0;
         }
+        html[data-theme="dark"] .mini-tracker-progress {
+            background: #475569;
+
+        }
 
         @keyframes fillMiniProgress {
             from {
