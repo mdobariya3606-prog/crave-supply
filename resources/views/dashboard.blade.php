@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <meta charset="UTF-8" />
@@ -7,8 +8,7 @@
     <title>CraveSupply — Better snacks for every break</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    />
+        rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}" />
     <style>
         :root {
@@ -474,6 +474,11 @@
             border-radius: 20px;
             color: #fff;
             background: var(--forest);
+        }
+
+        html[data-theme='dark'] .premium-callout {
+            color: #a8b58a;
+            background: #252b1c;
         }
 
         .premium-callout h2 {
@@ -1115,32 +1120,24 @@
                 <p class="eyebrow">CraveSupply · snacks made simple</p>
                 <h1>Make every break taste better.</h1>
                 <p>Discover thoughtfully selected snacks, drinks, and pantry favourites for offices, cafés, retailers, and the people they serve.</p>
-                <a class="primary-btn" href="#catalogue"
-                    >Shop the snack range <span aria-hidden="true">→</span></a
-                >
+                <a class="primary-btn" href="#catalogue">Shop the snack range <span aria-hidden="true">→</span></a>
             </div>
             <div class="hero-image">
                 <img
                     src="{{ asset('images/snack-hero.svg') }}"
-                    alt="Colourful snacks arranged for sharing"
-                />
+                    alt="Colourful snacks arranged for sharing" />
             </div>
         </section>
 
         <section class="premium-proof" aria-label="CraveSupply benefits">
             <div class="proof-item">
-                <strong>Curated premium range</strong
-                ><span>Products chosen for quality and everyday appeal.</span>
+                <strong>Curated premium range</strong><span>Products chosen for quality and everyday appeal.</span>
             </div>
             <div class="proof-item">
-                <strong>Wholesale-ready selection</strong
-                ><span
-                    >Practical options for offices, cafés, and retailers.</span
-                >
+                <strong>Wholesale-ready selection</strong><span>Practical options for offices, cafés, and retailers.</span>
             </div>
             <div class="proof-item">
-                <strong>Smarter restocking</strong
-                ><span>Clear categories that make repeat orders easier.</span>
+                <strong>Smarter restocking</strong><span>Clear categories that make repeat orders easier.</span>
             </div>
         </section>
 
@@ -1179,14 +1176,12 @@
             <div class="snack-grid">
                 <article class="snack-card">
                     <a
-                        href="{{ route('products.category', 'artisan-beverages') }}"
-                    >
+                        href="{{ route('products.category', 'artisan-beverages') }}">
                         <img
                             class="snack-image"
                             loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jwwKuoUM0ybse44TBLGFB8JYRY5VzMWHvOs9SJyp.jpg"
-                            alt="Cold Brew Concentrate"
-                        />
+                            alt="Cold Brew Concentrate" />
                         <div class="snack-body">
                             <p class="snack-label">Premium Beverages</p>
                             <h3>Artisan Beverages</h3>
@@ -1197,14 +1192,12 @@
 
                 <article class="snack-card">
                     <a
-                        href="{{ route('products.category', 'premium-confectionery') }}"
-                    >
+                        href="{{ route('products.category', 'premium-confectionery') }}">
                         <img
                             class="snack-image"
                             loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/mF1EsVw31FzgdpSnFRmpJHave0BOt8xuC6jMq6sl.webp"
-                            alt="Godiva Milk Chocolate Assortment"
-                        />
+                            alt="Godiva Milk Chocolate Assortment" />
                         <div class="snack-body">
                             <p class="snack-label">Confectionery</p>
                             <h3>Premium Confectionery</h3>
@@ -1214,14 +1207,12 @@
                 </article>
                 <article class="snack-card">
                     <a
-                        href="{{ route('products.category', 'gourmet-pantry') }}"
-                    >
+                        href="{{ route('products.category', 'gourmet-pantry') }}">
                         <img
                             class="snack-image"
                             loading="lazy"
                             src="http://127.0.0.1:8000/storage/products/jazIFilyTjQos1e5IzNpaxDolOOFqLPL9lnOzEpd.jpg"
-                            alt="Wild Orchard Preserve"
-                        />
+                            alt="Wild Orchard Preserve" />
                         <div class="snack-body">
                             <p class="snack-label">Premium Pantry Essentials</p>
                             <h3>Gourmet Pantry</h3>
@@ -1232,140 +1223,120 @@
         </section>
 
         @guest
-            <div
-                class="login-popup"
-                id="catalogueLoginPopup"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="catalogue-login-title"
-                hidden
-            >
-                <div class="login-popup-card">
-                    <button
-                        class="login-popup-close"
-                        type="button"
-                        aria-label="Close login popup"
-                    >
-                        &times;
-                    </button>
-                    <p class="snack-label">Welcome to CraveSupply</p>
-                    <h2 id="catalogue-login-title">
-                        Sign in for a smoother restock.
-                    </h2>
-                    <p>You can continue browsing as a guest, or log in to keep your catalogue and ordering experience close at hand.</p>
-                    <div class="login-popup-actions">
-                        <a
-                            class="nav-cta"
-                            href="{{ route('login') }}"
-                            style="
+        <div
+            class="login-popup"
+            id="catalogueLoginPopup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="catalogue-login-title"
+            hidden>
+            <div class="login-popup-card">
+                <button
+                    class="login-popup-close"
+                    type="button"
+                    aria-label="Close login popup">
+                    &times;
+                </button>
+                <p class="snack-label">Welcome to CraveSupply</p>
+                <h2 id="catalogue-login-title">
+                    Sign in for a smoother restock.
+                </h2>
+                <p>You can continue browsing as a guest, or log in to keep your catalogue and ordering experience close at hand.</p>
+                <div class="login-popup-actions">
+                    <a
+                        class="nav-cta"
+                        href="{{ route('login') }}"
+                        style="
                                 border-radius: 20px !important;
                                 padding: 6px 9px;
                                 width: 50%;
                                 text-align: center;
-                            "
-                            >Log in</a
-                        >
-                    </div>
+                            ">Log in</a>
                 </div>
             </div>
+        </div>
         @endguest
 
         @if (!empty($randomProducts) && $randomProducts->isNotEmpty())
-            <section
-                class="products-section"
-                aria-labelledby="featured-products-title"
-                style="margin-top: 48px"
-            >
-                <div class="section-heading">
-                    <div>
-                        <h2 id="featured-products-title">
-                            Featured <span>products</span>
-                        </h2>
-                        <p>Randomly selected items for your everyday supply needs.</p>
-                    </div>
-                    <a
-                        class="text-link"
-                        href="{{ route('products.dashboard') }}"
-                        >View all products →</a
-                    >
+        <section
+            class="products-section"
+            aria-labelledby="featured-products-title"
+            style="margin-top: 48px">
+            <div class="section-heading">
+                <div>
+                    <h2 id="featured-products-title">
+                        Featured <span>products</span>
+                    </h2>
+                    <p>Randomly selected items for your everyday supply needs.</p>
                 </div>
+                <a
+                    class="text-link"
+                    href="{{ route('products.dashboard') }}">View all products →</a>
+            </div>
 
-                <div class="product-scroller-wrap">
-                    <div class="product-scroller-track">
-                        @foreach ($randomProducts as $product)
-                            <article class="product-card">
-                                <a
-                                    href="{{ route('products.profile', $product) }}"
-                                >
-                                    <img
-                                        class="product-card-image"
-                                        src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
-                                        alt="{{ $product->name }}"
-                                    />
-                                </a>
-                                <div class="product-card-body">
-                                    <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
-                                    <a
-                                        class="product-card-name"
-                                        href="{{ route('products.profile', $product) }}"
-                                        >{{ $product->name }}</a
-                                    >
-                                    <p class="product-card-description">
-                                        {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
-                                    </p>
-                                    <div class="product-card-footer">
-                                        <strong class="product-card-price"
-                                            >₹{{ number_format((float) $product->price, 2) }}</strong
-                                        >
-                                        <span
-                                            class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}"
-                                            >{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span
-                                        >
-                                    </div>
-                                </div>
-                            </article>
-                        @endforeach
+            <div class="product-scroller-wrap">
+                <div class="product-scroller-track">
+                    @foreach ($randomProducts as $product)
+                    <article class="product-card">
+                        <a
+                            href="{{ route('products.profile', $product) }}">
+                            <img
+                                class="product-card-image"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                alt="{{ $product->name }}" />
+                        </a>
+                        <div class="product-card-body">
+                            <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
+                            <a
+                                class="product-card-name"
+                                href="{{ route('products.profile', $product) }}">{{ $product->name }}</a>
+                            <p class="product-card-description">
+                                {{ $product->description ?: 'A carefully selected CraveSupply product for your everyday needs.' }}
+                            </p>
+                            <div class="product-card-footer">
+                                <strong class="product-card-price">₹{{ number_format((float) $product->price, 2) }}</strong>
+                                <span
+                                    class="product-card-status{{ !$product->is_available || $product->stock < 1 ? ' unavailable' : '' }}">{{ $product->is_available && $product->stock > 0 ? 'Available' : 'Out of stock' }}</span>
+                            </div>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+                <div class="scroller-controls">
+                    <div class="scroller-progress-wrap">
+                        <div class="scroller-progress-bar"></div>
                     </div>
-                    <div class="scroller-controls">
-                        <div class="scroller-progress-wrap">
-                            <div class="scroller-progress-bar"></div>
-                        </div>
-                        <div class="scroller-nav-buttons">
-                            <button
-                                type="button"
-                                class="scroller-btn prev"
-                                aria-label="Previous products"
-                            >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            <button
-                                type="button"
-                                class="scroller-btn next"
-                                aria-label="Next products"
-                            >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
+                    <div class="scroller-nav-buttons">
+                        <button
+                            type="button"
+                            class="scroller-btn prev"
+                            aria-label="Previous products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button
+                            type="button"
+                            class="scroller-btn next"
+                            aria-label="Next products">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
         @endif
 
         <section
             class="premium-callout"
-            aria-label="Premium supply call to action"
-        >
+            aria-label="Premium supply call to action">
             <div>
                 <h2>Stock smarter. Serve better.</h2>
                 <p>Bring premium everyday choices to your shelves without complicating your weekly routine.</p>
             </div>
-            <a class="text-link" href="#restock-guide"
-                >See the restock guide →</a
-            >
+            <a class="text-link" href="#restock-guide">See the restock guide →</a>
         </section>
 
         <section class="explore-section" aria-labelledby="explore-title">
@@ -1399,8 +1370,7 @@
         <section
             id="restock-guide"
             class="guide-section"
-            aria-labelledby="guide-title"
-        >
+            aria-labelledby="guide-title">
             <div class="section-heading">
                 <div>
                     <h2 id="guide-title">A simpler restock routine</h2>
@@ -1430,120 +1400,101 @@
         <section
             id="about"
             class="service-band"
-            aria-label="CraveSupply service details"
-        >
+            aria-label="CraveSupply service details">
             <div class="service-item">
-                <strong>Built for busy teams</strong
-                ><span
-                    >Clear choices and practical categories for offices, cafés,
-                    and small businesses.</span
-                >
+                <strong>Built for busy teams</strong><span>Clear choices and practical categories for offices, cafés,
+                    and small businesses.</span>
             </div>
             <div class="service-item">
-                <strong>Easy to get started</strong
-                ><span
-                    >Browse the catalogue, create an account, and keep your
-                    everyday supplies in one place.</span
-                >
+                <strong>Easy to get started</strong><span>Browse the catalogue, create an account, and keep your
+                    everyday supplies in one place.</span>
             </div>
             <div class="service-item">
-                <strong>Support when you need it</strong
-                ><span
-                    >Our team is here to help with product questions and your
-                    next replenishment.</span
-                >
+                <strong>Support when you need it</strong><span>Our team is here to help with product questions and your
+                    next replenishment.</span>
             </div>
         </section>
 
         @if (auth()->user()?->role !== 'admin')
-            <section
-                id="contact"
-                class="premium-callout contact-callout"
-                aria-labelledby="contact-title"
-            >
-                <div>
-                    <p class="eyebrow">Have a question?</p>
-                    <h2 id="contact-title">
-                        Let’s make your next restock easier.
-                    </h2>
-                    <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
-                </div>
-                <a class="primary-btn" href="mailto:hello@cravesupply.test"
-                    >Contact us</a
-                >
-            </section>
+        <section
+            id="contact"
+            class="premium-callout contact-callout"
+            aria-labelledby="contact-title">
+            <div>
+                <p class="eyebrow">Have a question?</p>
+                <h2 id="contact-title">
+                    Let’s make your next restock easier.
+                </h2>
+                <p>Tell us what you need for your shelves, team, or café and we’ll help you find the right range.</p>
+            </div>
+            <a class="primary-btn" href="mailto:hello@cravesupply.test">Contact us</a>
+        </section>
         @endif
 
         @if ($topReviews->isNotEmpty())
-            <section class="review-section" aria-labelledby="reviews-title">
-                <div class="section-heading">
-                    <div>
-                        <h2 id="reviews-title">What businesses are saying</h2>
-                        <p>Real routines, made a little easier.</p>
-                    </div>
+        <section class="review-section" aria-labelledby="reviews-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="reviews-title">What businesses are saying</h2>
+                    <p>Real routines, made a little easier.</p>
                 </div>
+            </div>
 
-                <div class="review-slider" aria-live="polite">
-                    <div class="review-track" id="reviewTrack">
-                        @foreach ($topReviews as $review)
-                            <article class="review-card">
-                                <div
-                                    class="review-stars"
-                                    aria-label="{{ $review->rating }} out of 5 stars"
-                                >
-                                    {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                                </div>
-                                <blockquote>
-                                    “{{ $review->comment }}”
-                                </blockquote>
-                                <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
-                                @if ($review->product)
-                                    <a
-                                        class="review-product"
-                                        href="{{ route('products.profile', $review->product) }}"
-                                        >Reviewed: {{ $review->product->name }}</a
-                                    >
-                                @endif
-                            </article>
-                        @endforeach
-                    </div>
+            <div class="review-slider" aria-live="polite">
+                <div class="review-track" id="reviewTrack">
+                    @foreach ($topReviews as $review)
+                    <article class="review-card">
+                        <div
+                            class="review-stars"
+                            aria-label="{{ $review->rating }} out of 5 stars">
+                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                        </div>
+                        <blockquote>
+                            “{{ $review->comment }}”
+                        </blockquote>
+                        <p class="review-author">{{ $review->user?->name ?: 'Customer' }}</p>
+                        @if ($review->product)
+                        <a
+                            class="review-product"
+                            href="{{ route('products.profile', $review->product) }}">Reviewed: {{ $review->product->name }}</a>
+                        @endif
+                    </article>
+                    @endforeach
                 </div>
+            </div>
 
-                <div class="review-controls">
-                    <div class="review-dots" aria-label="Choose a review">
-                        @foreach ($topReviews as $index => $review)
-                            <button
-                                class="review-dot{{ $index === 0 ? ' active' : '' }}"
-                                type="button"
-                                aria-label="Show review {{ $index + 1 }}"
-                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                            ></button>
-                        @endforeach
-                    </div>
-                    <div class="review-buttons">
-                        <button
-                            class="review-button"
-                            id="reviewPrevious"
-                            type="button"
-                            aria-label="Previous review"
-                        >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button
-                            class="review-button"
-                            id="reviewNext"
-                            type="button"
-                            aria-label="Next review"
-                        >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
+            <div class="review-controls">
+                <div class="review-dots" aria-label="Choose a review">
+                    @foreach ($topReviews as $index => $review)
+                    <button
+                        class="review-dot{{ $index === 0 ? ' active' : '' }}"
+                        type="button"
+                        aria-label="Show review {{ $index + 1 }}"
+                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
+                    @endforeach
                 </div>
-            </section>
+                <div class="review-buttons">
+                    <button
+                        class="review-button"
+                        id="reviewPrevious"
+                        type="button"
+                        aria-label="Previous review">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <button
+                        class="review-button"
+                        id="reviewNext"
+                        type="button"
+                        aria-label="Next review">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
         @endif
     </main>
 
@@ -1565,8 +1516,7 @@
                         document.body.style.overflow = "hidden";
                         observer.disconnect();
                     }
-                },
-                {
+                }, {
                     threshold: 0.2,
                 },
             );
@@ -1610,8 +1560,7 @@
                         entry.target.classList.add("is-visible");
                         revealObserver.unobserve(entry.target);
                     });
-                },
-                {
+                }, {
                     threshold: 0.12,
                     rootMargin: "0px 0px -40px",
                 },
@@ -1631,10 +1580,9 @@
                         event.preventDefault();
                         catalogue.scrollIntoView({
                             behavior: window.matchMedia(
-                                "(prefers-reduced-motion: reduce)",
-                            ).matches
-                                ? "auto"
-                                : "smooth",
+                                    "(prefers-reduced-motion: reduce)",
+                                ).matches ?
+                                "auto" : "smooth",
                             block: "start",
                         });
                         catalogue.classList.remove("catalogue-focus");
@@ -1836,4 +1784,5 @@
         });
     </script>
 </body>
+
 </html>
