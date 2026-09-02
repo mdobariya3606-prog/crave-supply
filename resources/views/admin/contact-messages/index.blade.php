@@ -37,6 +37,7 @@
 
         .message-list {
             overflow: hidden;
+            border-radius: 18px;
         }
 
         .message-item {
@@ -85,6 +86,7 @@
 
         .message-detail {
             padding: 28px;
+            border-radius: 18px;
         }
 
         .message-detail h2 {
@@ -107,8 +109,8 @@
             background: #f8f4ed;
             color: #51483e;
             line-height: 1.7;
-            white-space: pre-wrap;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
         }
 
         .reply-form {
@@ -130,6 +132,7 @@
             min-height: 130px;
             padding: 12px;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
             background: #fffdf9;
             font: inherit;
             resize: vertical;

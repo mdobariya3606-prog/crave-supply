@@ -31,6 +31,7 @@
             flex: 1;
             padding: 12px;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
         }
 
         .customer-filter button {
@@ -43,6 +44,7 @@
         .customer-table {
             overflow: auto;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
             background: #fffdf9;
         }
 

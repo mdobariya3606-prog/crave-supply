@@ -59,6 +59,7 @@
             overflow: auto;
             margin-top: 24px;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
             background: #fffdf9;
         }
 
