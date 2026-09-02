@@ -74,6 +74,7 @@
         .contact-form {
             padding: 30px;
             border: 1px solid #ded4c8;
+            border-radius: 36px;
             background: #fffdf9;
         }
 
@@ -98,6 +99,7 @@
             margin-bottom: 18px;
             padding: 13px 14px;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
             outline: 0;
             color: #29251f;
             background: #f8f4ed;

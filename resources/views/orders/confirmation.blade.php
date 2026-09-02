@@ -82,6 +82,7 @@
             padding: 6px 10px;
             border-radius: 99px;
             color: #166534;
+            border-radius: 9px;
             background: #dcfce7;
             font-size: 11px;
             font-weight: 800;

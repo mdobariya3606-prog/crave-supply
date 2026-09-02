@@ -395,7 +395,7 @@
         height: 36px;
         overflow: hidden;
         border: 1px solid #cfc3b4;
-        border-radius: 0;
+        border-radius: 18px;
         background: #fffdf9;
     }
 
@@ -449,7 +449,7 @@
         right: 0;
         overflow: hidden;
         border: 1px solid #ded4c8;
-        border-radius: 0;
+        border-radius: 18px;
         background: #fffdf9;
         box-shadow: 0 16px 34px rgba(68, 48, 31, .14);
     }

@@ -1018,13 +1018,19 @@
                 aria-label="Product management actions">
                 <a
                     class="secondary"
-                    href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add product</a>
+                    href="{{ route('products.add', $selectedCategory ? ['category' => $selectedCategory->id] : []) }}">Add product
+                </a>
 
                 @if ($selectedCategory)
                 <a
                     class="secondary"
                     href="{{ route('categories.edit', $selectedCategory) }}">
                     Edit category
+                </a>
+                @else
+                <a
+                    class="secondary"
+                    href="{{ route('categories.add') }}">Add Category
                 </a>
                 @endif
             </div>

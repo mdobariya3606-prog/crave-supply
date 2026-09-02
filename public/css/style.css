@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap");
 
 *,
 *::before,
@@ -53,7 +53,7 @@ body::after {
     border: 1px solid var(--line);
     border-radius: 0;
     background: var(--surface);
-    box-shadow: 0 14px 35px rgba(68, 48, 31, .08);
+    box-shadow: 0 14px 35px rgba(68, 48, 31, 0.08);
 }
 
 .card-header {
@@ -86,7 +86,7 @@ body::after {
 .card-header h1 {
     margin: 0;
     color: var(--ink);
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 32px;
     font-weight: 400;
     letter-spacing: -0.5px;
@@ -212,9 +212,7 @@ body::after {
     outline: none;
     color: var(--ink);
     background: #f8fafc;
-    font:
-        14px "Inter",
-        sans-serif;
+    font-family: "DM Sans", sans-serif;
     transition: 0.25s ease;
 }
 
@@ -223,7 +221,7 @@ body::after {
     padding: 12px 66px 12px 44px;
 }
 
-.form-group input[type='radio'] {
+.form-group input[type="radio"] {
     height: 15px;
 }
 
@@ -239,7 +237,9 @@ body::after {
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: var(--muted);
+    font-family: "DM Sans", sans-serif;
 }
+
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
@@ -247,6 +247,7 @@ body::after {
     background: #fff;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
+
 .login-fields {
     display: grid;
     gap: 20px;
@@ -333,18 +334,23 @@ body::after {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.pass-toggle .eye-closed { display: none; }
-.pass-toggle.is-visible .eye-open { display: none; }
-.pass-toggle.is-visible .eye-closed { display: block; }
+.pass-toggle .eye-closed {
+    display: none;
+}
+.pass-toggle.is-visible .eye-open {
+    display: none;
+}
+.pass-toggle.is-visible .eye-closed {
+    display: block;
+}
 .pass-toggle:hover,
-html[data-theme='dark'] .pass-toggle:hover
- {
+html[data-theme="dark"] .pass-toggle:hover {
     color: #4a808d !important;
     background: transparent !important;
     transition: 0.5s;
 }
 
-html[data-theme='dark'] .pass-toggle {
+html[data-theme="dark"] .pass-toggle {
     background: transparent !important;
     color: var(--blue) !important;
 }
@@ -361,7 +367,11 @@ html[data-theme='dark'] .pass-toggle {
     line-height: 1.4;
     opacity: 0;
     transform: translateY(-4px);
-    transition: max-height 0.25s ease, margin-top 0.25s ease, opacity 0.2s ease, transform 0.25s ease;
+    transition:
+        max-height 0.25s ease,
+        margin-top 0.25s ease,
+        opacity 0.2s ease,
+        transform 0.25s ease;
 }
 .error-text svg {
     width: 14px;
@@ -444,7 +454,7 @@ html[data-theme='dark'] .pass-toggle {
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
-    transition: .25s ease;
+    transition: 0.25s ease;
 }
 .secondary-btn:hover {
     border-color: var(--blue);

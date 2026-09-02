@@ -1,4 +1,3 @@
-{{ \Illuminate\Support\Facades\Redis::get('last_accessed') }}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,7 +90,7 @@
         .about-values {
             overflow: hidden;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 3fr);
             gap: 1px;
             margin-top: 18px;
             background: #ded4c8;
@@ -192,7 +191,8 @@
             margin-top: 82px;
             padding: 32px;
             background: #2c2722;
-            color: #f8f4ed
+            color: #f8f4ed;
+            border-radius: 24px;
         }
 
         .about-note h2 {
@@ -212,6 +212,7 @@
             padding: 13px 18px;
             color: #29251f;
             background: #dba8a3;
+            border-radius: 18px;
             font-size: 12px;
             font-weight: 700;
             text-decoration: none
@@ -220,7 +221,7 @@
         .about-stat-grid {
             overflow: hidden;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 3fr);
             gap: 1px;
             margin-top: 82px;
             background: #ded4c8;
@@ -289,6 +290,7 @@
         .about-contact-form {
             padding: 30px;
             border: 1px solid #ded4c8;
+            border-radius: 36px;
             background: #fffdf9
         }
 
@@ -310,6 +312,7 @@
             margin-bottom: 15px;
             padding: 12px;
             border: 1px solid #ded4c8;
+            border-radius: 18px;
             background: #f8f4ed;
             font: inherit;
             transition: 0.2s ease;

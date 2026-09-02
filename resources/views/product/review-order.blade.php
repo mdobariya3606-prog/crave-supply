@@ -288,13 +288,20 @@
                 <form action="{{ route('cart.submit') }}" method="POST">
                     @csrf
                     <div class="delivery-address">
-                        <label for="delivery_address">Delivery address</label>
+                        <label for="delivery_address">
+                            {{ auth()->user()->business_address ? 'Confirm your delivery address' : 'Add your business address' }}
+                        </label>
+                        @if (! auth()->user()->business_address)
+                            <p style="margin: 0 0 8px; color: #64748b; font-size: 12px;">
+                                Please enter your address to complete this order. We’ll save it to your business profile for next time.
+                            </p>
+                        @endif
                         <textarea
                             id="delivery_address"
                             name="delivery_address"
                             maxlength="255"
                             required
-                            placeholder="Enter your delivery address"
+                            placeholder="Enter your business address"
                             >{{ old('delivery_address', auth()->user()->business_address) }}</textarea
                         >
                         @error ('delivery_address')

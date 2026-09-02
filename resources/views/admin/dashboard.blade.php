@@ -118,6 +118,7 @@
         .panel {
             padding: 22px;
             border: 1px solid #ded4c8;
+            border-radius: 36px;
             background: #fffdf9;
         }
 
@@ -146,7 +147,8 @@
             display: flex;
             align-items: center;
             padding: 5px 8px;
-            color: #49603b;
+            color: #37492c;
+            border-radius: 9px;
             background: #e8eddf;
             font-size: 10px;
             text-transform: capitalize;

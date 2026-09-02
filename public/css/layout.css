@@ -356,6 +356,7 @@ html[data-theme="dark"] .site-footer a {
 .snack-card,
 .guide-card {
     border: 1px solid transparent;
+    border-radius: 18px;
     transition:
         border-color 0.22s ease,
         box-shadow 0.22s ease,

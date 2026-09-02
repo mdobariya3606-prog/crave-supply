@@ -29,7 +29,6 @@ input,
 select,
 textarea {
     border-color: var(--premium-line) !important;
-    border-radius: 0 !important;
     background: var(--premium-surface) !important;
 }
 input:focus,
@@ -48,7 +47,7 @@ textarea:focus {
 .review-card,
 .review-form {
     border-color: var(--premium-line) !important;
-    border-radius: 0 !important;
+    border-radius: 36px;
     background: var(--premium-surface) !important;
     box-shadow: 0 12px 30px rgba(68, 48, 31, 0.06) !important;
 }
@@ -70,18 +69,6 @@ button[type="submit"] {
 .button:hover,
 button[type="submit"]:hover {
     background: var(--premium-accent);
-}
-
-.availability,
-.status,
-.customer-order-status {
-    border-radius: 0 !important;
-}
-.pagination a,
-.pagination span,
-.review-pagination a,
-.review-pagination span {
-    border-radius: 0 !important;
 }
 
 @media (max-width: 760px) {
