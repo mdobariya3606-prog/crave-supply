@@ -150,6 +150,16 @@
             text-transform: capitalize;
         }
 
+        .track-step-date {
+            display: block;
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 1.35;
+            text-transform: none;
+        }
+
         .track-step.active {
             color: #166534;
         }
@@ -206,6 +216,10 @@
         html[data-theme="dark"] p,
         html[data-theme="dark"] .track-step {
             color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .track-step-date {
+            color: #94a3b8;
         }
 
         html[data-theme="dark"] .order-number {
@@ -270,6 +284,7 @@
             $trackingSteps = \App\Enums\OrderStatus::trackingSteps();
             $currentIndex = array_search($order->status->value, array_map(fn ($step) => $step->value, $trackingSteps), true);
             $trackingProgress = $order->status->progressPercentage();
+            $historyByStatus = $order->orderStatusHistories->reverse()->keyBy(fn ($history) => $history->status->value);
             @endphp
 
             <div class="tracking" aria-label="Order tracking progress">
@@ -294,6 +309,9 @@
                         <div class="track-step {{ $stepClass }}">
                             <span class="dot"></span>
                             {{ str_replace('_', ' ', $step->value) }}
+                            @if ($historyByStatus->has($step->value))
+                                <span class="track-step-date">{{ $historyByStatus->get($step->value)->created_at->format('M j, Y h:i A') }}</span>
+                            @endif
                         </div>
                         @endforeach
                 </div>
