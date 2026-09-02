@@ -111,7 +111,7 @@ html[data-theme="dark"] {
     --layout-muted: #b9aa9b;
     --layout-line: #4a4037;
     --layout-cream: #1d1916;
-    --layout-surface: #2a241f;
+    --layout-surface: #29251f;
 }
 
 html[data-theme="dark"] body,
@@ -310,7 +310,8 @@ html[data-theme="dark"] .about-section p {
 }
 
 html[data-theme="dark"] .brand-mark {
-    background: #332b25;
+    color: #ddd;
+    background: #444;
 }
 
 html[data-theme="dark"] .quick-card h2,
@@ -333,7 +334,6 @@ html[data-theme="dark"] .badge {
 html[data-theme="dark"] .availability.unavailable,
 html[data-theme="dark"] .low {
     color: #f0b3a4 !important;
-    background: #512d29 !important;
 }
 
 html[data-theme="dark"] .about-note a,
