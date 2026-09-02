@@ -26,9 +26,12 @@ class ProfileController extends Controller
 
     public function destroy(Request $request)
     {
-        if ($request->user()->orders()
+        if (
+            $request->user()
+            ->orders()
             ->whereNotIn('status', [OrderStatus::DELIVERED->value, OrderStatus::CANCELLED->value])
-            ->exists()) {
+            ->exists()
+        ) {
             return back()->with('error', 'Your profile cannot be deleted while you have active orders.');
         }
 

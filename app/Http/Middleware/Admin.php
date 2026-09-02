@@ -27,7 +27,7 @@ class Admin
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('status', 'Your admin session expired after 30 minutes of inactivity. Please log in again.');
+            return redirect()->route('login')->with('status', 'Your admin session expired after 1 hour of inactivity. Please log in again.');
         }
 
         $request->session()->put('admin_last_activity', now()->timestamp);
