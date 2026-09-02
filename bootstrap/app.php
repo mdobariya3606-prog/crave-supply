@@ -4,6 +4,8 @@ use App\Http\Middleware\Admin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use App\Http\Middleware\EnsureAccountIsActive;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -19,5 +21,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->renderable(function (MethodNotAllowedHttpException $exception) {
+            Log::error('HTTP method not allowed.', [
+                'method' => request()->method(),
+                'url' => request()->fullUrl(),
+                'allowed_methods' => $exception->getHeaders()['Allow'] ?? null,
+                'ip' => request()->ip(),
+            ]);
+
+            return response()->view('errors.405', status: 405);
+        });
     })->create();

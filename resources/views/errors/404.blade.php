@@ -10,6 +10,7 @@
         rel="stylesheet"
     />
     <link rel="stylesheet" href="{{ asset('css/error-pages.css') }}" />
+    <script>document.documentElement.dataset.theme = localStorage.getItem('cravesupply-theme') === 'dark' ? 'dark' : 'light';</script>
 </head>
 
 <body>
