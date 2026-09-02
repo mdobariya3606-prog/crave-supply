@@ -1222,7 +1222,7 @@
         html[data-theme='dark'] .service-highlights {
             border-top: 1px solid #8d6c4a;
             border-bottom: 1px solid #8d6c4a;
-            background: #8d6c4a;
+            background: #29251f;
         }
 
         html[data-theme='dark'] .service-highlight {
@@ -1672,7 +1672,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                                         >{{ $review->user?->name ?: 'Customer' }}</strong
                                     ><time
                                         >{{
-                        $review->created_at->format('M j, Y') }}</time
+        $review->created_at->format('M j, Y') }}</time
                                     >
                                     <span
                                         class="review-hidden-badge"
@@ -1783,7 +1783,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                             href="{{ route('products.profile', $relatedProduct) }}"
                         >
                             @php ($relatedImage = $relatedProduct->productImages->firstWhere('is_primary', true) ?:
-                    $relatedProduct->productImages->first())
+            $relatedProduct->productImages->first())
                             <img
                                 class="related-card-image"
                                 src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
@@ -1806,10 +1806,10 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             const gallery = document.querySelector("[data-gallery]");
             if (!gallery) return;
             const images = @json (
-                        $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
-                            asset('images/product-placeholder.svg'),
-                        ]
-                    );
+    $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
+        asset('images/product-placeholder.svg'),
+    ]
+);
             const track = gallery.querySelector("[data-gallery-track]");
             const thumbs = [...gallery.querySelectorAll("[data-gallery-thumb]")];
             let current = 0;
