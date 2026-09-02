@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <meta charset="UTF-8" />
@@ -87,6 +88,49 @@
             font-weight: 800;
             text-transform: capitalize;
             white-space: nowrap;
+        }
+
+        .mini-tracker {
+            margin: 16px 0 10px;
+            padding-top: 8px;
+        }
+
+        .mini-tracker-progress {
+            position: relative;
+            height: 8px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        @keyframes fillMiniProgress {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: var(--mini-progress, 0%);
+            }
+        }
+
+        .mini-tracker-progress>span {
+            position: absolute;
+            inset: 0 auto 0 0;
+            display: block;
+            width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            animation: fillMiniProgress 1s ease-out forwards;
+        }
+
+        .mini-tracker-label {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: capitalize;
         }
 
         .order-items {
@@ -191,69 +235,63 @@
                 <h1>My orders</h1>
                 <p>Track your snack orders and view what you’ve purchased.</p>
             </div>
-            <a class="order-link" href="{{ route('products.dashboard') }}"
-                >Continue shopping →</a
-            >
+            <a class="order-link" href="{{ route('products.dashboard') }}">Continue shopping →</a>
         </div>
         @if ($orders->isEmpty())
-            <div class="empty-orders">
-                You haven’t placed an order yet. Browse our snack range to get
-                started.
-            </div>
+        <div class="empty-orders">
+            You haven’t placed an order yet. Browse our snack range to get
+            started.
+        </div>
         @else
-            <div class="orders-list">
-                @foreach ($orders as $order)
-                    <article class="order-card">
-                        <div class="order-card-header">
-                            <div>
-                                <span
-                                    class="order-number"
-                                    >{{ $order->order_number }}</span
-                                ><span
-                                    class="order-date"
-                                    >{{ $order->created_at->format('M j, Y · g:i A') }}</span
-                                >
-                            </div>
-                            <span
-                                class="status"
-                                >{{ str_replace('_', ' ', $order->status->value) }}</span
-                            >
-                        </div>
-                        <ul class="order-items">
-                            @foreach ($order->orderItems as $item)
-                                <li>
-                                    <span
-                                        >{{ $item->product_name }} × {{ $item->quantity }}</span
-                                    ><strong
-                                        >₹{{ number_format($item->unit_price * $item->quantity, 2) }}</strong
-                                    >
-                                </li>
-                            @endforeach
-                        </ul>
-                        <div class="order-total">
-                            <span>Total</span
-                            ><strong
-                                >₹{{ number_format($order->total_amount, 2) }}</strong
-                            >
-                        </div>
-                        <a
-                            class="order-link"
-                            href="{{ route('orders.confirmation', $order) }}"
-                            >View order details →</a
-                        >
-                        <a
-                            class="order-link"
-                            href="{{ route('orders.bill', $order) }}"
-                            >Download bill (PDF) ↓</a
-                        >
-                    </article>
-                @endforeach
-            </div>
-            @if ($orders->hasPages())
-                <div class="pagination">{{ $orders->links() }}</div>
-            @endif
+        <div class="orders-list">
+            @foreach ($orders as $order)
+            <article class="order-card">
+                <div class="order-card-header">
+                    <div>
+                        <span
+                            class="order-number">{{ $order->order_number }}</span><span
+                            class="order-date">{{ $order->created_at->format('M j, Y · g:i A') }}</span>
+                    </div>
+                    <span
+                        class="status">{{ str_replace('_', ' ', $order->status->value) }}</span>
+                </div>
+                <div class="mini-tracker" aria-label="Order tracking progress">
+                    @php
+                    $progress = $order->status->progressPercentage();
+                    @endphp
+                    <div class="mini-tracker-progress">
+                        <span style="--mini-progress: {{ $progress }}%;"></span>
+                    </div>
+                    <div class="mini-tracker-label">
+                        <span>{{ str_replace('_', ' ', $order->status->value) }}</span>
+                        <span>{{ $progress }}%</span>
+                    </div>
+                </div>
+                <ul class="order-items">
+                    @foreach ($order->orderItems as $item)
+                    <li>
+                        <span>{{ $item->product_name }} × {{ $item->quantity }}</span><strong>₹{{ number_format($item->unit_price * $item->quantity, 2) }}</strong>
+                    </li>
+                    @endforeach
+                </ul>
+                <div class="order-total">
+                    <span>Total</span><strong>₹{{ number_format($order->total_amount, 2) }}</strong>
+                </div>
+                <a
+                    class="order-link"
+                    href="{{ route('orders.confirmation', $order) }}">View order details →</a>
+                <a
+                    class="order-link"
+                    href="{{ route('orders.bill', $order) }}">Download bill (PDF) ↓</a>
+            </article>
+            @endforeach
+        </div>
+        @if ($orders->hasPages())
+        <div class="pagination">{{ $orders->links() }}</div>
+        @endif
         @endif
     </main>
     @include ('layouts.footer')
 </body>
+
 </html>
