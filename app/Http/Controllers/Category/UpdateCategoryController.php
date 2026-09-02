@@ -11,19 +11,17 @@ class UpdateCategoryController extends Controller
 {
     public function edit(Category $category)
     {
-        abort_unless(auth()->user()?->role === 'admin', 403);
-
         return view('product.category-add', compact('category'));
     }
 
     public function update(CategoryRequest $request, Category $category)
     {
-        abort_unless($request->user()?->role === 'admin', 403);
         $categoryId = $category->id;
         $category->update($request->validated());
         ProductCache::forgetCategory($categoryId);
 
-        return redirect()->route('admin.categories.index')
+        return redirect()
+            ->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');
     }
 }
