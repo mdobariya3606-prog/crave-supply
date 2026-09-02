@@ -346,7 +346,10 @@
                 <h2>Stock watch</h2>
                 @forelse ($lowStockProducts as $product)
                 <div class="stock-row">
-                    <span><a href="{{ route('products.profile', $product->slug) }}">{{ $product->name }}</a></span><strong
+                    <span>
+                        <a href="{{ route('products.profile', $product->slug) }}">{{ $product->name }}</a>
+                        <small>{{ $product->category?->name ?: 'Uncategorized' }} · threshold {{ $product->threshold }}</small>
+                    </span><strong
                         class="{{ $product->stock < 1 ? 'low' : '' }}">{{ $product->stock }}</strong>
                 </div>
                 @empty

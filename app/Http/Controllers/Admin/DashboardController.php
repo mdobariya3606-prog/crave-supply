@@ -25,7 +25,13 @@ class DashboardController extends Controller
             'categoryCount' => Category::count(),
             'unreadMessageCount' => ContactMessage::where('is_read', false)->count(),
             'recentOrders' => Order::with('user')->latest()->take(8)->get(),
-            'lowStockProducts' => Product::where('stock', '<=', 10)->orderBy('stock')->take(6)->get(),
+            'lowStockProducts' => Product::where('threshold', '>=', 0)
+                ->whereColumn('stock', '<=', 'threshold')
+                ->orWhere('is_available', false)
+                ->with('category')
+                ->orderBy('stock')
+                ->take(6)
+                ->get(),
         ]);
     }
 }

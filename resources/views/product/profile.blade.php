@@ -1096,7 +1096,7 @@
         .review-item,
         .related-card {
             border-color: #e2d9cd;
-            border-radius: 0;
+            border-radius: 18px;
             background: #fffdf9;
             box-shadow: none;
         }
@@ -1439,6 +1439,12 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                             {{ $product->category?->name ?: 'Premium collection' }}
                         </dd>
                     </div>
+                    @if (auth()->user()?->role === 'admin')
+                        <div>
+                            <dt>Low-stock threshold</dt>
+                            <dd>{{ number_format($product->threshold ?? 0) }}</dd>
+                        </div>
+                    @endif
                 </dl>
                 @if (auth()->user()?->role === 'admin')
                     <a
