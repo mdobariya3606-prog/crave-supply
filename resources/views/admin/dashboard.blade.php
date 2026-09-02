@@ -350,7 +350,7 @@
                         <a href="{{ route('products.profile', $product->slug) }}">{{ $product->name }}</a>
                         <small>{{ $product->category?->name ?: 'Uncategorized' }} · threshold {{ $product->threshold }}</small>
                     </span><strong
-                        class="{{ $product->stock < 1 ? 'low' : '' }}">{{ $product->stock }}</strong>
+                        class="low">{{ $product->stock }}</strong>
                 </div>
                 @empty
                 <p>All products have healthy stock.</p>
