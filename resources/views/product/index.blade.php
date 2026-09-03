@@ -633,6 +633,11 @@
             text-decoration: none;
         }
 
+        html[data-theme='dark'] .product-edit-link {
+            color: #2c2722;
+            background: #f1ece7;
+        }
+
         .product-cart-error {
             display: block;
             flex-basis: 100%;
@@ -1097,7 +1102,7 @@
                                 class="product-card-image-wrap{{ !$product->is_available || $product->stock < 1 ? ' is-out-of-stock' : '' }}"
                                 href="{{ route('products.profile', $product) }}"><img
                                     class="product-card-image"
-                                    src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                    src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.png') }}"
                                     alt="{{ $product->name }}" /></a>
                             <div class="product-card-body">
                                 <p class="product-card-category">{{ $product->category?->name ?: 'Uncategorised' }}</p>
@@ -1217,7 +1222,7 @@
                             href="{{ route('products.profile', $product) }}">
                             <img
                                 class="product-card-image"
-                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.png') }}"
                                 alt="{{ $product->name }}" />
                         </a>
                         <div class="product-card-body">
@@ -1558,3 +1563,4 @@
 </body>
 
 </html>
+

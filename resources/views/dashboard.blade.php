@@ -103,7 +103,11 @@
         } */
 
         .text-link {
-            border-radius: 8px !important;
+            font-size: 12px;
+            border-radius: 8px;
+            color: #8d6c4a;
+            font-weight: 700;
+            text-decoration: none;
         }
 
         .login-popup-close {
@@ -1282,7 +1286,7 @@
                             href="{{ route('products.profile', $product) }}">
                             <img
                                 class="product-card-image"
-                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.svg') }}"
+                                src="{{ $product->productImages->first() ? asset('storage/' . $product->productImages->first()->image_path) : asset('images/product-placeholder.png') }}"
                                 alt="{{ $product->name }}" />
                         </a>
                         <div class="product-card-body">
@@ -1786,3 +1790,4 @@
 </body>
 
 </html>
+

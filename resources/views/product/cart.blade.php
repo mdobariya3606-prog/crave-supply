@@ -425,7 +425,7 @@
                             <div class="cart-product">
                                 <div class="cart-product-image">
                                     <img
-                                        src="{{ !empty($item['image_path']) ? asset('storage/' . $item['image_path']) : asset('images/product-placeholder.svg') }}"
+                                        src="{{ !empty($item['image_path']) ? asset('storage/' . $item['image_path']) : asset('images/product-placeholder.png') }}"
                                         alt="{{ $item['name'] }}"
                                     />
                                 </div>
@@ -661,3 +661,4 @@
     @endif
 </body>
 </html>
+

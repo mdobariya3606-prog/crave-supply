@@ -95,7 +95,7 @@ class RegisterController extends Controller
         abort_unless($verification, 404);
 
         $lastSentAt = $request->session()->get(
-            'registration_verificati0000000000on_last_sent_at'
+            'registration_verification_last_sent_at'
         );
 
         $secondsSinceLastSend = $lastSentAt
@@ -131,7 +131,7 @@ class RegisterController extends Controller
 
         return back()->with(
             'status',
-            'A new verification code was sent to your email.'
+            'A new verification code will be sent to your email.'
         );
     }
 

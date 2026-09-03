@@ -139,8 +139,8 @@ html[data-theme="dark"] .feature-card,
 html[data-theme="dark"] .panel,
 html[data-theme="dark"] .stat {
     color: var(--premium-ink) !important;
-    background: var(--premium-surface) !important;
-    border-color: var(--premium-line) !important;
+    background: var(--premium-surface);
+    border-color: var(--premium-line);
 }
 
 html[data-theme="dark"] .product-card,

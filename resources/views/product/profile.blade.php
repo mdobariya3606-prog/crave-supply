@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <meta charset="UTF-8" />
@@ -1200,6 +1201,7 @@
             color: #f1e9df !important;
         }
 
+        html[data-theme="dark"] p,
         html[data-theme="dark"] dt,
         html[data-theme="dark"] dd,
         html[data-theme="dark"] time,
@@ -1322,13 +1324,13 @@
     @include ('layouts.header')
     <main class="product-profile">
         @if (session('success'))
-            <div class="review-message" role="status">
-                {{ session('success') }}
-            </div>
+        <div class="review-message" role="status">
+            {{ session('success') }}
+        </div>
         @endif
 
         @error ('quantity', 'order')
-            <span class="order-error" role="alert">{{ $message }}</span>
+        <span class="order-error" role="alert">{{ $message }}</span>
         @enderror
 
         <div class="breadcrumb">
@@ -1341,58 +1343,50 @@
                 <div class="gallery-main">
                     <div class="gallery-track" data-gallery-track>
                         @forelse ($product->productImages as $index => $image)
-                            <img
-                                src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}"
-                            />
+                        <img
+                            src="{{ asset('storage/' . $image->image_path) }}"
+                            alt="{{ $product->name }} view {{ $index + 1 }}" />
                         @empty
-                            <img
-                                src="{{ asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }} product image"
-                            />
+                        <img
+                            src="{{ asset('images/product-placeholder.png') }}"
+                            alt="{{ $product->name }} product image" />
                         @endforelse
                     </div>
                     <button
                         class="gallery-arrow previous"
                         type="button"
                         data-gallery-previous
-                        aria-label="Previous image"
-                    >
+                        aria-label="Previous image">
                         ‹
                     </button>
                     <button
                         class="gallery-arrow next"
                         type="button"
                         data-gallery-next
-                        aria-label="Next image"
-                    >
+                        aria-label="Next image">
                         ›
                     </button>
                 </div>
                 <div class="gallery-thumbs">
                     @foreach ($product->productImages as $index => $image)
-                        <button
-                            class="gallery-thumb{{ $index === 0 ? ' active' : '' }}"
-                            type="button"
-                            data-gallery-thumb="{{ $index }}"
-                        >
-                            <img
-                                src="{{ asset('storage/' . $image->image_path) }}"
-                                alt="{{ $product->name }} view {{ $index + 1 }}"
-                            />
-                        </button>
+                    <button
+                        class="gallery-thumb{{ $index === 0 ? ' active' : '' }}"
+                        type="button"
+                        data-gallery-thumb="{{ $index }}">
+                        <img
+                            src="{{ asset('storage/' . $image->image_path) }}"
+                            alt="{{ $product->name }} view {{ $index + 1 }}" />
+                    </button>
                     @endforeach
                     @if ($product->productImages->isEmpty())
-                        <button
-                            class="gallery-thumb active"
-                            type="button"
-                            data-gallery-thumb="0"
-                        >
-                            <img
-                                src="{{ asset('images/product-placeholder.svg') }}"
-                                alt="{{ $product->name }} placeholder"
-                            />
-                        </button>
+                    <button
+                        class="gallery-thumb active"
+                        type="button"
+                        data-gallery-thumb="0">
+                        <img
+                            src="{{ asset('images/product-placeholder.png') }}"
+                            alt="{{ $product->name }} placeholder" />
+                    </button>
                     @endif
                 </div>
             </div>
@@ -1407,22 +1401,15 @@
                 <div class="rating-summary">
                     <span class="stars top-rating-stars">
                         <?php
-$avgRating = (int) $product->reviews->avg('rating'); ?>
-                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }} </span
-                    ><span class="top-rating-text"
-                        >{{ number_format((float) $product->reviews->avg('rating'), 1)
-                        }} from {{ $product->reviews->count() }} review{{ $product->reviews->count() === 1 ? '' : 's' }}</span
-                    >
+                        $avgRating = (int) $product->reviews->avg('rating'); ?>
+                        {{ str_repeat('★', $avgRating) }}{{ str_repeat('☆', 5 - $avgRating) }} </span><span class="top-rating-text">{{ number_format((float) $product->reviews->avg('rating'), 1)
+                        }} from {{ $product->reviews->count() }} review{{ $product->reviews->count() === 1 ? '' : 's' }}</span>
                 </div>
                 <div class="price-row">
-                    <span class="price"
-                        >₹{{ number_format((float) $product->price, 2) }}</span
-                    ><span
-                        class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}"
-                        >{{
+                    <span class="price">₹{{ number_format((float) $product->price, 2) }}</span><span
+                        class="availability{{ $product->stock < 1 || !$product->is_available ? ' unavailable' : '' }}">{{
     $product->stock < 1 ? 'Out of stock' : ($product->is_available ? 'In stock' : 'Currently
-                            unavailable') }}</span
-                    >
+                            unavailable') }}</span>
                 </div>
                 <dl class="detail-list">
                     <div>
@@ -1440,75 +1427,65 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         </dd>
                     </div>
                     @if (auth()->user()?->role === 'admin')
-                        <div>
-                            <dt>Low-stock threshold</dt>
-                            <dd>{{ number_format($product->threshold ?? 0) }}</dd>
-                        </div>
+                    <div>
+                        <dt>Low-stock threshold</dt>
+                        <dd>{{ number_format($product->threshold ?? 0) }}</dd>
+                    </div>
                     @endif
                 </dl>
                 @if (auth()->user()?->role === 'admin')
-                    <a
-                        class="review-submit"
-                        style="
+                <a
+                    class="review-submit"
+                    style="
                             display: inline-block;
                             text-decoration: none;
                             margin-top: 18px;
                         "
-                        href="{{ route('products.edit', $product) }}"
-                        >Edit product</a
-                    >
+                    href="{{ route('products.edit', $product) }}">Edit product</a>
                 @endif
                 @if ($product->is_available && $product->stock > 0)
-                    @if (!auth()->check() || auth()->user()?->role === 'customer')
-                        <form
-                            class="order-form"
-                            action="{{ route('cart.update', $product->slug) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method ('PUT')
-                            <label for="quantity">Quantity</label>
-                            <div class="input-wrapper">
-                                <input
-                                    id="quantity"
-                                    name="quantity"
-                                    type="number"
-                                    min="1"
-                                    max="{{ $product->stock }}"
-                                    value="1"
-                                />
-                            </div>
-                            <button class="review-submit" type="submit">
-                                Add to Cart
-                            </button>
-                            <span
-                                class="order-error"
-                                data-order-error
-                                role="alert"
-                                hidden
-                            ></span>
-                        </form>
-                    @endif
+                @if (!auth()->check() || auth()->user()?->role === 'customer')
+                <form
+                    class="order-form"
+                    action="{{ route('cart.update', $product->slug) }}"
+                    method="POST">
+                    @csrf
+                    @method ('PUT')
+                    <label for="quantity">Quantity</label>
+                    <div class="input-wrapper">
+                        <input
+                            id="quantity"
+                            name="quantity"
+                            type="number"
+                            min="1"
+                            max="{{ $product->stock }}"
+                            value="1" />
+                    </div>
+                    <button class="review-submit" type="submit">
+                        Add to Cart
+                    </button>
+                    <span
+                        class="order-error"
+                        data-order-error
+                        role="alert"
+                        hidden></span>
+                </form>
+                @endif
                 @elseif ($product->stock < 1 && auth()->user()?->role !== 'admin')
                     <span
                         class="availability unavailable"
-                        style="display: inline-block; margin-top: 18px"
-                        >Out of stock</span
-                    >
-                @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
+                        style="display: inline-block; margin-top: 18px">Out of stock</span>
+                    @elseif (!$product->is_available && auth()->user()?->role !== 'admin')
                     <span
                         class="availability unavailable"
-                        style="display: inline-block; margin-top: 18px"
-                        >Currently unavailable</span
-                    >
-                @endif
+                        style="display: inline-block; margin-top: 18px">Currently unavailable</span>
+                    @endif
             </div>
         </section>
 
         <section
             class="service-highlights"
-            aria-label="CraveSupply service benefits"
-        >
+            aria-label="CraveSupply service benefits">
             <article class="service-highlight">
                 <svg viewBox="0 0 48 48" aria-hidden="true">
                     <path d="M24 4 38 10v11c0 9-5.8 17.2-14 21-8.2-3.8-14-12-14-21V10l14-6Z" />
@@ -1645,7 +1622,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                             </button>
                         </form>
                     @else
-                        <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
+                    <p class="review-note">Please <a href="{{ route('login') }}">log in</a> to leave a review.</p>
                     @endauth
                 </div>
                 <div class="review-list">
@@ -1786,7 +1763,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             $relatedProduct->productImages->first())
                             <img
                                 class="related-card-image"
-                                src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.svg') }}"
+                                src="{{ $relatedImage ? asset('storage/' . $relatedImage->image_path) : asset('images/product-placeholder.png') }}"
                                 alt="{{ $relatedProduct->name }}"
                             />
                             <div class="related-card-desc">
@@ -1807,7 +1784,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
             if (!gallery) return;
             const images = @json (
     $product->productImages->map(fn($image) => asset('storage/' . $image->image_path))->values()->all() ?: [
-        asset('images/product-placeholder.svg'),
+        asset('images/product-placeholder.png'),
     ]
 );
             const track = gallery.querySelector("[data-gallery-track]");
@@ -1919,7 +1896,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         })();
 
         document.querySelectorAll(".admin-review-toggle-form").forEach((form) => {
-            form.addEventListener("submit", async function (e) {
+            form.addEventListener("submit", async function(e) {
                 e.preventDefault();
                 const button = form.querySelector(".admin-review-toggle-btn");
                 if (!button) return;
@@ -1931,8 +1908,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         headers: {
                             "X-Requested-With": "XMLHttpRequest",
                             Accept: "application/json",
-                            "X-CSRF-TOKEN":
-                                form.querySelector('input[name="_token"]')?.value || "",
+                            "X-CSRF-TOKEN": form.querySelector('input[name="_token"]')?.value || "",
                         },
                         body: new FormData(form),
                     });
@@ -1940,9 +1916,9 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                     if (response.ok) {
                         const data = await response.json();
                         const article = form.closest(".review-item");
-                        const badge = article
-                            ? article.querySelector(".review-hidden-badge")
-                            : null;
+                        const badge = article ?
+                            article.querySelector(".review-hidden-badge") :
+                            null;
 
                         if (data.is_approved) {
                             button.textContent = "Turn off visibility";
@@ -1991,7 +1967,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         });
 
         document.querySelectorAll(".order-form").forEach((form) => {
-            form.addEventListener("submit", async function (event) {
+            form.addEventListener("submit", async function(event) {
                 event.preventDefault();
 
                 const error = form.querySelector("[data-order-error]");
@@ -2008,8 +1984,7 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
                         headers: {
                             "X-Requested-With": "XMLHttpRequest",
                             Accept: "application/json",
-                            "X-CSRF-TOKEN":
-                                form.querySelector('input[name="_token"]')?.value || "",
+                            "X-CSRF-TOKEN": form.querySelector('input[name="_token"]')?.value || "",
                         },
                         body: new FormData(form),
                     });
@@ -2041,4 +2016,6 @@ $avgRating = (int) $product->reviews->avg('rating'); ?>
         });
     </script>
 </body>
+
 </html>
+

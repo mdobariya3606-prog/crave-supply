@@ -153,9 +153,12 @@ class LoginController extends Controller
                 report($exception);
             }
 
-            return back()->withErrors([
-                'email' => 'Please verify your email before logging in.',
-            ]);
+            return redirect()
+                ->route('register.verify')
+                ->with(
+                    'status',
+                    'We sent a verification code to your email address.'
+                );
         }
 
         RateLimiter::clear($emailKey);
