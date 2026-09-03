@@ -108,7 +108,6 @@ class LoginController extends Controller
             ! Auth::attempt(
                 [
                     ...$request->only('email', 'password'),
-                    'is_active' => true,
                 ],
                 $request->boolean('remember')
             )
@@ -119,8 +118,15 @@ class LoginController extends Controller
             return back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
-                    'email' => 'These credentials do not match our records.',
+                    'email' => 'These credentials do not match our recordss.',
                 ]);
+        }
+
+        if (Auth::user()->role === 'customer' && ! Auth::user()->is_active) {
+            Auth::logout();
+
+            return redirect()
+                ->route('account.disabled');
         }
 
         if (
