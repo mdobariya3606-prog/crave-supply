@@ -52,6 +52,10 @@
             border-bottom: 0;
         }
 
+        .message-entry:last-child .message-item {
+            border-bottom: 0;
+        }
+
         .message-item:hover,
         .message-item.selected {
             background: #f8f4ed;
@@ -87,6 +91,10 @@
         .message-detail {
             padding: 28px;
             border-radius: 18px;
+        }
+
+        .message-detail-mobile {
+            display: none;
         }
 
         .message-detail h2 {
@@ -189,7 +197,20 @@
             }
 
             .message-detail {
-                padding: 22px;
+                display: none;
+            }
+
+            .message-detail-mobile {
+                display: block;
+                padding: 22px 18px;
+                border-bottom: 1px solid #eee5da;
+                background: #fffdf9;
+            }
+
+            .message-detail-mobile h2 {
+                margin: 0;
+                color: #29251f;
+                font: 400 25px Georgia, serif;
             }
         }
     </style>
@@ -206,53 +227,39 @@
         <div class="messages-layout">
             <div class="message-list">
                 @forelse ($messages as $message)
-                    <a
-                        class="message-item {{ !$message->is_read ? 'unread' : '' }} {{ $selectedMessage?->id === $message->id ? 'selected' : '' }}"
-                        href="{{ route('admin.contact-messages.index', ['message' => $message->id]) }}"
-                    >
-                        <strong>{{ $message->name }}</strong>
-                        <span
-                            >{{ $message->email }} · {{ optional($message->created_at)->format('d M Y, H:i') }}</span
+                    <div class="message-entry">
+                        <a
+                            class="message-item {{ !$message->is_read ? 'unread' : '' }} {{ $selectedMessage?->id === $message->id ? 'selected' : '' }}"
+                            href="{{ route('admin.contact-messages.index', ['message' => $message->id]) }}"
                         >
-                        <span
-                            class="message-preview"
-                            >{{ $message->message }}</span
-                        >
-                    </a>
+                            <strong>{{ $message->name }}</strong>
+                            <span
+                                >{{ $message->email }} · {{ optional($message->created_at)->format('d M Y, H:i') }}</span
+                            >
+                            <span
+                                class="message-preview"
+                                >{{ $message->message }}</span
+                            >
+                        </a>
+                        @if ($selectedMessage?->id === $message->id)
+                            <section class="message-detail-mobile" aria-live="polite">
+                                @include('admin.contact-messages._detail', [
+                                    'detailMessage' => $selectedMessage,
+                                    'replyFieldId' => 'mobile-reply',
+                                ])
+                            </section>
+                        @endif
+                    </div>
                 @empty
                     <div class="empty-messages">No messages yet.</div>
                 @endforelse
             </div>
             <section class="message-detail" aria-live="polite">
                 @if ($selectedMessage)
-                    <h2>{{ $selectedMessage->name }}</h2>
-                    <div class="message-meta">
-                        {{ $selectedMessage->email }}<br />
-                        Business: {{ $selectedMessage->business_name ?: 'Not provided' }} ·
-                        Phone: {{ $selectedMessage->phone ?: 'Not provided' }}<br />
-                        Received {{ optional($selectedMessage->created_at)->format('d M Y, H:i') }}
-                    </div>
-                    <div class="message-body">
-                        {{ $selectedMessage->message }}
-                    </div>
-                    <form
-                        class="reply-form"
-                        action="{{ route('admin.contact-messages.reply', $selectedMessage) }}"
-                        method="POST"
-                    >
-                        @csrf
-                        <label for="reply">Reply message</label>
-                        <textarea
-                            id="reply"
-                            name="reply"
-                            required
-                            >{{ old('reply') }}</textarea
-                        >
-                        @error ('reply')
-                            <div class="message-error">{{ $message }}</div>
-                        @enderror
-                        <button type="submit">Send reply</button>
-                    </form>
+                    @include('admin.contact-messages._detail', [
+                        'detailMessage' => $selectedMessage,
+                        'replyFieldId' => 'reply',
+                    ])
                 @else
                     <div class="empty-messages">
                         Select a message to view it and mark it as seen.
