@@ -854,14 +854,14 @@
         .gallery-main {
             aspect-ratio: 1 / 1;
             max-height: none;
-            border-radius: 0;
+            border-radius: 36px;
             background: #eee6d9;
             box-shadow: none;
         }
 
         .gallery-track img {
             object-fit: contain;
-            padding: 26px;
+            {{-- padding: 26px; --}}
             mix-blend-mode: multiply;
         }
 
@@ -875,13 +875,13 @@
 
         .gallery-thumb {
             flex-basis: 76px;
-            border-radius: 0;
+            border-radius: 18px;
             border-color: transparent;
             background: #eee6d9;
         }
 
         .gallery-thumb.active {
-            border-color: #29251f;
+            border-color: #666462;
         }
 
         .product-info {
