@@ -355,6 +355,7 @@ html[data-theme="dark"] .site-footer a {
 .quick-card,
 .snack-card,
 .guide-card {
+    overflow: hidden;
     border: 1px solid transparent;
     border-radius: 18px;
     transition:
@@ -792,10 +793,10 @@ button,
 .logout-button,
 .secondary-btn,
 .danger {
-    border-color: #2c2722 !important;
-    border-radius: 8px !important;
-    background: #2c2722 !important;
-    color: #fffdf9 !important;
+    border-color: #2c2722 ;
+    border-radius: 8px ;
+    background: #2c2722 ;
+    color: #fffdf9 ;
 }
 button:hover,
 .btn-submit:hover,
