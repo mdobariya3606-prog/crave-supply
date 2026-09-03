@@ -1,0 +1,183 @@
+services:
+  - name: crave-supply-redis
+    type: keyvalue
+    plan: free
+    region: singapore
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: Render private-network access
+    maxmemoryPolicy: allkeys-lru
+    persistenceMode: off
+
+  - name: crave-supply-web
+    type: web
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: /usr/local/bin/start-web
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: CACHE_STORE
+        value: redis
+      - key: QUEUE_CONNECTION
+        value: redis
+      - key: REDIS_CLIENT
+        value: phpredis
+      - key: REDIS_URL
+        fromService:
+          name: crave-supply-redis
+          type: keyvalue
+          property: connectionString
+      - key: REDIS_CACHE_CONNECTION
+        value: cache
+      - key: REDIS_QUEUE_CONNECTION
+        value: default
+      - key: FILESYSTEM_DISK
+        value: local
+      - key: SESSION_DRIVER
+        value: database
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: info
+      - key: MAIL_MAILER
+        sync: false
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_PORT
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        sync: false
+      - key: MAIL_FROM_NAME
+        sync: false
+
+  - name: crave-supply-worker
+    type: worker
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: php artisan queue:work
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: APP_KEY
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: DB_HOST
+      - key: DB_PORT
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: DB_PORT
+      - key: DB_DATABASE
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: DB_DATABASE
+      - key: DB_USERNAME
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: DB_USERNAME
+      - key: DB_PASSWORD
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: DB_PASSWORD
+      - key: CACHE_STORE
+        value: redis
+      - key: QUEUE_CONNECTION
+        value: redis
+      - key: REDIS_CLIENT
+        value: phpredis
+      - key: REDIS_URL
+        fromService:
+          name: crave-supply-redis
+          type: keyvalue
+          property: connectionString
+      - key: REDIS_CACHE_CONNECTION
+        value: cache
+      - key: REDIS_QUEUE_CONNECTION
+        value: default
+      - key: FILESYSTEM_DISK
+        value: local
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: info
+      - key: MAIL_MAILER
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_MAILER
+      - key: MAIL_HOST
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_HOST
+      - key: MAIL_PORT
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_PORT
+      - key: MAIL_USERNAME
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_USERNAME
+      - key: MAIL_PASSWORD
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_PASSWORD
+      - key: MAIL_FROM_ADDRESS
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_FROM_ADDRESS
+      - key: MAIL_FROM_NAME
+        fromService:
+          name: crave-supply-web
+          type: web
+          envVarKey: MAIL_FROM_NAME
